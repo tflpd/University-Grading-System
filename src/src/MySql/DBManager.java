@@ -37,4 +37,55 @@ public class DBManager {
         }
         catch(Exception e){ System.out.println(e);}
     }
+    /*
+    * CREATE
+    * */
+
+    public void addCourse(){
+
+    }
+
+    public void addStudent(){
+
+    }
+
+    public void addTask(){
+
+    }
+
+    public void addSubtask(){
+
+    }
+
+    /*
+     * READ
+     * */
+
+
+
+    /*
+     * UPDATE
+     * */
+
+
+    /*
+     * DELETE
+     * */
+    public void deleteCourse(){
+
+    }
+
+    public void deleteStudent(){
+
+    }
+
+    public void deleteTask(){
+
+    }
+
+    public void deleteSubtask(){
+
+    }
+
+
 }
