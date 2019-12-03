@@ -1,16 +1,32 @@
 package controllers;
 
 import models.Professor;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+
+import models.LoggedData;
 import models.Name;
 import views.LoginView;
+import views.MainPanelView;
 
 public class LoginController {
 	
 	private LoginView loginView ;
+	private JPanel parentPanel;
 	
 	public LoginController()
 	{
 		loginView = new LoginView();
+		
+		parentPanel = MainPanelView.getParentPanel();
+		parentPanel.removeAll();
+		parentPanel.revalidate();
+		parentPanel.repaint();
+		parentPanel.add(loginView, BorderLayout.CENTER);
+		
+		
 		initController();
 	}
 	
@@ -24,7 +40,7 @@ public class LoginController {
 	{
 		
 		Name name = new Name("Christine"," ", "Papapdakis");
-		Professor prf = new Professor(1, name, "c@bu.edu", "1234");
+	    Professor prf = LoggedData.getProf();
 		
 		
 		String id = loginView.getIdText().getText();
@@ -34,7 +50,8 @@ public class LoginController {
 		
 		if (prf.getEmail().equalsIgnoreCase(id) && pwd.equalsIgnoreCase(prf.getPassword()))
 		{
-			GradingController gC = new GradingController();
+			CourseListController clC = new CourseListController();
+			//loginView.
 			
 		}else
 		{

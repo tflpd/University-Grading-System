@@ -14,5 +14,8 @@ public class GradingController {
 	private void initController()
 	{
 		classHomePage = new ClassHomePage("Math");
+		
+		
+		
 	}
 }

@@ -3,9 +3,9 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginView {
+public class LoginView extends JPanel {
 
-	 
+	private static final long serialVersionUID = 1L;
      private JTextField idText ;
      private JPasswordField pwdText;
      private JButton signInButton ;
@@ -13,15 +13,12 @@ public class LoginView {
      private JLabel msgLabel;
 	
     public LoginView() {
-        JFrame frame = new JFrame("Grading System");
-
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 450);
+    	
+    	
         JLabel welcomeLabel = new JLabel("Welcome to BU Grading System", SwingConstants.CENTER);
         JLabel userIDLabel = new JLabel("User ID: ", SwingConstants.CENTER);
         JLabel pwdLabel = new JLabel("Password: ", SwingConstants.CENTER);
-        idText =new JTextField("email address");
+        idText =new JTextField("c@bu.edu");
         pwdText =new JPasswordField();
         pwdText.setEchoChar('*');
         signInButton = new JButton("Sign In");
@@ -42,20 +39,21 @@ public class LoginView {
         buttonPanel.add(signInButton);
         buttonPanel.add(cancelButton);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        frame.add(welcomeLabel);
-        frame.add(infoPanel);
-        frame.add(buttonPanel);
+        
         
         msgPanel.add(msgLabel);
         msgPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         
-        frame.add(msgPanel);
-
-
-        frame.setLayout(new GridLayout(4, 1, 20, 50));
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        
+        this.setLayout(new GridBagLayout());
+	    GridBagConstraints gbc = new GridBagConstraints();
+	    gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        this.add(infoPanel, gbc);
+        this.add(buttonPanel, gbc);
+        this.add(msgPanel, gbc);
+         
     }
 
 	public JTextField getIdText() {

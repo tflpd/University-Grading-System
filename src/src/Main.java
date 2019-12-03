@@ -1,9 +1,12 @@
 import controllers.LoginController;
+import models.LoggedData;
 import views.*;
 
 public class Main {
     public static void main(String[] args) {
 
+    	LoggedData.InitData();
+    	MainPanelView.initialize();
     	LoginController lg = new LoginController();
         //LoginView loginView = new LoginView();
         //CourseListView courseListView = new CourseListView();
