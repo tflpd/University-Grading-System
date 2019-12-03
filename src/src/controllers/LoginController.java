@@ -39,10 +39,7 @@ public class LoginController {
 		}else
 		{
 			loginView.setMsgLabel("Wrong email or password");
-		}
-		// Get the user
-		
-		
+		}	
 	}
 	
 	private void CancelLogin()
