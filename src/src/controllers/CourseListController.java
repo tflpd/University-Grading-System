@@ -30,10 +30,9 @@ public class CourseListController {
 	private void initController()
 	{
 		courseList.getCreateButton().addActionListener(l -> CreateCourse());
-		courseList.getLogoutButton().addActionListener(l -> Logout());
-		
+		courseList.getLogoutButton().addActionListener(l -> Logout());		
         courseList.setCourseList(LoggedData.getActiveCourseList());
-	
+        
 	}
 	
 	private void CreateCourse()
