@@ -43,7 +43,7 @@ public class CourseListController {
                 if (index >= 0) {
                     Object o = list.getModel().getElementAt(index);
                     System.out.println("Double-clicked on: " + o.toString());
-                    CreateCourseController ccc = new CreateCourseController();
+                    ClassHomePageController chP = new ClassHomePageController(o.toString());
                 }
     	    }
     	});
@@ -55,7 +55,7 @@ public class CourseListController {
 	
 	private void CreateCourse()
 	{
-		
+		CreateCourseController ccc = new CreateCourseController();
 	}
 	
 	private void Logout()

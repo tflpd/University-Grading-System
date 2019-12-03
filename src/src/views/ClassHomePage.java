@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ClassHomePage {
+public class ClassHomePage extends JPanel {
 
     private JTable TaskTable;
     private JFrame frame;
