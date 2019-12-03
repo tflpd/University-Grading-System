@@ -2,7 +2,10 @@ package controllers;
 
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import models.LoggedData;
@@ -33,7 +36,22 @@ public class CourseListController {
 		courseList.getLogoutButton().addActionListener(l -> Logout());		
         courseList.setCourseList(LoggedData.getActiveCourseList());
         
+        courseList.getCourseList().addMouseListener(new MouseAdapter() {
+    	    public void mouseClicked(MouseEvent evt) {
+    	        JList list = (JList)evt.getSource();
+    	        int index = list.locationToIndex(evt.getPoint());
+                if (index >= 0) {
+                    Object o = list.getModel().getElementAt(index);
+                    System.out.println("Double-clicked on: " + o.toString());
+                    CreateCourseController ccc = new CreateCourseController();
+                }
+    	    }
+    	});
+        
 	}
+	
+	
+	
 	
 	private void CreateCourse()
 	{

@@ -22,9 +22,6 @@ public class CourseListView extends JPanel{
         
         dlm = new DefaultListModel<String>();
         courseList = new JList<String>(dlm);
-        //courseList.setFixedCellWidth(450);
-        //courseList.setFixedCellHeight(15);
-        
         courseList.setPreferredSize(new Dimension(450, 200));
 
         createButton = new JButton("Create Course");

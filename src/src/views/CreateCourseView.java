@@ -3,7 +3,7 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 
-public class CreateCourseView {
+public class CreateCourseView extends JPanel {
 
     public CreateCourseView() {
         JFrame frame = new JFrame("Grading System");
@@ -23,6 +23,7 @@ public class CreateCourseView {
         Panel infoPanel = new Panel();
         Panel buttonPanel = new Panel();
 
+        
         infoPanel.setLayout(new GridLayout(4, 1, 30,5));
         infoPanel.add(templateLabel);
         infoPanel.add(templateList);
@@ -32,17 +33,18 @@ public class CreateCourseView {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.add(createButton);
         buttonPanel.add(importButton);
+        
+        this.setLayout(new GridBagLayout());
+	    GridBagConstraints gbc = new GridBagConstraints();
+	    gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        frame.add(welcomeLabel);
-        frame.add(infoPanel);
-        frame.add(buttonPanel);
+        this.add(welcomeLabel, gbc);
+        this.add(infoPanel, gbc);
+        this.add(buttonPanel, gbc);
 
 
-        frame.setLayout(new GridLayout(3, 1, 0, 50));
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
-
+       
 
     }
 }
