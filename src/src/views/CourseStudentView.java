@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class CourseStudentView {
+public class CourseStudentView extends JPanel{
 
         private JFrame frame;
         private DefaultTableModel tableModel;
@@ -12,9 +12,9 @@ public class CourseStudentView {
         private JPanel centerPanel;
 
         public CourseStudentView(String courseName, double mean, double median, double standardDeviation) {
-            frame = new JFrame("Course Student");
-            frame.setSize(1000, 1000);
-            frame.setLayout(new BorderLayout());
+            //frame = new JFrame("Course Student");
+            //frame.setSize(1000, 1000);
+            this.setLayout(new BorderLayout());
 
             JPanel topPanel = new JPanel();
             JButton backButton = new JButton("Back");
@@ -22,7 +22,7 @@ public class CourseStudentView {
             topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             topPanel.add(backButton);
             topPanel.add(homeButton);
-            frame.add(topPanel, BorderLayout.NORTH);
+            this.add(topPanel, BorderLayout.NORTH);
 
             centerPanel = new JPanel();
             centerPanel.setLayout(new GridBagLayout());
@@ -47,11 +47,11 @@ public class CourseStudentView {
 
             centerPanel.add(addButton, gc);
 
-            frame.add(centerPanel, BorderLayout.CENTER);
+            this.add(centerPanel, BorderLayout.CENTER);
 
-            frame.setLocationRelativeTo(null);
-            frame.setResizable(false);
-            frame.setVisible(true);
+            //frame.setLocationRelativeTo(null);
+            //frame.setResizable(false);
+            //frame.setVisible(true);
 
 
         }

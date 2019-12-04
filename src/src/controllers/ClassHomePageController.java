@@ -28,7 +28,12 @@ public class ClassHomePageController {
 	
 	private void initController()
 	{
-		
+		classHomePage.getStudentListButton().addActionListener(l -> openStudentList());
+	}
+	
+	private void openStudentList()
+	{
+		CourseStudentController csc = new CourseStudentController();
 	}
 
 }

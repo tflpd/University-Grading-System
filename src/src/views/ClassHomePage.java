@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class ClassHomePage extends JPanel {
 
     private JTable TaskTable;
-    private JFrame frame;
+   
     private JPanel leftPanel;
     private DefaultTableModel taskTableModel;
     private DefaultTableModel subtaskTableModel;
@@ -20,10 +20,10 @@ public class ClassHomePage extends JPanel {
     private TaskDialog taskDialog;
     private SubTaskDialog subTaskDialog;
     private JPopupMenu rightJPopupMenu;
-
-
-
-
+    private JButton studentListButton;
+    private JButton creatButton;
+    private JButton deleteButton;
+    private JButton creatSubButton;
 
     public ClassHomePage(String courseName) {
 
@@ -37,8 +37,6 @@ public class ClassHomePage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int row = TaskTable.getSelectedRow();
                 taskDialog.setVisible(true);
-
-
             }
         });
 
@@ -50,8 +48,6 @@ public class ClassHomePage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int row = subtaskTable.getSelectedRow();
                 subTaskDialog.setVisible(true);
-
-
             }
         });
 
@@ -64,11 +60,11 @@ public class ClassHomePage extends JPanel {
         topPanel.add(homeButton, BorderLayout.WEST);
 
 
-        frame = new JFrame("Course Home Page");
-        frame.setSize(1000, 1000);
+        //frame = new JFrame("Course Home Page");
+        //frame.setSize(1000, 1000);
 
-        taskDialog = new TaskDialog(frame);
-        subTaskDialog = new SubTaskDialog(frame);
+        //taskDialog = new TaskDialog(frame);
+        //subTaskDialog = new SubTaskDialog(frame);
 
         JLabel courseNameLabel = new JLabel(courseName, JLabel.CENTER);
         topPanel.add(courseNameLabel, BorderLayout.CENTER);
@@ -77,16 +73,18 @@ public class ClassHomePage extends JPanel {
         JPanel rightPanel = new JPanel();
 
         //frame.setLayout(new FlowLayout(FlowLayout.LEFT));
-        frame.setLayout(new BorderLayout());
+        //frame.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
-        frame.add(topPanel, BorderLayout.NORTH);
+        //frame.add(topPanel, BorderLayout.NORTH);
+        this.add(topPanel, BorderLayout.NORTH);
 
 
 
-        JButton studentListButton = new JButton("Student List");
+        studentListButton = new JButton("Student List");
         JLabel taskLabel = new JLabel("Tasks");
         JLabel tipLabel = new JLabel("Please either choose one of the existing tasks to inspect it or create a new one");
-        JButton creatButton = new JButton("Create new Task");
+        creatButton = new JButton("Create new Task");
 
 
         leftPanel.setLayout(new GridBagLayout());
@@ -128,13 +126,14 @@ public class ClassHomePage extends JPanel {
         gc.gridy = 4;
         leftPanel.add(creatButton, gc);
 
-        frame.add(leftPanel, BorderLayout.WEST);
+        //frame.add(leftPanel, BorderLayout.WEST);
+        this.add(leftPanel, BorderLayout.WEST);
     // right
 
-        JButton deleteButton = new JButton("Delete this Class");
+        deleteButton = new JButton("Delete this Class");
         JLabel subtaskLabel = new JLabel("Sub Tasks");
         JLabel tipRLabel = new JLabel("Please either choose one of the existing subtasks of the selected task or create a new one");
-        JButton creatSubButton = new JButton("Create new SubTask");
+        creatSubButton = new JButton("Create new SubTask");
 
         rightPanel.setLayout(new GridBagLayout());
 
@@ -175,11 +174,12 @@ public class ClassHomePage extends JPanel {
         gcr.gridy = 4;
         rightPanel.add(creatSubButton, gcr);
 
-        frame.add(rightPanel, BorderLayout.EAST);
+        //frame.add(rightPanel, BorderLayout.EAST);
+        this.add(rightPanel, BorderLayout.EAST);
 
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        //frame.setLocationRelativeTo(null);
+        //frame.setResizable(false);
+        //frame.setVisible(true);
 
 
 
@@ -189,6 +189,26 @@ public class ClassHomePage extends JPanel {
     public DefaultTableModel getTaskTableModel() {
         return taskTableModel;
     }
+
+	public JButton getStudentListButton() {
+		return studentListButton;
+	}
+
+	public JButton getCreatButton() {
+		return creatButton;
+	}
+
+	public JButton getDeleteButton() {
+		return deleteButton;
+	}
+
+	public JButton getCreatSubButton() {
+		return creatSubButton;
+	}
+
+	
+    
+    
     
     
 }
