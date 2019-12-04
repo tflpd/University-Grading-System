@@ -49,6 +49,11 @@ public class Course {
     public String getYear() {
         return year;
     }
+    
+    public String toString()
+    {
+    	return name +" "+semester+" "+year;
+    }
 
     public ArrayList<CourseSection> getCourseSections() {
         return courseSections;
