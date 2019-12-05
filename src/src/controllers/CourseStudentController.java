@@ -25,5 +25,10 @@ public class CourseStudentController {
 	{
 		
 	}
+	
+	private void create()
+	{
+		
+	}
 
 }

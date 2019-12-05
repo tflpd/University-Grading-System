@@ -34,14 +34,14 @@ public class SubTaskDialog extends JDialog {
             JCheckBox groupCheck;
 
 
-            JButton gradeButton;
-            JButton deleteButton;
-            JButton cancelButton;
-            JButton saveButton;
+            public JButton gradeButton;
+            public JButton deleteButton;
+            public JButton cancelButton;
+            public JButton saveButton;
 
-            SubTaskDialog(JFrame parent) {
+            public SubTaskDialog() {
 
-                super(parent, "Details", false);
+                //super(parent, "Details", false);
                 setAttributes();
                 setSize(400, 700);
 
@@ -157,6 +157,41 @@ public class SubTaskDialog extends JDialog {
                  weight = 0.3;
                  bonusPoints = 10;
             }
+
+			public JButton getGradeButton() {
+				return gradeButton;
+			}
+
+			public void setGradeButton(JButton gradeButton) {
+				this.gradeButton = gradeButton;
+			}
+
+			public JButton getDeleteButton() {
+				return deleteButton;
+			}
+
+			public void setDeleteButton(JButton deleteButton) {
+				this.deleteButton = deleteButton;
+			}
+
+			public JButton getCancelButton() {
+				return cancelButton;
+			}
+
+			public void setCancelButton(JButton cancelButton) {
+				this.cancelButton = cancelButton;
+			}
+
+			public JButton getSaveButton() {
+				return saveButton;
+			}
+
+			public void setSaveButton(JButton saveButton) {
+				this.saveButton = saveButton;
+			}
+            
+            
+            
         }
 
 
