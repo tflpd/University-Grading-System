@@ -5,17 +5,20 @@ import java.awt.*;
 
 public class CreateCourseView extends JPanel {
 
+	private JButton createButton;
+	private JButton importButton;
+	
     public CreateCourseView() {
-        JFrame frame = new JFrame("Grading System");
-        frame.setSize(600, 550);
+        //JFrame frame = new JFrame("Grading System");
+        //frame.setSize(600, 550);
 
         JLabel welcomeLabel = new JLabel("Course Creation", SwingConstants.CENTER);
 
         JLabel templateLabel = new JLabel("Course Templates", SwingConstants.CENTER);
         JComboBox templateList = new JComboBox();
 
-        JButton createButton = new JButton("Create Course");
-        JButton importButton = new JButton("Import Student");
+        createButton = new JButton("Create Course");
+        importButton = new JButton("Import Student");
 
         JTextField nameText =new JTextField("Course Name");
         JTextField semesterText =new JTextField("Semester");
@@ -42,9 +45,19 @@ public class CreateCourseView extends JPanel {
         this.add(welcomeLabel, gbc);
         this.add(infoPanel, gbc);
         this.add(buttonPanel, gbc);
-
-
-       
-
     }
+
+	public JButton getCreateButton() {
+		return createButton;
+	}
+
+	
+
+	public JButton getImportButton() {
+		return importButton;
+	}
+
+	
+    
+    
 }
