@@ -27,6 +27,10 @@ public class Student {
         return name.toString();
     }
 
+    public Name getNameObject() {
+        return name;
+    }
+
     public String getEmail() {
         return email;
     }
