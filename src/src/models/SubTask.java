@@ -2,6 +2,8 @@ package models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class SubTask {
     private int id;
@@ -105,5 +107,56 @@ public class SubTask {
     // MAKE SURE TO BE READY TO HANDLE NULL VALUES ON THOSE TWO FIELDS
     public SubTask getDeepCopyOfSubTask(){
         return new SubTask(0, null, name, null, null, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
+    }
+
+    public Float getMeanGrade(){
+        int activeStudentsN = 0;
+        Float aggregatePointsScored = 0f;
+        for (Grade grade:grades){
+            if (!grade.getStudent().isWithdrawn()){
+                activeStudentsN++;
+                aggregatePointsScored += grade.getAbsolutePointsScored();
+            }
+        }
+        return aggregatePointsScored/activeStudentsN;
+    }
+
+    public Float getMeanGradePercentage(){
+        return getMeanGrade()/totalPointsAvailable;
+    }
+
+
+    public float getStandardDeviation(){
+        float standardDeviation = 0f;
+        Float mean =  getMeanGrade();
+        int activeStudentsN = 0;
+        for(Grade grade: grades) {
+            if (!grade.getStudent().isWithdrawn()){
+                activeStudentsN++;
+                standardDeviation += (float)Math.pow(grade.getAbsolutePointsScored() - mean, 2);
+            }
+        }
+        if (activeStudentsN == 0){
+            return 0;
+        }
+        return (float)Math.sqrt(standardDeviation/activeStudentsN);
+    }
+
+    public Float getMedianPercentage(){
+        ArrayList<Float> pointsScoredList = new ArrayList<Float>();
+        for (Grade grade:grades){
+            if (!grade.getStudent().isWithdrawn()){
+                pointsScoredList.add(grade.getAbsolutePointsScored()/totalPointsAvailable);
+            }
+        }
+        if (pointsScoredList.size() == 0){
+            return 0f;
+        }
+        Collections.sort(pointsScoredList);
+        int listSize = pointsScoredList.size();
+        if (listSize % 2 == 0)
+            return (pointsScoredList.get(listSize/2) + pointsScoredList.get(listSize/2 - 1))/2;
+        else
+            return pointsScoredList.get(listSize/2);
     }
 }
