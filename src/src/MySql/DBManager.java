@@ -1,6 +1,8 @@
 package MySql;
 
 
+import models.*;
+
 import java.nio.charset.CharsetEncoder;
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,4 +39,90 @@ public class DBManager {
         }
         catch(Exception e){ System.out.println(e);}
     }
+    /*
+    * CREATE
+    * */
+
+    public void addCourse(){
+
+    }
+
+    public void addStudent(Student student){
+
+        String sql = "INSERT INTO grading_system.Student (id, first_name, last_name, email, buid, comment) VALUES (\'"+ student.getId() + "\', \'"+ student.getNameObject().getFirstName() +"\', \'"+ student.getNameObject().getSurname() +"\', \'" + student.getEmail() + "\', \'" + student.getBuID() + "\', 't')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
+
+    public void addTask(){
+
+    }
+
+    public void addSubtask(){
+
+    }
+
+    /*
+     * READ
+     * */
+
+    public Student readStudentById(int id){
+        Student temp = null;
+
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Student WHERE id = \'"+id +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                temp = new Student(rs.getInt("id"), new Name(rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return temp;
+    }
+    public List<Student> readAllStudents(){
+        List<Student> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Student";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Student temp = null;
+            while(rs.next()) {
+                temp = new Student(rs.getInt("id"), new Name(rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    /*
+     * UPDATE
+     * */
+
+
+    /*
+     * DELETE
+     * */
+    public void deleteCourse(){
+
+    }
+
+    public void deleteStudentById(int id){
+        String sql = "DELETE FROM bank_atm.person WHERE id = \'"+ id +"\'";
+        sqlExecute(sql);
+    }
+
+    public void deleteTask(){
+
+    }
+
+    public void deleteSubtask(){
+
+    }
+
+
 }
