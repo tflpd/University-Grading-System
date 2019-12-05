@@ -1,3 +1,4 @@
+import controllers.ClassHomePageController;
 import controllers.LoginController;
 import models.LoggedData;
 import views.*;
@@ -7,7 +8,8 @@ public class Main {
 
     	LoggedData.InitData();
     	MainPanelView.initialize();
-    	LoginController lg = new LoginController();
+    	ClassHomePageController cHPC = new ClassHomePageController(null);
+    	//LoginController lg = new LoginController();
         //LoginView loginView = new LoginView();
         //CourseListView courseListView = new CourseListView();
         //CreateCourseView createCourseView = new CreateCourseView();

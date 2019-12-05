@@ -8,14 +8,14 @@ public class TaskDialog extends JDialog {
     double weight;
     JLabel nameLabel;
     JLabel weightLabel;
-    JButton saveButton;
-    JButton deleteButton;
-    JButton cancelButton;
-    JTextField nameTf;
+    public JButton saveButton;
+    public JButton deleteButton;
+    public JButton cancelButton;
+	JTextField nameTf;
     JTextField weightTf;
 
-    TaskDialog(JFrame parent) {
-        super(parent, "Details", false);
+    public TaskDialog() {
+        //super(parent, "Details", false);
         setSize(400, 300);
 
         setLayout(new GridBagLayout());
@@ -55,9 +55,31 @@ public class TaskDialog extends JDialog {
         gc.gridy = 4;
         add(cancelButton, gc);
 
-
-
     }
+    
+    public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	public void setSaveButton(JButton saveButton) {
+		this.saveButton = saveButton;
+	}
+
+	public JButton getDeleteButton() {
+		return deleteButton;
+	}
+
+	public void setDeleteButton(JButton deleteButton) {
+		this.deleteButton = deleteButton;
+	}
+
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
+
+	public void setCancelButton(JButton cancelButton) {
+		this.cancelButton = cancelButton;
+	}
 
     public void setNameLabel(String name) {
         this.nameLabel = new JLabel(name);
