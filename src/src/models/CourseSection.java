@@ -3,10 +3,12 @@ package models;
 import java.util.ArrayList;
 
 public class CourseSection {
+    private int id;
     private String name;
     private ArrayList<Student> students;
 
-    public CourseSection(String name, ArrayList<Student> students) {
+    public CourseSection(int id, String name, ArrayList<Student> students) {
+        this.id = id;
         this.name = name;
         this.students = students;
     }

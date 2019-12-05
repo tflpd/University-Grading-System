@@ -10,35 +10,35 @@ public class LoggedData {
 
 	public  static void  InitData()
 	{
-		Name name = new Name("Christine"," ", "Papapdakis");
-		prof = new Professor(1, name, "c@bu.edu", "1234");
+		Name name = new Name(0,"Christine"," ", "Papapdakis");
+		prof = new Professor(0, name, "c@bu.edu", "1234");
 		
-		name = new Name("Jone"," ", "Doe");
+		name = new Name(0,"Jone"," ", "Doe");
 		
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
 		
 		ArrayList<Task> taskList = new ArrayList<Task>();
-		Task t = new Task("Exam", 70.0f);
+		Task t = new Task(0, "Exam", 70.0f);
 		taskList.add(t);
-		t = new Task("Assignments", 30.0f);
+		t = new Task(0, "Assignments", 30.0f);
 		taskList.add(t);
 		
 		
-		CourseTemplate cT = new CourseTemplate("CS591P1", "Fall", "2019", taskList);
+		CourseTemplate cT = new CourseTemplate(0,"CS591P1", "Fall", "2019", taskList);
 		ArrayList<CourseTemplate> cTList = new ArrayList<CourseTemplate>();
 		cTList.add(cT);
 		
 		activeCourseList = new ArrayList<Course>();
-		Course c = new Course("CS591P1","Fall", "2019", null, cT);
+		Course c = new Course(0,"CS591P1","Fall", "2019", null, cT);
 		activeCourseList.add(c);
-		c = new Course("CS591P1","Spring", "2020", null, cT);
+		c = new Course(0,"CS591P1","Spring", "2020", null, cT);
 		activeCourseList.add(c);
 		
 		
 		
-		GradingSystem GS = new GradingSystem(prof, activeCourseList, cTList);
+		GradingSystem GS = new GradingSystem(0,prof, activeCourseList, cTList);
 		
 	}
 

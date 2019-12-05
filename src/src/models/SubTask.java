@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class SubTask {
+    private int id;
     private String name;
     private LocalDateTime creationDate;
     private LocalDateTime dateDue;
@@ -15,7 +16,8 @@ public class SubTask {
     private boolean groupProject;
 
 
-    public SubTask(ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
+    public SubTask(int id, ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
+        this.id = id;
         this.name = name;
         this.creationDate = creationDate;
         this.dateDue = dateDue;
@@ -24,7 +26,7 @@ public class SubTask {
         this.bonusPoints = bonusPoints;
         this.grades = new ArrayList<Grade>();
         for (Student student:students){
-            grades.add(new Grade(student, 0f, ""));
+            grades.add(new Grade(0, student, 0f, ""));
         }
         this.otherComments = otherComments;
         this.groupProject = groupProject;
@@ -102,6 +104,6 @@ public class SubTask {
     // new sub task as they will definitely not be the same
     // MAKE SURE TO BE READY TO HANDLE NULL VALUES ON THOSE TWO FIELDS
     public SubTask getDeepCopyOfSubTask(){
-        return new SubTask(null, name, null, null, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
+        return new SubTask(0, null, name, null, null, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
     }
 }

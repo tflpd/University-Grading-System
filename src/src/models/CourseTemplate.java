@@ -3,13 +3,15 @@ package models;
 import java.util.ArrayList;
 
 public class CourseTemplate {
+    private int id;
     private String name;
     private String semester;
     private String year;
     private ArrayList<Task> tasks;
 
     // Constructor to be used when creating a new course/template from scratch
-    public CourseTemplate(String name, String semester, String year, ArrayList<Task> tasks) {
+    public CourseTemplate(int id, String name, String semester, String year, ArrayList<Task> tasks) {
+        this.id = id;
         this.name = name;
         this.semester = semester;
         this.year = year;
@@ -17,12 +19,12 @@ public class CourseTemplate {
     }
 
     // Constructor to be used when creating a new course/template from an old template courseTemplate
-    public CourseTemplate(String name, String semester, String year, CourseTemplate courseTemplate) {
-        this(name, semester, year, courseTemplate.getDeepCopyOfTasks());
+    public CourseTemplate(int id, String name, String semester, String year, CourseTemplate courseTemplate) {
+        this(id, name, semester, year, courseTemplate.getDeepCopyOfTasks());
     }
 
-    public CourseTemplate(String name, String semester, String year) {
-        this(name, semester, year, new ArrayList<Task>());
+    public CourseTemplate(int id, String name, String semester, String year) {
+        this(id, name, semester, year, new ArrayList<Task>());
     }
 
     public String getName() {
@@ -42,7 +44,7 @@ public class CourseTemplate {
     }
 
     public void addNewTask(String name, Float weightInFinalGrade){
-        tasks.add(new Task(name, weightInFinalGrade));
+        tasks.add(new Task(0, name, weightInFinalGrade));
     }
 
     private ArrayList<Task> getDeepCopyOfTasks(){

@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Task {
+    private int id;
     private String name;
     private Float weightInFinalGrade;
     private ArrayList<SubTask> subTasks;
 
-    public Task(String name, Float weightInFinalGrade) {
+    public Task(int id, String name, Float weightInFinalGrade) {
+        this.id = id;
         this.name = name;
         this.weightInFinalGrade = weightInFinalGrade;
         this.subTasks = new ArrayList<SubTask>();
@@ -35,7 +37,7 @@ public class Task {
     }
 
     public void addNewSubTask(ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
-        subTasks.add(new SubTask(students, name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject));
+        subTasks.add(new SubTask(0, students, name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject));
     }
 
     public void addNewSubTask(SubTask subTask){
@@ -47,6 +49,6 @@ public class Task {
     }
 
     public Task getDeepCopyOfTask(){
-        return new Task(name, weightInFinalGrade);
+        return new Task(0, name, weightInFinalGrade);
     }
 }

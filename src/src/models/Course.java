@@ -22,6 +22,7 @@ import java.util.ArrayList;
 * */
 
 public class Course {
+    private int id;
     private String name;
     private String semester;
     private String year;
@@ -29,7 +30,8 @@ public class Course {
     private ArrayList<Task> tasks;
     private CourseTemplate courseTemplate;
 
-    public Course(String name, String semester, String year, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate) {
+    public Course(int id, String name, String semester, String year, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate) {
+        this.id = id;
         this.name = name;
         this.semester = semester;
         this.year = year;
