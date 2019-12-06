@@ -76,7 +76,7 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
 
             while(rs.next()) {
-                temp = new Student(rs.getInt("id"), new Name(rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
+                temp = new Student(rs.getInt("id"), new Name(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
             }
         }
         catch(Exception e){ System.out.println(e);}
@@ -91,7 +91,7 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
             Student temp = null;
             while(rs.next()) {
-                temp = new Student(rs.getInt("id"), new Name(rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
+                temp = new Student(rs.getInt("id"), new Name(rs.getInt("id"),rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
                 list.add(temp);
             }
         }
