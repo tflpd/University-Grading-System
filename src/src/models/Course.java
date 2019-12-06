@@ -80,4 +80,16 @@ public class Course {
         }
         return allStudents;
     }
+
+    public Float getStudentsFinalGrade(Student student){
+        Float finalGrade = 0f;
+        for (Task task:tasks){
+            finalGrade += task.getStudentsGrade(student)*task.getWeightInFinalGrade();
+        }
+        return finalGrade;
+    }
+
+    public String getStudentsFinalLetterGrade(Student student){
+        return Grade.translateGradeToLetter(getStudentsFinalGrade(student), 100f);
+    }
 }

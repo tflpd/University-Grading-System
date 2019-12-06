@@ -102,6 +102,33 @@ public class SubTask {
         this.groupProject = groupProject;
     }
 
+    public void setStudentsGrade(Student student, Float absolutePointsScored){
+        for (Grade grade:grades){
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                grade.setAbsolutePointsScored(absolutePointsScored);
+                return;
+            }
+        }
+    }
+
+    public Float getStudentsGrade(Student student){
+        for (Grade grade:grades){
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                return grade.getAbsolutePointsScored()/totalPointsAvailable;
+            }
+        }
+        return -1f;
+    }
+
+    public void setStudentsComment(Student student, String comment){
+        for (Grade grade:grades){
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                grade.setComment(comment);
+                return;
+            }
+        }
+    }
+
     // When creating a copy of this sub task for future use we copy everything but the dates; this has to be set again from the user for the
     // new sub task as they will definitely not be the same
     // MAKE SURE TO BE READY TO HANDLE NULL VALUES ON THOSE TWO FIELDS
