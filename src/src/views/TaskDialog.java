@@ -93,16 +93,16 @@ public class TaskDialog extends JDialog {
 		return nameTf;
 	}
 
-	public void setNameTf(JTextField nameTf) {
-		this.nameTf = nameTf;
+	public void setNameTf(String nameTf) {
+		this.nameTf.setText(nameTf);
 	}
 
 	public JTextField getWeightTf() {
 		return weightTf;
 	}
 
-	public void setWeightTf(JTextField weightTf) {
-		this.weightTf = weightTf;
+	public void setWeightTf(String weightTf) {
+		this.weightTf.setText(weightTf);
 	}
     
     

@@ -51,4 +51,13 @@ public class Task {
     public Task getDeepCopyOfTask(){
         return new Task(0, name, weightInFinalGrade);
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+    
 }

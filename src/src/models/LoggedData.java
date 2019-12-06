@@ -7,22 +7,23 @@ public class LoggedData {
 	private static Professor prof;
 	private static GradingSystem grading;
 	private static ArrayList<Course> activeCourseList;
+	private static Course selectedCourse;
+	private static Task selectedTask;
+	private static SubTask selectedSubTask; 
 
 	public  static void  InitData()
 	{
 		Name name = new Name(0,"Christine"," ", "Papapdakis");
-		prof = new Professor(0, name, "c@bu.edu", "1234");
-		
-		name = new Name(0,"Jone"," ", "Doe");
-		
+		prof = new Professor(0, name, "c@bu.edu", "1234");		
+		name = new Name(0,"Jone"," ", "Doe");		
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
 		
 		ArrayList<Task> taskList = new ArrayList<Task>();
-		Task t = new Task(0, "Exam", 70.0f);
+		Task t = new Task(1, "Exam", 70.0f);
 		taskList.add(t);
-		t = new Task(0, "Assignments", 30.0f);
+		t = new Task(2, "Assignments", 30.0f);
 		taskList.add(t);
 		
 		
@@ -35,9 +36,7 @@ public class LoggedData {
 		activeCourseList.add(c);
 		c = new Course(0,"CS591P1","Spring", "2020", null, cT);
 		activeCourseList.add(c);
-		
-		
-		
+				
 		GradingSystem GS = new GradingSystem(0,prof, activeCourseList, cTList);
 		
 	}
@@ -64,6 +63,30 @@ public class LoggedData {
 
 	public static void setActiveCourseList(ArrayList<Course> activeCourseList) {
 		LoggedData.activeCourseList = activeCourseList;
+	}
+
+	public static Course getSelectedCourse() {
+		return selectedCourse;
+	}
+
+	public static void setSelectedCourse(Course selectedCourse) {
+		LoggedData.selectedCourse = selectedCourse;
+	}
+
+	public static Task getSelectedTask() {
+		return selectedTask;
+	}
+
+	public static void setSelectedTask(Task selectedTask) {
+		LoggedData.selectedTask = selectedTask;
+	}
+
+	public static SubTask getSelectedSubTask() {
+		return selectedSubTask;
+	}
+
+	public static void setSelectedSubTask(SubTask selectedSubTask) {
+		LoggedData.selectedSubTask = selectedSubTask;
 	}
 	
 	
