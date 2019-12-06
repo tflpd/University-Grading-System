@@ -88,4 +88,22 @@ public class TaskDialog extends JDialog {
     public void setWeightLabel(String weight) {
         this.weightLabel = new JLabel("Weight of this task in final grade: " + weight);
     }
+
+	public JTextField getNameTf() {
+		return nameTf;
+	}
+
+	public void setNameTf(JTextField nameTf) {
+		this.nameTf = nameTf;
+	}
+
+	public JTextField getWeightTf() {
+		return weightTf;
+	}
+
+	public void setWeightTf(JTextField weightTf) {
+		this.weightTf = weightTf;
+	}
+    
+    
 }

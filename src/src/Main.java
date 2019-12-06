@@ -8,8 +8,8 @@ public class Main {
 
     	LoggedData.InitData();
     	MainPanelView.initialize();
-    	ClassHomePageController cHPC = new ClassHomePageController(null);
-    	//LoginController lg = new LoginController();
+    	//ClassHomePageController cHPC = new ClassHomePageController(null);
+    	LoginController lg = new LoginController();
         //LoginView loginView = new LoginView();
         //CourseListView courseListView = new CourseListView();
         //CreateCourseView createCourseView = new CreateCourseView();

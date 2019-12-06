@@ -30,7 +30,7 @@ public class ClassHomePage extends JPanel {
 
 	public ClassHomePage(String courseName) {
 
-		
+		taskDialog = new TaskDialog();
 		this.setBorder(new EmptyBorder(10, 20, 10, 20));
 
 		jPopupMenu = new JPopupMenu();
@@ -248,9 +248,8 @@ public class ClassHomePage extends JPanel {
 
 	public void setTaskTable(TableModel dataModel) {
 
-		System.out.println("Masuk create Table");
 		TaskTable.setModel(dataModel);
-
+		TaskTable.removeColumn(TaskTable.getColumn("Id"));
 
 	}
 

@@ -1,12 +1,14 @@
 package controllers;
 
 import java.awt.Dialog.ModalityType;
+import java.util.ArrayList;
 
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.LoggedData;
+import models.Task;
 import views.ClassHomePage;
 import views.TaskDialog;
 
@@ -35,16 +37,39 @@ public class TaskDialogController {
 	{
 		dialog.getSaveButton().addActionListener(l -> SaveTask());
 		dialog.getCancelButton().addActionListener(l -> Close());
+		dialog.getDeleteButton().addActionListener(l -> DeleteTask());
+		
 	}
 
 	private void SaveTask()
 	{
 		var taskList = LoggedData.getActiveCourseList().get(0).getTasks();
 
+		Task task = new Task(dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
+		taskList.add(task);
+		
+		UpdateTaskTable(taskList);
+		Close();
+	}
+
+	private void Close()
+	{
+		dialog.dispose();
+	}
+	private void DeleteTask()
+	{
+		var taskList = LoggedData.getActiveCourseList().get(0).getTasks();
+		Task task = new Task(dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
+		taskList.remove(task);
+		UpdateTaskTable(taskList);
+		Close();
+	}
+	
+	private void UpdateTaskTable(ArrayList<Task> taskList)
+	{
 		String col[] = {"Task Name","Edit",};
 		TableModel tableModel = new DefaultTableModel(col, 0);
-
-
+		
 		if (taskList != null)
 		{
 			System.out.println(taskList.size());
@@ -55,27 +80,8 @@ public class TaskDialogController {
 				((DefaultTableModel) tableModel).addRow(objs);
 
 			}	
-			for (int i = 0; i < taskList.size(); i++)
-			{
-				Object[] objs = {taskList.get(i).getName(),
-				"Edit"};
-				((DefaultTableModel) tableModel).addRow(objs);
-
-			}
+			
 		}
-
-		//JTable table = new JTable(tableModel);
-		//table.setFillsViewportHeight(true);
-
 		classHomePage.setTaskTable(tableModel);
-
-		Close();
 	}
-
-	private void Close()
-	{
-
-		dialog.dispose();
-	}
-
 }
