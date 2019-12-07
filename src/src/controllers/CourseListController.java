@@ -49,6 +49,7 @@ public class CourseListController {
                     	if (c.toString().equalsIgnoreCase( o.toString()))
                     	{
                     		LoggedData.setSelectedCourse(c);
+                    		LoggedData.setSelectedTask(c.getTasks().get(0));
                     	}
                     }
                     

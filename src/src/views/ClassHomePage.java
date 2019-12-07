@@ -208,6 +208,12 @@ public class ClassHomePage extends JPanel {
 		subtaskTable.setFillsViewportHeight(true);
 		rightPanel.add(subtaskTable, gcr);
 
+		JScrollPane tableSP1 = new JScrollPane(subtaskTable);
+		//Dimension preferredSize = new Dimension(400, 600);
+		tableSP1.setPreferredSize(new Dimension(300,100 ));
+		tableSP1.revalidate();
+		rightPanel.add(tableSP1, gcr);
+
 		gcr.gridy = 4;
 		rightPanel.add(creatSubButton, gcr);
 
@@ -257,15 +263,22 @@ public class ClassHomePage extends JPanel {
 
 	}
 
+	public void setSubTaskTable(TableModel dataModel) {
+
+		subtaskTable.setModel(dataModel);
+		if (subtaskTable.getColumn("Id") != null)
+		{
+			subtaskTable.removeColumn(subtaskTable.getColumn("Id"));
+		}
+
+	}
+
+
 	public JButton getHomeButton() {
 		return homeButton;
 	}
 
-	
-
-
-
-
-
-
+	public JTable getSubtaskTable() {
+		return subtaskTable;
+	}
 }
