@@ -27,10 +27,11 @@ public class ClassHomePage extends JPanel {
 	private JButton creatButton;
 	private JButton deleteButton;
 	private JButton creatSubButton;
+	private JButton homeButton;
 
 	public ClassHomePage(String courseName) {
 
-		
+		taskDialog = new TaskDialog();
 		this.setBorder(new EmptyBorder(10, 20, 10, 20));
 
 		jPopupMenu = new JPopupMenu();
@@ -57,7 +58,7 @@ public class ClassHomePage extends JPanel {
 
 
 		BorderLayout bl = new BorderLayout();
-		JButton homeButton = new JButton("Back Home");
+		homeButton = new JButton("Back Home");
 		JPanel topPanel = new JPanel();
 
 		topPanel.setLayout(bl);
@@ -89,7 +90,7 @@ public class ClassHomePage extends JPanel {
 		JLabel taskLabel = new JLabel("Tasks");
 		//JLabel tipLabel = new JLabel("Please either choose one of the existing tasks to inspect it or create a new one");
 		String text = "Please either choose one of the existing tasks to inspect it or create a new one";
-		
+
 
 		JTextArea textArea = new JTextArea(5, 40);
 		textArea.setText(text);
@@ -101,7 +102,7 @@ public class ClassHomePage extends JPanel {
 		textArea.setBackground(UIManager.getColor("Label.background"));
 		textArea.setFont(UIManager.getFont("Label.font"));
 		textArea.setBorder(UIManager.getBorder("Label.border"));
-		
+
 		creatButton = new JButton("Create new Task");
 
 
@@ -140,12 +141,12 @@ public class ClassHomePage extends JPanel {
 		});
 		TaskTable.setFillsViewportHeight(true);
 		leftPanel.add(TaskTable, gc);
-		
+
 		JScrollPane tableSP = new JScrollPane(TaskTable);
 		//Dimension preferredSize = new Dimension(400, 600);
-        tableSP.setPreferredSize(new Dimension(300,100 ));
-        tableSP.revalidate();
-        leftPanel.add(tableSP, gc);
+		tableSP.setPreferredSize(new Dimension(300,100 ));
+		tableSP.revalidate();
+		leftPanel.add(tableSP, gc);
 
 		gc.gridy = 4;
 		leftPanel.add(creatButton, gc);
@@ -157,7 +158,7 @@ public class ClassHomePage extends JPanel {
 		deleteButton = new JButton("Delete this Class");
 		JLabel subtaskLabel = new JLabel("Sub Tasks");
 		String text1 = "Please either choose one of the existing subtasks of the selected task or create a new one";
-		
+
 		JTextArea textArea1 = new JTextArea(5, 40);
 		textArea1.setText(text1);
 		textArea1.setWrapStyleWord(true);
@@ -168,7 +169,7 @@ public class ClassHomePage extends JPanel {
 		textArea1.setBackground(UIManager.getColor("Label.background"));
 		textArea1.setFont(UIManager.getFont("Label.font"));
 		textArea1.setBorder(UIManager.getBorder("Label.border"));
-		
+
 		creatSubButton = new JButton("Create new SubTask");
 
 		rightPanel.setLayout(new GridBagLayout());
@@ -248,11 +249,19 @@ public class ClassHomePage extends JPanel {
 
 	public void setTaskTable(TableModel dataModel) {
 
-		System.out.println("Masuk create Table");
 		TaskTable.setModel(dataModel);
-
+		if (TaskTable.getColumn("Id") != null)
+		{
+			TaskTable.removeColumn(TaskTable.getColumn("Id"));
+		}
 
 	}
+
+	public JButton getHomeButton() {
+		return homeButton;
+	}
+
+	
 
 
 

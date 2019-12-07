@@ -41,11 +41,8 @@ public class LoginController {
 		
 		Name name = new Name(1, "Christine"," ", "Papapdakis");
 	    Professor prf = LoggedData.getProf();
-		
-		
 		String id = loginView.getIdText().getText();
 		String pwd = String.valueOf(loginView.getPwdText().getPassword());
-		
 		System.out.println("User id "+id +" "+pwd);
 		
 		if (prf.getEmail().equalsIgnoreCase(id) && pwd.equalsIgnoreCase(prf.getPassword()))

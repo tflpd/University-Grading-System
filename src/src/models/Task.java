@@ -52,6 +52,16 @@ public class Task {
         return new Task(0, name, weightInFinalGrade);
     }
 
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+    
+
     public Float getStudentsGrade(Student student){
         Float taskAggregateGrade = 0f;
         for (SubTask subTask:subTasks){
@@ -59,4 +69,5 @@ public class Task {
         }
         return taskAggregateGrade;
     }
+
 }

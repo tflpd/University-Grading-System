@@ -46,6 +46,8 @@ public class CreateCourseController {
 
 	private void Create()
 	{
+	
+		
 		ClassHomePageController cHPC = new ClassHomePageController(null);
 	}
 

@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import models.Course;
 import models.LoggedData;
 import views.CourseListView;
 import views.MainPanelView;
@@ -42,8 +43,17 @@ public class CourseListController {
     	        int index = list.locationToIndex(evt.getPoint());
                 if (index >= 0) {
                     Object o = list.getModel().getElementAt(index);
+                    
+                    for(var c : LoggedData.getActiveCourseList())
+                    {
+                    	if (c.toString().equalsIgnoreCase( o.toString()))
+                    	{
+                    		LoggedData.setSelectedCourse(c);
+                    	}
+                    }
+                    
                     System.out.println("Double-clicked on: " + o.toString());
-                    ClassHomePageController chP = new ClassHomePageController(o.toString());
+                    ClassHomePageController chP = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
                 }
     	    }
     	});
