@@ -9,7 +9,8 @@ public class SubTask {
     private int id;
     private String name;
     private LocalDateTime creationDate;
-    private LocalDateTime dateDue;
+    //private LocalDateTime dateDue;
+    private String dateDue;
     private Float totalPointsAvailable;
     private Float weightInParentTask;
     private Float bonusPoints;
@@ -18,7 +19,7 @@ public class SubTask {
     private boolean groupProject;
 
 
-    public SubTask(int id, ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
+    public SubTask(int id, ArrayList<Student> students, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
@@ -34,6 +35,8 @@ public class SubTask {
         this.groupProject = groupProject;
     }
 
+
+
     public String getName() {
         return name;
     }
@@ -42,7 +45,7 @@ public class SubTask {
         return creationDate;
     }
 
-    public LocalDateTime getDateDue() {
+    public String getDateDue() {
         return dateDue;
     }
 
@@ -78,7 +81,7 @@ public class SubTask {
         this.creationDate = creationDate;
     }
 
-    public void setDateDue(LocalDateTime dateDue) {
+    public void setDateDue(String dateDue) {
         this.dateDue = dateDue;
     }
 
@@ -186,4 +189,12 @@ public class SubTask {
         else
             return pointsScoredList.get(listSize/2);
     }
+
+    public int getId() {
+        return id;
+    }
+
+
+
+
 }

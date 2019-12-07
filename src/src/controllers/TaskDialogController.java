@@ -16,7 +16,7 @@ public class TaskDialogController {
 
 	private TaskDialog dialog; 
 	private ClassHomePage classHomePage;
-	private int TaskId;
+	private int TaskId; // 0 means creating new task
 
 
 	public TaskDialogController(ClassHomePage c)
@@ -106,6 +106,9 @@ public class TaskDialogController {
 				}
 			}
 			UpdateTaskTable(taskList);
+
+			LoggedData.setSelectedTask(null);
+			LoggedData.setSelectedSubTask(null);
 		}
 		Close();
 	}
