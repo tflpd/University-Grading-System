@@ -1,9 +1,17 @@
+
+CREATE DATABASE IF NOT EXISTS grading_system;
+USE grading_system;
+
+
+DROP TABLE IF EXISTS `Credential`;
 CREATE TABLE `Credential` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(255),
   `password` varchar(255)
 );
 
+
+DROP TABLE IF EXISTS `Professor`;
 CREATE TABLE `Professor` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `first_name` varchar(255),
@@ -11,7 +19,9 @@ CREATE TABLE `Professor` (
   `credentialId` int
 );
 
-CREATE TABLE `Enrolment` (
+
+DROP TABLE IF EXISTS `Enrollment`;
+CREATE TABLE `Enrollment` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `studentId` int,
   `courseId` int,
@@ -21,6 +31,8 @@ CREATE TABLE `Enrolment` (
   `courseSectionId` int
 );
 
+
+DROP TABLE IF EXISTS `Student`;
 CREATE TABLE `Student` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `first_name` varchar(255),
@@ -31,6 +43,8 @@ CREATE TABLE `Student` (
   `created_at` timestamp
 );
 
+
+DROP TABLE IF EXISTS `Course`;
 CREATE TABLE `Course` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `code` varchar(255),
@@ -40,12 +54,15 @@ CREATE TABLE `Course` (
   `isDeleted` boolean
 );
 
+
+DROP TABLE IF EXISTS `CourseSection`;
 CREATE TABLE `CourseSection` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `courseId` int
 );
 
+DROP TABLE IF EXISTS `Task`;
 CREATE TABLE `Task` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -55,6 +72,7 @@ CREATE TABLE `Task` (
   `isDeleted` boolean
 );
 
+DROP TABLE IF EXISTS `SubTask`;
 CREATE TABLE `SubTask` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `taskId` int,
@@ -69,6 +87,10 @@ CREATE TABLE `SubTask` (
   `isDeleted` boolean
 );
 
+
+
+
+DROP TABLE IF EXISTS `Grade`;
 CREATE TABLE `Grade` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `subTaskId` int,
@@ -80,6 +102,7 @@ CREATE TABLE `Grade` (
   `isDeleted` boolean
 );
 
+DROP TABLE IF EXISTS `TemplateCourse`;
 CREATE TABLE `TemplateCourse` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -87,6 +110,8 @@ CREATE TABLE `TemplateCourse` (
   `created_at` timestamp
 );
 
+
+DROP TABLE IF EXISTS `TemplateTask`;
 CREATE TABLE `TemplateTask` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -95,6 +120,8 @@ CREATE TABLE `TemplateTask` (
   `created_at` timestamp
 );
 
+
+DROP TABLE IF EXISTS `TemplateSubTask`;
 CREATE TABLE `TemplateSubTask` (
   `taskId` int PRIMARY KEY AUTO_INCREMENT,
   `weight` double,
@@ -107,7 +134,7 @@ CREATE TABLE `TemplateSubTask` (
   `isGroupWork` bit
 );
 
-ALTER TABLE `Enrolment` ADD FOREIGN KEY (`id`) REFERENCES `Grade` (`enrolmentId`);
+ALTER TABLE `Enrollment` ADD FOREIGN KEY (`id`) REFERENCES `Grade` (`enrolmentId`);
 
 ALTER TABLE `Course` ADD FOREIGN KEY (`id`) REFERENCES `Task` (`courseId`);
 
@@ -115,7 +142,7 @@ ALTER TABLE `Task` ADD FOREIGN KEY (`id`) REFERENCES `SubTask` (`taskId`);
 
 ALTER TABLE `SubTask` ADD FOREIGN KEY (`id`) REFERENCES `Grade` (`subTaskId`);
 
-ALTER TABLE `Student` ADD FOREIGN KEY (`id`) REFERENCES `Enrolment` (`studentId`);
+ALTER TABLE `Student` ADD FOREIGN KEY (`id`) REFERENCES `Enrollment` (`studentId`);
 
 ALTER TABLE `Professor` ADD FOREIGN KEY (`id`) REFERENCES `Credential` (`id`);
 
@@ -123,7 +150,7 @@ ALTER TABLE `Course` ADD FOREIGN KEY (`professorId`) REFERENCES `Professor` (`id
 
 ALTER TABLE `CourseSection` ADD FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`);
 
-ALTER TABLE `Enrolment` ADD FOREIGN KEY (`courseSectionId`) REFERENCES `CourseSection` (`id`);
+ALTER TABLE `Enrollment` ADD FOREIGN KEY (`courseSectionId`) REFERENCES `CourseSection` (`id`);
 
 ALTER TABLE `TemplateCourse` ADD FOREIGN KEY (`id`) REFERENCES `TemplateTask` (`courseId`);
 
