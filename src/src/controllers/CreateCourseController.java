@@ -9,10 +9,10 @@ import java.util.Iterator;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-import org.apache.poi.ss.usermodel.Cell;
+/*import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
 import views.CreateCourseView;
@@ -62,18 +62,18 @@ public class CreateCourseController {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 			var keep = selectedFile.getName();
-			try {
+			/*try {
 				read(selectedFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			System.out.println(keep);
 		}
 	}
 
 
-	private void read(File file) throws IOException
+	/*private void read(File file) throws IOException
 	{
 		//File excelFile = new File("contacts.xlsx");
 	    FileInputStream fis = new FileInputStream(file);
@@ -102,7 +102,7 @@ public class CreateCourseController {
 
 	    workbook.close();
 	    fis.close();
-	  }
+	  }*/
 	
 
 }
