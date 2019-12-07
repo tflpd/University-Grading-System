@@ -35,4 +35,29 @@ public class Grade {
     public String getComment() {
         return comment;
     }
+
+    public static String translateGradeToLetter(Float absolutePointsScored, Float totalPointsAvailable){
+        Float gradePercentage = absolutePointsScored/totalPointsAvailable;
+        if (gradePercentage < 67){
+            return "F";
+        }else if (gradePercentage < 71){
+            return "D";
+        }else if (gradePercentage < 74){
+            return "C-";
+        }else if (gradePercentage < 78){
+            return "C";
+        }else if (gradePercentage < 81){
+            return "C+";
+        }else if (gradePercentage < 84){
+            return "B-";
+        }else if (gradePercentage < 88){
+            return "B";
+        }else if (gradePercentage < 91){
+            return "B+";
+        }else if (gradePercentage < 95){
+            return "A-";
+        }else{
+            return "A";
+        }
+    }
 }
