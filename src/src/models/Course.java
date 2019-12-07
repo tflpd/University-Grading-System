@@ -65,6 +65,14 @@ public class Course {
         return tasks;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void addNewTask(String name, Float weightInFinalGrade){
         courseTemplate.addNewTask(name, weightInFinalGrade);
     }
