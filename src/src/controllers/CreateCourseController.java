@@ -68,7 +68,7 @@ public class CreateCourseController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-			System.out.println(keep);
+			selectedFile.getPath();
 		}
 	}
 
