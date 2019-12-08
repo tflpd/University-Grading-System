@@ -15,6 +15,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
+import models.ImportExcel;
+import models.Student;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
 import views.MainPanelView;
 
@@ -41,7 +44,15 @@ public class CreateCourseController {
 	private void initController()
 	{
 		createCourse.getCreateButton().addActionListener(l -> Create());
-		createCourse.getImportButton().addActionListener(l -> ImportStudent());
+		createCourse.getImportButton().addActionListener(l -> {
+			try {
+				ImportStudent();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InvalidFormatException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	private void Create()
@@ -51,12 +62,11 @@ public class CreateCourseController {
 		ClassHomePageController cHPC = new ClassHomePageController(null);
 	}
 
-	private void ImportStudent()
-	{
+	private void ImportStudent() throws IOException, InvalidFormatException {
 		chooseFile();
 	}
 
-	private void chooseFile() {
+	private void chooseFile() throws IOException, InvalidFormatException {
 		JFileChooser fileChooser = new JFileChooser();
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -68,7 +78,11 @@ public class CreateCourseController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-			System.out.println(keep);
+
+			ImportExcel importExcel = new ImportExcel(selectedFile.getPath());
+			for(Student student : importExcel.importE()){
+				System.out.println(student.getBuID());
+			}
 		}
 	}
 
