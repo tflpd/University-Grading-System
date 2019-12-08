@@ -84,9 +84,6 @@ public class CourseStudentView extends JPanel{
 	}
 
 	public void setTable(TableModel dataModel) {
-		//this.table = table;
-
-		System.out.println("masuk ke table");
 		
 		table.setModel(dataModel);
 		if (table.getColumn("Id") != null)

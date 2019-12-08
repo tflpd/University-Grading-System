@@ -2,26 +2,31 @@ package views;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.*;
 
-public class SubTaskGrade {
+public class SubTaskGrade extends JPanel{
 
-    private JFrame frame;
+    //private JFrame frame;
     private DefaultTableModel tableModel;
     private JTable table;
+    
+    private JButton backButton ;
+    private JButton homeButton ;
 
     public SubTaskGrade(String subtaskName, double mean, double median, double standardDeviation) {
-        frame = new JFrame("Course Home Page");
-        frame.setSize(1000, 1000);
-        frame.setLayout(new BorderLayout());
+        //frame = new JFrame("Course Home Page");
+        //frame.setSize(1000, 1000);
+        //frame.setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel();
-        JButton backButton = new JButton("Back");
-        JButton homeButton = new JButton("Home");
+        backButton = new JButton("Back");
+        homeButton = new JButton("Home");
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(backButton);
         topPanel.add(homeButton);
-        frame.add(topPanel, BorderLayout.NORTH);
+        this.add(topPanel, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridBagLayout());
@@ -38,9 +43,13 @@ public class SubTaskGrade {
         sectionLabel.setLabelFor(sectionCombo);
         JLabel statisticLabel = new JLabel("Statistic:   Mean: "+ mean + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation);
         String col[] = {"Students", "Points deducted", "Points scored", "Student status", "Comments", "Group ID", "%Score", "Bonus Points"};
-        tableModel = new DefaultTableModel(col, 0);
-        table = new JTable(tableModel);
-        table.setFillsViewportHeight(true);
+        
+        
+        table = new JTable();	
+		JScrollPane scrollPane = new JScrollPane(table);
+		Dimension d = table.getPreferredSize();
+		scrollPane.setPreferredSize(
+				new Dimension(800,100));
 
         JButton saveButton = new JButton("Save Changes");
 
@@ -58,19 +67,31 @@ public class SubTaskGrade {
         centerPanel.add(statisticLabel, gc);
         gc.gridy = 3;
 
-        centerPanel.add(table, gc);
+        centerPanel.add(scrollPane, gc);
         gc.gridy = 4;
         centerPanel.add(saveButton, gc);
 
-        frame.add(centerPanel, BorderLayout.CENTER);
-
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
-
-
-
-
+        this.add(centerPanel, BorderLayout.CENTER);
 
     }
+    
+    public void setTable(TableModel dataModel) {
+		//this.table = table;
+
+		//System.out.println("masuk ke table");
+		
+		table.setModel(dataModel);
+		if (table.getColumn("Id") != null)
+		{
+			table.removeColumn(table.getColumn("Id"));
+		}
+	}
+
+	public JButton getBackButton() {
+		return backButton;
+	}
+	public JButton getHomeButton() {
+		return homeButton;
+	}
+
 }
