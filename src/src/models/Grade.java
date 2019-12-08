@@ -5,11 +5,13 @@ public class Grade {
     private Student student;
     private Float absolutePointsScored;
     private String comment;
+    private Float bonusPoints;
 
     public Grade(int id, Student student, Float absolutePointsScored, String comment) {
         this.student = student;
         this.absolutePointsScored = absolutePointsScored;
         this.comment = comment;
+        this.bonusPoints = 0f;
     }
 
     public Grade(int id, Student student) {
@@ -59,5 +61,13 @@ public class Grade {
         }else{
             return "A";
         }
+    }
+
+    public Float getBonusPoints() {
+        return bonusPoints;
+    }
+
+    public void setBonusPoints(Float bonusPoints) {
+        this.bonusPoints = bonusPoints;
     }
 }

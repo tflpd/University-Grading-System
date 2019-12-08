@@ -2,7 +2,6 @@ package controllers;
 
 import java.awt.Dialog.ModalityType;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -10,12 +9,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.LoggedData;
-import models.Student;
 import models.SubTask;
 import models.Task;
 import views.ClassHomePage;
 import views.SubTaskDialog;
-import views.TaskDialog;
 
 public class SubTaskDialogController {
 	
@@ -59,11 +56,11 @@ public class SubTaskDialogController {
 		if (subTaskID != 0)
 		{
 			dialog.setNameTf(LoggedData.getSelectedSubTask().getName());
-			dialog.setDocTf(LoggedData.getSelectedSubTask().getCreationDate());
+			dialog.setDocTf(LoggedData.getSelectedSubTask().getReleaseDate());
 			dialog.setDueTf(LoggedData.getSelectedSubTask().getDateDue());
 			dialog.setMaxScoreTf(String.valueOf(LoggedData.getSelectedSubTask().getTotalPointsAvailable()));
 			dialog.setWeightTf(String.valueOf(LoggedData.getSelectedSubTask().getWeightInParentTask()));
-			dialog.setBonusTf(String.valueOf(LoggedData.getSelectedSubTask().getBonusPoints()));
+			dialog.setBonusTf(String.valueOf(LoggedData.getSelectedSubTask().getMaxAvailableBonusPoints()));
 			dialog.setGroupCheck(LoggedData.getSelectedSubTask().isGroupProject());
 
 		}
@@ -84,7 +81,7 @@ public class SubTaskDialogController {
 					t.setDateDue(dialog.getDateDueTf().getText());
 					t.setTotalPointsAvailable(Float.parseFloat(dialog.getMaxScoreTf().getText()));
 					t.setWeightInParentTask(Float.parseFloat(dialog.getWeightTf().getText()));
-					t.setBonusPoints(Float.parseFloat(dialog.getBonusTf().getText()));
+					t.setMaxAvailableBonusPoints(Float.parseFloat(dialog.getBonusTf().getText()));
 					t.setGroupProject(dialog.getGroupCheck().isSelected());
 
 					break;
