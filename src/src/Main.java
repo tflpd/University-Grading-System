@@ -25,13 +25,10 @@ public class Main {
         //CourseStudentView courseStudentView = new CourseStudentView("hw1", 80, 80, 80);
 
     	CourseStudentController csc = new CourseStudentController();
-
-
-		String filePath = "C:\\Users\\qqq58\\Desktop\\BU Study\\CS 591 P1 JAVA OO\\Final Project\\University-Grading-System\\StudentList.xlsx";
 		ImportExcel importExcel = new ImportExcel(filePath);
 		for(Student student : importExcel.importE()){
 			System.out.println(student.getBuID());
-		}
+		}*/
 
 
     }
