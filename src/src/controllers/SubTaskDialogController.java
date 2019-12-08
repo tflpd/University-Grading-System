@@ -48,6 +48,7 @@ public class SubTaskDialogController {
 		dialog.getSaveButton().addActionListener(l -> SaveTask());
 		dialog.getCancelButton().addActionListener(l -> Close());
 		dialog.getDeleteButton().addActionListener(l -> Delete());
+		dialog.getGradeButton().addActionListener(l -> Grade());
 
 	}
 
@@ -104,6 +105,12 @@ public class SubTaskDialogController {
 	private void Close()
 	{
 		
+		dialog.dispose();
+	}
+	
+	private void Grade()
+	{
+		SubTaskGradeController sTGC = new SubTaskGradeController();
 		dialog.dispose();
 	}
 
