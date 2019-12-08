@@ -14,12 +14,14 @@ public class LoginView extends JPanel {
 	
     public LoginView() {
     	
-    	
+    	Dimension defD = new Dimension(250, 20);
         JLabel welcomeLabel = new JLabel("Welcome to BU Grading System", SwingConstants.CENTER);
         JLabel userIDLabel = new JLabel("User ID: ", SwingConstants.CENTER);
         JLabel pwdLabel = new JLabel("Password: ", SwingConstants.CENTER);
         idText =new JTextField("c@bu.edu");
+        idText.setPreferredSize(defD);
         pwdText =new JPasswordField();
+        pwdText.setPreferredSize(defD);
         pwdText.setEchoChar('*');
         signInButton = new JButton("Sign In");
         cancelButton = new JButton("cancel");

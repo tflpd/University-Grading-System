@@ -3,6 +3,7 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class SubTaskDialog extends JDialog {
 
@@ -44,8 +45,8 @@ public class SubTaskDialog extends JDialog {
 
                 //super(parent, "Details", false);
                 setAttributes();
-                setSize(400, 700);
-
+                setSize(700, 700);
+                setBounds(50, 50, 700, 700);
                 setLayout(new GridBagLayout());
 
                 GridBagConstraints gc = new GridBagConstraints();
@@ -55,24 +56,35 @@ public class SubTaskDialog extends JDialog {
                 gc.weighty = 1;
                 gc.fill = GridBagConstraints.NONE;
 
-
+                Dimension defD = new Dimension(250, 20);
                 nameLabel = new JLabel("Subtask's name: ");
                 nameTf = new JTextField(name);
+                nameTf.setPreferredSize(defD);
+                nameLabel.setLabelFor(nameTf);
 
                 docLabel = new JLabel("Date of Creation: ");
                 docTf = new JTextField(doc);
 
+                JSpinner dueDateSpinner = new JSpinner( new SpinnerDateModel() );
+                JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(dueDateSpinner, "MM/dd/yyyy HH:mm");
+                dueDateSpinner.setEditor(timeEditor);
+                dueDateSpinner.setValue(new Date());
+                dueDateSpinner.setPreferredSize(defD);
+                
                 dataDueLabel = new JLabel("Date Due: ");
                 dateDueTf = new JTextField(dateDue);
 
                 maxScoreLabel = new JLabel("Max Score: ");
                 maxScoreTf = new JTextField(Double.toString(maxScore));
+                maxScoreTf.setPreferredSize(defD);
 
                 weightLabel = new JLabel("Weight between subtasks: ");
                 weightTf = new JTextField(Double.toString(weight));
+                weightTf.setPreferredSize(defD);
 
                 bonusLabel = new JLabel("Number of available bonus points: ");
                 bonusTf = new JTextField(Double.toString(bonusPoints));
+                bonusTf.setPreferredSize(defD);
 
                 other = new JLabel("Other useful information: ");
 
@@ -87,41 +99,66 @@ public class SubTaskDialog extends JDialog {
                 cancelButton = new JButton("Cancel");
                 gradeButton = new JButton("Grades");
 
+                gc.anchor = GridBagConstraints.EAST;
                 add(nameLabel, gc);
-                gc.gridx = 1;
+                
+                gc.anchor = GridBagConstraints.WEST;
+                gc.gridx = 1;                
                 add(nameTf, gc);
+                
                 gc.gridy = 1;
                 gc.gridx = 0;
+                gc.anchor = GridBagConstraints.EAST;
                 add(docLabel, gc);
+                
                 gc.gridy = 1;
                 gc.gridx = 1;
+                gc.anchor = GridBagConstraints.WEST;
                 add(docTf, gc);
+                
                 gc.gridy = 2;
                 gc.gridx = 0;
+                gc.anchor = GridBagConstraints.EAST;
                 add(dataDueLabel, gc);
+                
                 gc.gridy = 2;
                 gc.gridx = 1;
-                add(dateDueTf, gc);
+                gc.anchor = GridBagConstraints.WEST;
+                add(dueDateSpinner, gc);
+                
                 gc.gridy = 3;
                 gc.gridx = 0;
+                gc.anchor = GridBagConstraints.EAST;
                 add(maxScoreLabel, gc);
+                
                 gc.gridy = 3;
                 gc.gridx = 1;
+                gc.anchor = GridBagConstraints.WEST;
                 add(maxScoreTf, gc);
+                
                 gc.gridy = 4;
                 gc.gridx = 0;
+                gc.anchor = GridBagConstraints.EAST;
                 add(weightLabel, gc);
+                
                 gc.gridy = 4;
                 gc.gridx = 1;
+                gc.anchor = GridBagConstraints.WEST;
                 add(weightTf, gc);
+                
                 gc.gridy = 5;
                 gc.gridx = 0;
+                gc.anchor = GridBagConstraints.EAST;
                 add(bonusLabel, gc);
+                
                 gc.gridy = 5;
                 gc.gridx = 1;
+                gc.anchor = GridBagConstraints.WEST;
                 add(bonusTf, gc);
+                
                 gc.gridy = 6;
                 gc.gridx = 0;
+                gc.anchor = GridBagConstraints.EAST;
                 add(other, gc);
                 gc.gridy = 7;
                 JPanel comboPanel = new JPanel();
