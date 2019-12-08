@@ -103,7 +103,7 @@ public class DBManager {
         return list;
     }
 
-    public Course readCourseById(int id, String semester, String year){
+    public Course readCourseById(int id, String semester, String year, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate){
         Course temp = null;
 
         try {
@@ -113,12 +113,16 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
 
             while(rs.next()) {
-                //public Course(int id, String name, String semester, String year, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate) {
-                //temp = new Course(rs.getInt("id"), new Name(rs.getInt(""), rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), rs.getString("buid"));
+                temp = new Course(rs.getInt("id"), rs.getString("name"), semester, year, courseSections, courseTemplate);
             }
         }
         catch(Exception e){ System.out.println(e);}
         return temp;
+    }
+
+    public List<Course> readAllCourses(){
+        // can't be done because lack of info in DB
+        return new ArrayList<>();
     }
 
     /*
@@ -129,14 +133,25 @@ public class DBManager {
     /*
      * DELETE
      * */
-    public void deleteCourse(){
+    public void deleteCourseById(int id){
+        String sql = "DELETE FROM bank_atm.Course WHERE id = \'"+ id +"\'";
+        sqlExecute(sql);
+    }
 
+    public void deleteCourses(){
+        String sql = "DELETE FROM grading_system.Course;";
+        sqlExecute(sql);
     }
 
     public void deleteStudentById(int id){
-        String sql = "DELETE FROM bank_atm.person WHERE id = \'"+ id +"\'";
+        String sql = "DELETE FROM grading_system.Student WHERE id = \'"+ id +"\'";
         sqlExecute(sql);
     }
+    public void deleteStudents(){
+        String sql = "DELETE FROM grading_system.Student;";
+        sqlExecute(sql);
+    }
+
 
     public void deleteTask(){
 
