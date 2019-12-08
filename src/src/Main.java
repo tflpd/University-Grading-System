@@ -1,4 +1,5 @@
 import controllers.ClassHomePageController;
+import controllers.CourseStudentController;
 import controllers.LoginController;
 import models.ImportExcel;
 import models.LoggedData;
@@ -15,7 +16,7 @@ public class Main {
     	LoggedData.InitData();
     	MainPanelView.initialize();
     	//ClassHomePageController cHPC = new ClassHomePageController(null);
-    	LoginController lg = new LoginController();
+    	//LoginController lg = new LoginController();
         //LoginView loginView = new LoginView();
         //CourseListView courseListView = new CourseListView();
         //CreateCourseView createCourseView = new CreateCourseView();
@@ -23,11 +24,12 @@ public class Main {
         //SubTaskGrade subTaskGrade = new SubTaskGrade("hw1", 80, 80, 80);
         //CourseStudentView courseStudentView = new CourseStudentView("hw1", 80, 80, 80);
 
-		/*String filePath = "C:\\Users\\qqq58\\Desktop\\BU Study\\CS 591 P1 JAVA OO\\Final Project\\University-Grading-System\\StudentList.xlsx";
+    	CourseStudentController csc = new CourseStudentController();
 		ImportExcel importExcel = new ImportExcel(filePath);
 		for(Student student : importExcel.importE()){
 			System.out.println(student.getBuID());
 		}*/
+
 
     }
 }
