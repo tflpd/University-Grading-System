@@ -73,7 +73,7 @@ public class ClassHomePageController {
 		String col[] = {"Id","Task Name","Edit",};
 		tableModel = new DefaultTableModel(col, 0);
 
-
+		
 		if (taskList != null)
 		{
 
@@ -85,6 +85,7 @@ public class ClassHomePageController {
 				((DefaultTableModel) tableModel).addRow(objs);
 			}			
 		}
+		
 		classHomePage.setTaskTable(tableModel);
 	}
 
