@@ -69,11 +69,11 @@ public class Course {
         courseTemplate.addNewTask(name, weightInFinalGrade);
     }
 
-    public void addNewSubTask(Task targetTask, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
+    public void addNewSubTask(Task targetTask, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
         targetTask.addNewSubTask(getAllStudents(), name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
     }
 
-    private ArrayList<Student> getAllStudents(){
+    public ArrayList<Student> getAllStudents(){
         ArrayList<Student> allStudents = new ArrayList<Student>();
         for (CourseSection courseSection:courseSections){
             allStudents.addAll(courseSection.getStudents());

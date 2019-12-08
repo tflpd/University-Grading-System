@@ -11,8 +11,13 @@ public class LoggedData {
 	private static ArrayList<Course> activeCourseList;
 	private static Course selectedCourse;
 	private static Task selectedTask;
+
 	private static SubTask selectedSubTask; 
 	private static GradingSystem GS;
+
+	private static SubTask selectedSubTask;
+	public static int subTaskID = 1;
+
 
 	public  static void  InitData()
 	{
@@ -50,11 +55,21 @@ public class LoggedData {
 		CourseTemplate cT = new CourseTemplate(0,"CS591P1", "Fall", "2019", taskList);
 		ArrayList<CourseTemplate> cTList = new ArrayList<CourseTemplate>();
 		cTList.add(cT);
+
+		CourseSection courseSection = new CourseSection(0, "Morning Section", studentList);
+		ArrayList<CourseSection> courseSections = new ArrayList<>();
+		courseSections.add(courseSection);
 		
 		activeCourseList = new ArrayList<Course>();
+
 		Course c = new Course(0,"CS591P1","Fall", "2019", ccList, cT);
 		activeCourseList.add(c);
 		c = new Course(0,"CS591P1","Spring", "2020", ccList, cT);
+
+		Course c = new Course(0,"CS591P1","Fall", "2019", courseSections, cT);
+		activeCourseList.add(c);
+		c = new Course(0,"CS591P1","Spring", "2020", courseSections, cT);
+
 		activeCourseList.add(c);
 		
 		

@@ -2,6 +2,7 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 
 public class SubTaskDialog extends JDialog {
 
@@ -189,9 +190,71 @@ public class SubTaskDialog extends JDialog {
 			public void setSaveButton(JButton saveButton) {
 				this.saveButton = saveButton;
 			}
-            
-            
-            
-        }
+
+    public JTextField getBonusTf() {
+        return bonusTf;
+    }
+
+    public JTextField getNameTf() {
+        return nameTf;
+    }
+
+    public JTextField getDateDueTf() {
+        return dateDueTf;
+    }
+
+    public JCheckBox getGroupCheck() {
+        return groupCheck;
+    }
+
+    public JTextField getDocTf() {
+        return docTf;
+    }
+
+    public JTextField getMaxScoreTf() {
+        return maxScoreTf;
+    }
+
+    public JTextField getWeightTf() {
+        return weightTf;
+    }
+
+
+    public void setBonusTf(String bonusTf) {
+        this.bonusTf.setText(bonusTf);
+    }
+
+
+
+    public void setDueTf(String dateDueTf) {
+       this.dateDueTf.setText(dateDueTf);
+    }
+
+    public void setDocTf(JTextField docTf) {
+        this.docTf = docTf;
+    }
+
+    public void setMaxScoreTf(String maxScoreTf) {
+        this.maxScoreTf.setText(maxScoreTf);
+    }
+
+    public void setNameTf(String name) {
+        this.nameTf.setText(name);
+    }
+
+    public void setWeightTf(String weightTf) {
+        this.weightTf.setText(weightTf);
+    }
+
+    public void setDocTf(LocalDateTime l) {
+                docTf.setText(l.toString());
+    }
+
+    public void setGroupCheck(Boolean b) {
+                groupCheck.setSelected(b);
+    }
+
+
+}
 
 
