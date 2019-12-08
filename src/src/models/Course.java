@@ -2,6 +2,7 @@ package models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
 * Variables semester and year are the ones that will be used to make the template's
@@ -95,6 +96,53 @@ public class Course {
             finalGrade += task.getStudentsGrade(student)*task.getWeightInFinalGrade();
         }
         return finalGrade;
+    }
+
+    public Float getMeanGrade(CourseSection courseSection){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (Student student:courseSection.getStudents()) {
+            grades.add(getStudentsFinalGrade(student));
+        }
+        Float aggregatePointsScored = 0f;
+        for (Float grade:grades){
+            aggregatePointsScored += grade;
+        }
+        return aggregatePointsScored/grades.size();
+    }
+
+
+    public float getStandardDeviation(CourseSection courseSection){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (Student student:courseSection.getStudents()) {
+            grades.add(getStudentsFinalGrade(student));
+        }
+        float standardDeviation = 0f;
+        Float mean =  getMeanGrade(courseSection);
+
+        for(Float grade: grades) {
+            standardDeviation += (float)Math.pow(grade - mean, 2);
+        }
+        if (grades.size() == 0){
+            return 0;
+        }
+        return (float)Math.sqrt(standardDeviation/grades.size());
+    }
+
+    public Float getMedianPercentage(CourseSection courseSection){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (Student student:courseSection.getStudents()) {
+            grades.add(getStudentsFinalGrade(student));
+        }
+
+        if (grades.size() == 0){
+            return 0f;
+        }
+        Collections.sort(grades);
+        int listSize = grades.size();
+        if (listSize % 2 == 0)
+            return (grades.get(listSize/2) + grades.get(listSize/2 - 1))/2;
+        else
+            return grades.get(listSize/2);
     }
 
     public String getStudentsFinalLetterGrade(Student student){

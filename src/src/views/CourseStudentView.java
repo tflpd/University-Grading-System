@@ -2,76 +2,117 @@ package views;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.*;
 
 public class CourseStudentView extends JPanel{
 
-        private JFrame frame;
-        private DefaultTableModel tableModel;
-        private JTable table;
-        private JPanel centerPanel;
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTable table;
+	private JPanel centerPanel;
+	JButton backButton;
+	JButton homeButton;
+	private JLabel courseLabel;
+	private JLabel statisticLabel;
 
-        public CourseStudentView(String courseName, double mean, double median, double standardDeviation) {
-            //frame = new JFrame("Course Student");
-            //frame.setSize(1000, 1000);
-            this.setLayout(new BorderLayout());
+	public CourseStudentView() {
+		//frame = new JFrame("Course Student");
+		//frame.setSize(1000, 1000);
+		this.setLayout(new BorderLayout());
 
-            JPanel topPanel = new JPanel();
-            JButton backButton = new JButton("Back");
-            JButton homeButton = new JButton("Home");
-            topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            topPanel.add(backButton);
-            topPanel.add(homeButton);
-            this.add(topPanel, BorderLayout.NORTH);
+		JPanel topPanel = new JPanel();
+		backButton = new JButton("Back");
+		homeButton = new JButton("Home");
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topPanel.add(backButton);
+		topPanel.add(homeButton);
+		this.add(topPanel, BorderLayout.NORTH);
 
-            centerPanel = new JPanel();
-            centerPanel.setLayout(new GridBagLayout());
-            GridBagConstraints gc = new GridBagConstraints();
-            gc.gridx = 0;
-            gc.gridy = 0;
-            gc.weightx = 1;
-            gc.weighty = 1;
-            gc.fill = GridBagConstraints.NONE;
+		centerPanel = new JPanel();
+		centerPanel.setLayout(new GridBagLayout());
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.fill = GridBagConstraints.NONE;
 
-            JLabel courseLabel = new JLabel(courseName + "'s Students");
-            JLabel statisticLabel = new JLabel("Statistic:   Mean: "+ mean + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation);
-            table = new JTable();
+		//JLabel courseLabel = new JLabel(courseName + "'s Students");
+		//JLabel statisticLabel = new JLabel("Statistic:   Mean: "+ mean + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation);
+		courseLabel = new JLabel();
+		statisticLabel = new JLabel();
+		
+		table = new JTable();
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		Dimension d = table.getPreferredSize();
+		scrollPane.setPreferredSize(
+				new Dimension(800,100));
+		gc = new GridBagConstraints();
+		gc.gridx = 0;
+		gc.gridy = 2;
+		gc.weightx = 1;
+		gc.weighty = 1;
+		gc.fill = GridBagConstraints.NONE;
+		centerPanel.add(scrollPane, gc);
+		
+		//frame.getContentPane().repaint();
 
-            JButton addButton = new JButton("Add Students");
+		JButton addButton = new JButton("Add Students");
 
-            centerPanel.add(courseLabel, gc);
-            gc.gridy = 1;
-            centerPanel.add(statisticLabel, gc);
+		centerPanel.add(courseLabel, gc);
+		gc.gridy = 1;
+		centerPanel.add(statisticLabel, gc);
 
-            gc.gridy = 3;
+		gc.gridy = 3;
 
-            centerPanel.add(addButton, gc);
+		centerPanel.add(addButton, gc);
 
-            this.add(centerPanel, BorderLayout.CENTER);
+		this.add(centerPanel, BorderLayout.CENTER);
 
-            //frame.setLocationRelativeTo(null);
-            //frame.setResizable(false);
-            //frame.setVisible(true);
+		//frame.setLocationRelativeTo(null);
+		//frame.setResizable(false);
+		//frame.setVisible(true);
 
 
-        }
+	}
 
-    public void setTable(JTable table) {
-        this.table = table;
+	public void setTable(TableModel dataModel) {
+		
+		table.setModel(dataModel);
+		if (table.getColumn("Id") != null)
+		{
+			table.removeColumn(table.getColumn("Id"));
+		}
+	}
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        Dimension d = table.getPreferredSize();
-        scrollPane.setPreferredSize(
-                new Dimension(d.width,table.getRowHeight()*6+1));
-        GridBagConstraints gc = new GridBagConstraints();
-        gc.gridx = 0;
-        gc.gridy = 2;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.fill = GridBagConstraints.NONE;
-        centerPanel.add(scrollPane, gc);
-        frame.getContentPane().repaint();
-    }
+	public JButton getBackButton() {
+		return backButton;
+	}
+
+	public JButton getHomeButton() {
+		return homeButton;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setCourseLabel(String courseLabel) {
+		this.courseLabel.setText(courseLabel);
+	}
+
+	public void setStatisticLabel(String statisticLabel) {
+		this.statisticLabel.setText(statisticLabel);
+	}
+
+
 
 }
 

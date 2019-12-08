@@ -1,27 +1,28 @@
 package controllers;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.LoggedData;
-import views.CourseStudentView;
 import views.MainPanelView;
+import views.SubTaskGrade;
 
-public class CourseStudentController {
-
-	private JPanel parentPanel;
-	private CourseStudentView courseStudentView;
+public class SubTaskGradeController {
+	
+	private SubTaskGrade subTaskGrade;
 	TableModel tableModel;
-	public CourseStudentController()
+	private JPanel parentPanel;
+	public SubTaskGradeController()
 	{
-		courseStudentView = new CourseStudentView();
+		subTaskGrade = new SubTaskGrade("", 0,0,0);
 		parentPanel = MainPanelView.getParentPanel();
 		parentPanel.removeAll();
 		parentPanel.revalidate();
 		parentPanel.repaint();
-		parentPanel.add(courseStudentView, BorderLayout.CENTER);
+		parentPanel.add(subTaskGrade, BorderLayout.CENTER);
 		fillStudentData();
 		initController();
 
@@ -29,14 +30,10 @@ public class CourseStudentController {
 
 	private void initController()
 	{
-		courseStudentView.getHomeButton().addActionListener(l -> backHome());
-		courseStudentView.getBackButton().addActionListener(l -> back());
+		subTaskGrade.getHomeButton().addActionListener(l -> backHome());
+		subTaskGrade.getBackButton().addActionListener(l -> back());
 	}
-
-	private void create()
-	{
-
-	}
+	
 	private void backHome()
 	{
 		CourseListController cLc = new CourseListController();
@@ -45,31 +42,30 @@ public class CourseStudentController {
 	{
 		ClassHomePageController cHP = new ClassHomePageController("");
 	}
-
-
+	
 	public void fillStudentData()
 	{
 		String header = LoggedData.getGradingSystem().getActiveCourses().get(0).getName();
-		courseStudentView.setCourseLabel(header+"'s Students List");
+		//courseStudentView.setCourseLabel(header+"'s Students List");
 		
 		
 		
 		
-		var taskList = LoggedData.getGradingSystem().getActiveCourses().get(0).getTasks();
+		var subTask = LoggedData.getGradingSystem().getActiveCourses().get(0).getTasks().get(1).getSubTasks().get(0);
 
-		int columSize = taskList.size()+6;
-
-		String col[] = new String[columSize];
+	
+        int columSize = 9;
+		String col[] = new String[9];
 		col[0] = "Id";
 		col[1] = "Student's Name";
-		col[2] = "Section";
-		for (int i=0; i < taskList.size(); i++)
-		{
-			col[i+3] = taskList.get(i).getName() +" ("+taskList.get(i).getWeightInFinalGrade()+"%)";
-		}
-		col[columSize-3] = "Final Grade";
-		col[columSize-2] = "Status";
-		col[columSize-1] = " ";
+		col[2] = "Point Deducted";
+		col[3] = "Point Scored";
+		col[4] = "Student Status";
+		col[5] = "Comment";
+		col[6] = "Group ID";
+		col[7] = "% Score";
+		col[8] = "Bonus Point";
+		
 
 		int studentCount = 0;
 		tableModel = new DefaultTableModel(col, 0);
@@ -85,14 +81,7 @@ public class CourseStudentController {
 					objs[0] = s.getId();
 					objs[1] = s.getName();
 					objs[2] = cSc.getName();
-					for (int i=0; i < taskList.size(); i++)
-					{
-						objs[i+3] = taskList.get(i).getStudentsGrade(s);
-					}
-
-					col[columSize-3] = LoggedData.getGradingSystem().getActiveCourses().get(0).getStudentsFinalLetterGrade(s);
-					col[columSize-2] = "";
-					col[columSize-1] = "Edit";
+					//objs[3] = subTask.getGrades().get(0).getAbsolutePointsScored();
 
 					((DefaultTableModel) tableModel).addRow(objs);
 				}					
@@ -100,10 +89,11 @@ public class CourseStudentController {
 		}
 
 		
-		courseStudentView.setTable(tableModel);
+		subTaskGrade.setTable(tableModel);
 		//double mean = DoubleSummaryStatistics.
 		
 		//String stat = "Statistic:   Mean: "+ LoggedData.getGradingSystem().getActiveCourses().get(0). + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
-	    courseStudentView.setStatisticLabel("");
+		//subTaskGrade.setStatisticLabel("");
 	}
+
 }

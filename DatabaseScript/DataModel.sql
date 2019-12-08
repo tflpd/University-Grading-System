@@ -8,8 +8,9 @@ DROP TABLE IF EXISTS `Credential`;
 
 DROP TABLE IF EXISTS `Grade`;
 DROP TABLE IF EXISTS `Enrollment`;
-DROP TABLE IF EXISTS `TemplateTask`;
+
 DROP TABLE IF EXISTS `TemplateSubTask`;
+DROP TABLE IF EXISTS `TemplateTask`;
 DROP TABLE IF EXISTS `TemplateCourse`;
 DROP TABLE IF EXISTS `CourseSection`;
 DROP TABLE IF EXISTS `SubTask`;
@@ -18,6 +19,7 @@ DROP TABLE IF EXISTS `Student`;
 DROP TABLE IF EXISTS `Course`;
 DROP TABLE IF EXISTS `Professor`;
 
+-- done
 
 CREATE TABLE `Credential` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -39,9 +41,9 @@ CREATE TABLE `Enrollment` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
                               `studentId` int,
                               `courseId` int,
-                              `isActive` bit,
-                              `status` int,
-                              `comment` varchar(255),
+    -- `isActive` bit, Maybe those two -> isWithdrawn?
+    -- `status` int,
+    -- `comment` varchar(255),
                               `courseSectionId` int
 );
 
@@ -52,15 +54,24 @@ CREATE TABLE `Student` (
                            `first_name` varchar(255),
                            `last_name` varchar(255),
                            `email` varchar(255),
-                           `buid` varchar(255),
-                           `comment` varchar(255),
-                           `created_at` timestamp
+                           `buid` varchar(255)
+    -- `comment` varchar(255),
+    -- `created_at` timestamp
 );
+
+CREATE TABLE `TemplateCourse` (
+                                  `id` int PRIMARY KEY AUTO_INCREMENT,
+                                  `name` varchar(255),
+                                  `code` varchar(255),
+                                  `created_at` timestamp
+);
+
 CREATE TABLE `Course` (
                           `id` int PRIMARY KEY AUTO_INCREMENT,
-                          `code` varchar(255),
+    -- `code` varchar(255),
+    -- Add maybe year - semester?
                           `name` varchar(255),
-                          `created_at` timestamp,
+    -- `created_at` timestamp,
                           `professorId` int,
                           `isDeleted` boolean
 );
@@ -70,44 +81,7 @@ CREATE TABLE `CourseSection` (
                                  `courseId` int
 );
 
-CREATE TABLE `Task` (
-                        `id` int PRIMARY KEY AUTO_INCREMENT,
-                        `name` varchar(255),
-                        `courseId` int,
-                        `weight` double,
-                        `created_at` timestamp,
-                        `isDeleted` boolean
-);
-CREATE TABLE `SubTask` (
-                           `id` int PRIMARY KEY AUTO_INCREMENT,
-                           `taskId` int,
-                           `weight` double,
-                           `name` varchar(255),
-                           `maxScore` int,
-                           `scoreType` int,
-                           `created_at` timestamp,
-                           `releasedDate` datetime,
-                           `dueDate` datetime,
-                           `isGroupWork` bit,
-                           `isDeleted` boolean
-);
-
-CREATE TABLE `Grade` (
-                         `id` int PRIMARY KEY AUTO_INCREMENT,
-                         `subTaskId` int,
-                         `enrollmentId` int,
-                         `score` double,
-                         `bonusScore` double,
-                         `comment` varchar(255),
-                         `created_at` timestamp,
-                         `isDeleted` boolean
-);
-CREATE TABLE `TemplateCourse` (
-                                  `id` int PRIMARY KEY AUTO_INCREMENT,
-                                  `name` varchar(255),
-                                  `code` varchar(255),
-                                  `created_at` timestamp
-);
+-- Maybe just use Task?
 CREATE TABLE `TemplateTask` (
                                 `id` int PRIMARY KEY AUTO_INCREMENT,
                                 `name` varchar(255),
@@ -116,6 +90,16 @@ CREATE TABLE `TemplateTask` (
                                 `created_at` timestamp
 );
 
+CREATE TABLE `Task` (
+                        `id` int PRIMARY KEY AUTO_INCREMENT,
+                        `name` varchar(255),
+                        `courseId` int,
+                        `weight` double,
+    -- `created_at` timestamp,
+                        `isDeleted` boolean
+);
+
+-- Maybe just use SubTask?
 CREATE TABLE `TemplateSubTask` (
                                    `taskId` int PRIMARY KEY AUTO_INCREMENT,
                                    `weight` double,
@@ -127,6 +111,36 @@ CREATE TABLE `TemplateSubTask` (
                                    `dueDate` datetime,
                                    `isGroupWork` bit
 );
+CREATE TABLE `SubTask` (
+                           `id` int PRIMARY KEY AUTO_INCREMENT,
+                           `taskId` int,
+                           `weight` double,
+                           `name` varchar(255),
+                           `totalPointsAvailable` float,
+    -- `scoreType` int,
+    -- `creationDate` timestamp,
+                           `releasedDate` datetime,
+                           `dueDate` datetime,
+                           `groupProject` bit,
+                           `isDeleted` boolean,
+                           `maxAvailableBonusPoints` float
+    -- Changed the bonuses implementation TODO: Discuss about it
+);
+
+CREATE TABLE `Grade` (
+                         `id` int PRIMARY KEY AUTO_INCREMENT,
+                         `subTaskId` int,
+                         `enrollmentId` int,
+                         `absolutePointsScored` float ,
+                         `bonusPoints` float ,
+                         `comment` varchar(255),
+    -- `created_at` timestamp,
+                         `isDeleted` boolean
+);
+
+
+
+
 
 
 ALTER TABLE `Grade` ADD FOREIGN KEY (`enrollmentId`) REFERENCES `Enrollment` (`id`);
