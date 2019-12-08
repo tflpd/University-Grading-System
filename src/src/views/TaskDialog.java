@@ -16,7 +16,8 @@ public class TaskDialog extends JDialog {
 
     public TaskDialog() {
         //super(parent, "Details", false);
-        setSize(400, 300);
+        setSize(700, 300);
+        Dimension defD = new Dimension(250, 20);
 
         setLayout(new GridBagLayout());
 
@@ -30,26 +31,38 @@ public class TaskDialog extends JDialog {
         name = "Homework";
         nameLabel = new JLabel("Task's name: ");
         nameTf = new JTextField(name);
+        nameTf.setPreferredSize(defD);
 
         weight = 0.3;
-        weightLabel = new JLabel("Weight of this task in final grade: " );
+        weightLabel = new JLabel("Weight of this task in final grade (%): " );
         weightTf = new JTextField(Double.toString(weight));
+        weightTf.setPreferredSize(defD);
 
         saveButton = new JButton("Save changes");
         deleteButton = new JButton("Delete this Task");
         cancelButton = new JButton("Cancel");
 
+        gc.anchor = GridBagConstraints.EAST;
         add(nameLabel, gc);
+        
+        gc.anchor = GridBagConstraints.WEST;
         gc.gridx = 1;
         add(nameTf, gc);
+        
         gc.gridy = 1;
         gc.gridx = 0;
+        gc.anchor = GridBagConstraints.EAST;
         add(weightLabel, gc);
+        
         gc.gridx = 1;
+        gc.anchor = GridBagConstraints.WEST;
         add(weightTf, gc);
+        
         gc.gridx = 0;
         gc.gridy = 2;
+        gc.anchor = GridBagConstraints.EAST;
         add(saveButton, gc);
+        
         gc.gridy = 3;
         add(deleteButton, gc);
         gc.gridy = 4;

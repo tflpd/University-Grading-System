@@ -37,6 +37,7 @@ public class SubTaskDialogController {
 	        initController();
 	        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        dialog.setLocationRelativeTo(classHomePage);
 	        dialog.setVisible(true);
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
