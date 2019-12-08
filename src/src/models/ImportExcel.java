@@ -32,28 +32,33 @@ public class ImportExcel {
         Sheet sheet = workbook.getSheetAt(0);
         List<Student> list = new ArrayList<>();
         for(int j = 0; j <= sheet.getLastRowNum(); j++){
-            Row row = sheet.getRow(j);
-            if(row != null) {
-                System.out.println(row.getCell(0).getNumericCellValue());
-                int id = (int) row.getCell(0).getNumericCellValue();
-                String fullName = row.getCell(1).getStringCellValue();
-                String [] arr = fullName.split(" ");
-                String firstName = arr[0];
-                String LastName;
-                if (arr.length == 1) {
-                    LastName = "";
-                } else {
-                    LastName = arr[1];
+                try {
+                    Row row = sheet.getRow(j);
+                    if (row != null) {
+                        System.out.println(row.getCell(0).getNumericCellValue());
+                        int id = (int) row.getCell(0).getNumericCellValue();
+                        String fullName = row.getCell(1).getStringCellValue();
+                        String[] arr = fullName.split(" ");
+                        String firstName = arr[0];
+                        String LastName;
+                        if (arr.length == 1) {
+                            LastName = "";
+                        } else {
+                            LastName = arr[1];
+                        }
+                        Name name = new Name(90, firstName, LastName);
+                        String email = row.getCell(2).getStringCellValue();
+                        System.out.println(row.getCell(3).getStringCellValue());
+                        String buID = row.getCell(3).getStringCellValue();
+                        Student student = new Student(id, name, email, buID);
+                        list.add(student);
+                    }
                 }
-                Name name = new Name(90, firstName, LastName);
-                String email = row.getCell(2).getStringCellValue();
-                System.out.println(row.getCell(3).getStringCellValue());
-                String buID = row.getCell(3).getStringCellValue();
-                Student student = new Student(id, name, email, buID);
-                list.add(student);
+                catch(Exception e){
+                    continue;
+                }
 
 
-            }
 
 
         }
