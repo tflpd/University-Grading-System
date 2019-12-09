@@ -58,7 +58,7 @@ CREATE TABLE `TemplateCourse` (
                                   `id` int PRIMARY KEY AUTO_INCREMENT,
                                   `name` varchar(255),
                                   `year` varchar(255),
-                                  `semester` varchar(255),
+                                  `semester` varchar(255)
 );
 
 CREATE TABLE `Course` (
@@ -67,7 +67,7 @@ CREATE TABLE `Course` (
                           `year` varchar(255),
                           `semester` varchar(255),
                           `name` varchar(255),
-                          `professorId` int,
+                          `professorId` int
 );
 CREATE TABLE `CourseSection` (
                                  `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -101,7 +101,7 @@ CREATE TABLE `Grade` (
                          `enrollmentId` int,
                          `absolutePointsScored` float ,
                          `bonusPoints` float ,
-                         `comment` varchar(255),
+                         `comment` varchar(255)
 );
 
 
