@@ -58,12 +58,30 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-    public void addTask(){
+    public void addEnrollment(int studentId, int courseId, int courseSectionId){
+        String sql = "INSERT INTO grading_system.Enrollment (studentId, courseId, courseSectionId) VALUES (\'"+ studentId + "\', \'"+ courseId +"\', \'"+ courseSectionId +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
+//    CREATE TABLE `Task` (
+//            `id` int PRIMARY KEY AUTO_INCREMENT,
+//                        `name` varchar(255),
+//                        `courseId` int,
+//            `weight` double,
+//            -- `created_at` timestamp,
+//            `isDeleted` boolean
+//);
 
+    public void addTask(){
+//        String sql = "INSERT INTO grading_system.Task(id, weight, name, created_at, professorId, isDeleted) VALUES (\'"+ course.getId() + "\', \'"+ courseCode +"\', \'"+ course.getName() +"\', \'" + timestamp + "\', \'" + professorId + "\', \'"+ isDeleted +"\')";
+//        System.out.println(sql);
+//        sqlExecute(sql);
     }
 
     public void addSubtask(){
-
+//        String sql = "INSERT INTO grading_system.Task(id, weight, name, created_at, professorId, isDeleted) VALUES (\'"+ course.getId() + "\', \'"+ courseCode +"\', \'"+ course.getName() +"\', \'" + timestamp + "\', \'" + professorId + "\', \'"+ isDeleted +"\')";
+//        System.out.println(sql);
+//        sqlExecute(sql);
     }
 
     /*
@@ -125,6 +143,21 @@ public class DBManager {
         return new ArrayList<>();
     }
 
+    public List<Integer> readEnrollmentsByCourseSectionId(int courseSectionId){
+        List<Integer> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Enrollment WHERE courseSectionId = " + courseSectionId;
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            while(rs.next()) {
+                list.add(rs.getInt("studentId"));
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
     /*
      * UPDATE
      * */
@@ -137,7 +170,14 @@ public class DBManager {
         String sql = "DELETE FROM bank_atm.Course WHERE id = \'"+ id +"\'";
         sqlExecute(sql);
     }
-
+    public void deleteEnrollmentByStudentId(int studentId){
+        String sql = "DELETE FROM bank_atm.Enrollment WHERE studentId = \'"+ studentId +"\'";
+        sqlExecute(sql);
+    }
+    public void deleteEnrollmentByCourseSectionId(int courseSectionId){
+        String sql = "DELETE FROM bank_atm.Enrollment WHERE courseSectionId = \'"+ courseSectionId +"\'";
+        sqlExecute(sql);
+    }
     public void deleteCourses(){
         String sql = "DELETE FROM grading_system.Course;";
         sqlExecute(sql);
