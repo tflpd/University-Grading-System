@@ -3,7 +3,6 @@ package MySql;
 
 import models.*;
 
-import java.nio.charset.CharsetEncoder;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -317,24 +316,48 @@ public class DBManager {
         return list;
     }
 
-    public ArrayList<CourseTemplate> readAllCourseTemplates(){
-        ArrayList<CourseTemplate> list = new ArrayList<>();
+//    public ArrayList<CourseTemplate> readAllCourseTemplates(){
+//        ArrayList<CourseTemplate> list = new ArrayList<>();
+//        try {
+//            Statement stmt=con.createStatement();
+//            String sql = "select * from Task TemplateCourse";
+//            System.out.println(sql);
+//            ResultSet rs=stmt.executeQuery(sql);
+//            CourseTemplate temp = null;
+//            while(rs.next()) {
+//                Course course = readCourseByCourseTemplateId(rs.getInt("id"));
+//                ArrayList<Student> students = course.getAllStudents();
+//                ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
+//                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
+//                list.add(temp);
+//            }
+//        }
+//        catch(Exception e){ System.out.println(e);}
+//        return list;
+//    }
+
+    public GradingSystem readGradingSystem(){
+        ArrayList<CourseTemplate> templatesList = new ArrayList<>();
+        ArrayList<Course> courses = new ArrayList<Course>();
+        Professor professor = readAllProfessors().get(0);
         try {
             Statement stmt=con.createStatement();
             String sql = "select * from Task TemplateCourse";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
-            CourseTemplate temp = null;
+            CourseTemplate tmpCourseTemplate = null;
             while(rs.next()) {
-                Course course = readCourseByCourseTemplateId(rs.getInt("id"));
-                ArrayList<Student> students = course.getAllStudents();
+                Course tmpCourse = readCourseByCourseTemplateId(rs.getInt("id"));
+                ArrayList<Student> students = tmpCourse.getAllStudents();
                 ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
-                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
-                list.add(temp);
+                tmpCourseTemplate = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
+                tmpCourse.setCourseTemplate(tmpCourseTemplate);
+                courses.add(tmpCourse);
+                templatesList.add(tmpCourseTemplate);
             }
         }
         catch(Exception e){ System.out.println(e);}
-        return list;
+        return new GradingSystem(0, professor, courses, templatesList);
     }
 
     public ArrayList<Task> readTasksByTemplateCourseId(int TemplateCourseId, ArrayList<Student> students){

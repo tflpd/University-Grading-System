@@ -167,4 +167,8 @@ public class Course {
         deleteStudentFromSections(student);
         deleteStudentFromCourse(student);
     }
+
+    public void setCourseTemplate(CourseTemplate courseTemplate) {
+        this.courseTemplate = courseTemplate;
+    }
 }
