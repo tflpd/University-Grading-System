@@ -79,7 +79,6 @@ CREATE TABLE `Task` (
                         `name` varchar(255),
                         `templateCourseId` int,
                         `weight` double,
-                        `isDeleted` boolean
 );
 
 CREATE TABLE `SubTask` (
