@@ -31,6 +31,7 @@ CREATE TABLE `Professor` (
                              `id` int PRIMARY KEY AUTO_INCREMENT,
                              `first_name` varchar(255),
                              `last_name` varchar(255),
+                             `email` varchar(255),
                              `credentialId` int
 );
 
@@ -90,6 +91,7 @@ CREATE TABLE `SubTask` (
                            `releasedDate` datetime,
                            `dueDate` datetime,
                            `groupProject` bit,
+                           `comment` VARCHAR(255),
                            `maxAvailableBonusPoints` float
 );
 
