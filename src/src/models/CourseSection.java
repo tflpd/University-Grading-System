@@ -7,6 +7,10 @@ public class CourseSection {
     private String name;
     private ArrayList<Student> students;
 
+    public int getId() {
+        return id;
+    }
+
     public CourseSection(int id, String name, ArrayList<Student> students) {
         this.id = id;
         this.name = name;

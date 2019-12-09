@@ -39,18 +39,10 @@ public class DBManager {
         }
         catch(Exception e){ System.out.println(e);}
     }
+
     /*
     * CREATE
     * */
-
-
-    public void addCourse(Course course, String courseCode, Timestamp timestamp, int professorId, boolean isDeleted){
-        String sql = "INSERT INTO grading_system.Course(id, code, name, created_at, professorId, isDeleted) VALUES (\'"+ course.getId() + "\', \'"+ courseCode +"\', \'"+ course.getName() +"\', \'" + timestamp + "\', \'" + professorId + "\', \'"+ isDeleted +"\')";
-        System.out.println(sql);
-        sqlExecute(sql);
-
-    }
-
 
     public void addStudent(Student student){
 
@@ -59,17 +51,17 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-
-
     public void addTemplateCourse(CourseTemplate courseTemplate){
         String sql = "INSERT INTO grading_system.TemplateCourse (id, name, year, semester) VALUES (\'"+ courseTemplate.getId() + "\', \'"+ courseTemplate.getName() +"\', \'"+ courseTemplate.getYear() +"\', \'" + courseTemplate.getSemester() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
     }
 
-
-
-
+    public void addCredential(Professor professor){
+        String sql = "INSERT INTO grading_system.Credential(email, password) VALUES (\'"+ professor.getEmail() + "\', \'"+ professor.getPassword() +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
     public void addEnrollment(int studentId, boolean isWithdrawn, int courseSectionId){
         String sql = "INSERT INTO grading_system.Enrollment (studentId, courseSectionId) VALUES (\'"+ studentId + "\', \'"+ courseSectionId +"\')";
         System.out.println(sql);
@@ -83,16 +75,20 @@ public class DBManager {
     }
 
 
-//    CREATE TABLE `SubTask` (
-//            `id` int PRIMARY KEY AUTO_INCREMENT,
-//                           `taskId` int,
-//            `weight` double,
-//            `name` varchar(255),
-//                           `totalPointsAvailable` float,
-//            `releasedDate` datetime,
-//            `dueDate` datetime,
-//            `groupProject` bit,
-//            `maxAvailableBonusPoints` float
+
+//);
+    public void addCourse(Course course, int templateCourseId, int professorId){
+        String sql = "INSERT INTO grading_system.Task(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
+                "(\'"+ course.getId() + "\', \'"+ templateCourseId +"\', \'"+ course.getYear() +"\', \'" + course.getSemester() + "\', \'" + course.getName() + "\', \'"+ professorId +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
+
+    public void addProfessor(Professor professor, int credentialId){
+        String sql = "INSERT INTO grading_system.Task(id, first_name, last_name, email, credentialId) VALUES (\'"+ professor.getId() + "\', \'"+ professor.getName().getFirstName() +"\', \'"+ professor.getName().getSurname()+"\', \'"+ professor.getEmail()+ "\', \'" + credentialId + "\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
 
     public void addSubtask(SubTask subTask){
         String sql = "INSERT INTO grading_system.Task(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
@@ -101,23 +97,21 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-//    CREATE TABLE `Grade` (
-//            `id` int PRIMARY KEY AUTO_INCREMENT,
-//                         `subTaskId` int,
-//            `enrollmentId` int,
-//            `absolutePointsScored` float ,
-//            `bonusPoints` float ,
-//            `comment` varchar(255)
-//);
+    public void addGrade(Grade grade, int subTaskId, int studentId){
 
-//    public void addGrade(Grade grade){
-//
-//        String sql = "INSERT INTO grading_system.Grade(id, subTaskId, enrollmentId, absolutePointsScored) VALUES (\'"+ task.getId() + "\', \'"+ task.getName() +"\', \'"+ courseTemplateId +"\', \'" + task.getWeightInFinalGrade() + "\')";
-//        System.out.println(sql);
-//        sqlExecute(sql);
-//
-//    }
+        String sql = "INSERT INTO grading_system.Grade(id, subTaskId, studentId, absolutePointsScored) VALUES (\'"+ grade.getId() + "\', \'"+ subTaskId +"\', \'"+ studentId +"\', \'" + grade.getAbsolutePointsScored() + "\')";
+        System.out.println(sql);
+        sqlExecute(sql);
 
+    }
+
+    public void addCourseSection(CourseSection courseSection, int courseId){
+
+        String sql = "INSERT INTO grading_system.CourseSection(id, name, courseId) VALUES (\'"+ courseSection.getId() + "\', \'"+ courseSection.getName() +"\', \'"+ courseId +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+
+    }
 
 
     /*
@@ -157,7 +151,26 @@ public class DBManager {
         return list;
     }
 
-    public Course readCourseById(int id, String semester, String year, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate){
+
+    public CourseTemplate readCourseTemplateById(int id){
+        CourseTemplate temp = null;
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from TemplateCourse WHERE id = \'"+id +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"));
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return temp;
+    }
+
+
+
+    public Course readCourseById(int id, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate){
         Course temp = null;
 
         try {
@@ -167,31 +180,216 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
 
             while(rs.next()) {
-                temp = new Course(rs.getInt("id"), rs.getString("name"), semester, year, courseSections, courseTemplate);
+                temp = new Course(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), courseSections, courseTemplate);
             }
         }
         catch(Exception e){ System.out.println(e);}
         return temp;
     }
 
-    public List<Course> readAllCourses(){
-        // can't be done because lack of info in DB
-        return new ArrayList<>();
+    public Course readCourseByCourseTemplateId(int courseTemplateId){
+
+        Course course = null;
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Course WHERE templateCourseId ="+ courseTemplateId ;
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Course temp = null;
+            while(rs.next()) {
+                ArrayList<CourseSection> courseSectionsList = readCourseSectionsByCourseId(rs.getInt("id"));
+                CourseTemplate courseTemplate = readCourseTemplateById(courseTemplateId);
+                temp = new Course(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), courseSectionsList, courseTemplate);
+                return temp;
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return null;
+    }
+    public ArrayList<Course> readAllCourses(){
+
+        ArrayList<Course> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Course";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Course temp = null;
+            while(rs.next()) {
+                ArrayList<CourseSection> courseSectionsList = readCourseSectionsByCourseId(rs.getInt("id"));
+                CourseTemplate courseTemplate = readCourseTemplateById(rs.getInt("templateCourseId"));
+                temp = new Course(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), courseSectionsList, courseTemplate);
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
     }
 
-    public List<Integer> readEnrollmentsByCourseSectionId(int courseSectionId){
-        List<Integer> list = new ArrayList<>();
+    public String readCredentialById(int id){
+        String temp = null;
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Credential WHERE id = \'"+id +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                temp = rs.getString("password");
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return temp;
+    }
+    public List<Professor> readAllProfessors(){
+
+        List<Professor> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Professor";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Professor temp = null;
+            while(rs.next()) {
+
+                String password = readCredentialById(rs.getInt("credentialId"));
+
+                temp = new Professor(rs.getInt("id"), new Name(rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), password);
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    public Professor readProfessorById(int id){
+        Professor temp = null;
+
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Professor WHERE id = \'"+id +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                String password = readCredentialById(rs.getInt("credentialId"));
+                temp = new Professor(rs.getInt("id"), new Name(rs.getString("first_name"), rs.getString("last_name")), rs.getString("email"), password);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return temp;
+    }
+
+
+    public ArrayList<Student> readEnrollmentsByCourseSectionId(int courseSectionId){
+        ArrayList<Student> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
             String sql = "select * from Enrollment WHERE courseSectionId = " + courseSectionId;
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             while(rs.next()) {
-                list.add(rs.getInt("studentId"));
+                int studentId = rs.getInt("studentId");
+                Student student = readStudentById(studentId);
+                list.add(student);
             }
         }
         catch(Exception e){ System.out.println(e);}
         return list;
+    }
+
+    public ArrayList<CourseSection> readCourseSectionsByCourseId(int courseId){
+        ArrayList<CourseSection> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from CourseSection";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            CourseSection temp = null;
+            while(rs.next()) {
+
+                ArrayList<Student> studentList = readEnrollmentsByCourseSectionId(rs.getInt("id"));
+                temp = new CourseSection(rs.getInt("id"), rs.getString("name"), studentList);
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    public ArrayList<CourseTemplate> readAllCourseTemplates(){
+        ArrayList<CourseTemplate> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Task TemplateCourse";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            CourseTemplate temp = null;
+            while(rs.next()) {
+                Course course = readCourseByCourseTemplateId(rs.getInt("id"));
+                ArrayList<Student> students = course.getAllStudents();
+                ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
+                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+    public ArrayList<Task> readTasksByTemplateCourseId(int TemplateCourseId, ArrayList<Student> students){
+        ArrayList<Task> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Task WHERE templateCourseId = \'"+ TemplateCourseId +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Task temp = null;
+            while(rs.next()) {
+                ArrayList<SubTask> subTasks = readSubTasksByTaskId(rs.getInt("id"), students); //
+                temp = new Task(rs.getInt("id"), rs.getString("name"), (float)rs.getDouble("weight"), subTasks);
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+
+    public ArrayList<SubTask> readSubTasksByTaskId(int TaskId, ArrayList<Student> students){
+        ArrayList<SubTask> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from SubTask WHERE taskId = \'"+ TaskId +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            SubTask temp = null;
+            while(rs.next()) {
+                temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), rs.getTimestamp("releasedDate").toLocalDateTime(), rs.getDate("dueDate").toString(), rs.getFloat("totalPointsAvailable"), (float)rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
+
+
+
+    public Grade readGradeById(int id){
+        Grade temp = null;
+        //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Grade WHERE id = \'"+id +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            while(rs.next()) {
+                Student student = readStudentById(rs.getInt("studentId"));
+                temp = new Grade(rs.getInt("id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return temp;
     }
 
     /*

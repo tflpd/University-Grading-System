@@ -7,6 +7,10 @@ public class Grade {
     private String comment;
     private Float bonusPoints;
 
+    public int getId() {
+        return id;
+    }
+
     public Grade(int id, Student student, Float absolutePointsScored, String comment) {
         this.student = student;
         this.absolutePointsScored = absolutePointsScored;
