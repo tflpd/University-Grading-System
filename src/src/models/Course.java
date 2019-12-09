@@ -66,6 +66,14 @@ public class Course {
         return tasks;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void addNewTask(String name, Float weightInFinalGrade){
         courseTemplate.addNewTask(name, weightInFinalGrade);
     }
@@ -139,5 +147,24 @@ public class Course {
 
     public String getStudentsFinalLetterGrade(Student student){
         return Grade.translateGradeToLetter(getStudentsFinalGrade(student), 100f);
+    }
+
+    public void deleteStudentFromSections(Student student){
+        for (CourseSection courseSection:courseSections) {
+            if (courseSection.deleteStudent(student)){
+                return;
+            }
+        }
+    }
+
+    public void deleteStudentFromCourse(Student student){
+        for (Task task:tasks) {
+            task.deleteStudentFromTask(student);
+        }
+    }
+
+    public void deleteStudent(Student student){
+        deleteStudentFromSections(student);
+        deleteStudentFromCourse(student);
     }
 }

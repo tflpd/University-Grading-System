@@ -211,4 +211,12 @@ public class SubTask {
     public void setMaxAvailableBonusPoints(Float maxAvailableBonusPoints) {
         this.maxAvailableBonusPoints = maxAvailableBonusPoints;
     }
+
+    public void deleteStudentFromSubTask(Student student){
+        for (Grade grade:grades) {
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                grades.remove(grade);
+            }
+        }
+    }
 }

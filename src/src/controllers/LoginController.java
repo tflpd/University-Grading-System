@@ -39,11 +39,20 @@ public class LoginController {
 	private void Login()
 	{
 		
-		Name name = new Name(1, "Christine"," ", "Papapdakis");
+		//Name name = new Name("Christine"," ", "Papapdakis");
 	    Professor prf = LoggedData.getProf();
 		String id = loginView.getIdText().getText();
 		String pwd = String.valueOf(loginView.getPwdText().getPassword());
 		System.out.println("User id "+id +" "+pwd);
+		
+		if(LoggedData.Login(id, pwd))
+		{
+			CourseListController clC = new CourseListController();
+		}
+		else
+		{
+			loginView.setMsgLabel("Wrong email or password");
+		}
 		
 		if (prf.getEmail().equalsIgnoreCase(id) && pwd.equalsIgnoreCase(prf.getPassword()))
 		{
@@ -52,7 +61,7 @@ public class LoginController {
 			
 		}else
 		{
-			loginView.setMsgLabel("Wrong email or password");
+			
 		}	
 	}
 	
