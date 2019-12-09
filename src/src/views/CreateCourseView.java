@@ -7,6 +7,10 @@ public class CreateCourseView extends JPanel {
 
 	private JButton createButton;
 	private JButton importButton;
+	private JTextField nameText;
+	private JTextField semesterText;
+	private JTextField yearText;
+	private JComboBox templateList;
 	
     public CreateCourseView() {
         //JFrame frame = new JFrame("Grading System");
@@ -15,22 +19,24 @@ public class CreateCourseView extends JPanel {
         JLabel welcomeLabel = new JLabel("Course Creation", SwingConstants.CENTER);
 
         JLabel templateLabel = new JLabel("Course Templates", SwingConstants.CENTER);
-        JComboBox templateList = new JComboBox();
+        templateList = new JComboBox();
 
         createButton = new JButton("Create Course");
         importButton = new JButton("Import Student");
 
-        JTextField nameText =new JTextField("Course Name");
-        JTextField semesterText =new JTextField("Semester");
+        nameText =new JTextField("Course Name");
+        yearText =new JTextField("Year");
+        semesterText =new JTextField("Semester");
 
         Panel infoPanel = new Panel();
         Panel buttonPanel = new Panel();
 
         
-        infoPanel.setLayout(new GridLayout(4, 1, 30,5));
+        infoPanel.setLayout(new GridLayout(5, 1, 30,5));
         infoPanel.add(templateLabel);
         infoPanel.add(templateList);
         infoPanel.add(nameText);
+        infoPanel.add(yearText);
         infoPanel.add(semesterText);
 
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -51,12 +57,33 @@ public class CreateCourseView extends JPanel {
 		return createButton;
 	}
 
-	
-
 	public JButton getImportButton() {
 		return importButton;
 	}
 
+	public JTextField getNameText() {
+		return nameText;
+	}
+	
+	public JTextField getSemesterText() {
+		return semesterText;
+	}
+
+	public JComboBox getTemplateList() {
+		return templateList;
+	}
+
+	public void setTemplateList(JComboBox templateList) {
+		this.templateList = templateList;
+	}
+
+	public JTextField getYearText() {
+		return yearText;
+	}
+
+	
+    
+	
 	
     
     

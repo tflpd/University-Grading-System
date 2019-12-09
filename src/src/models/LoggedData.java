@@ -8,13 +8,13 @@ public class LoggedData {
 	
 	private static Professor prof;
 	private static ArrayList<Professor> profList;
-	private static GradingSystem grading;
 	private static ArrayList<Course> activeCourseList;
 	private static Course selectedCourse;
 	private static Task selectedTask;
 
 	private static SubTask selectedSubTask; 
 	private static GradingSystem GS;
+	private static ArrayList<CourseTemplate> cTList;
 
 	public static int subTaskID = 1;
 
@@ -56,7 +56,7 @@ public class LoggedData {
 		
 		
 		CourseTemplate cT = new CourseTemplate(0,"CS591P1", "Fall", "2019", taskList);
-		ArrayList<CourseTemplate> cTList = new ArrayList<CourseTemplate>();
+		cTList = new ArrayList<CourseTemplate>();
 		cTList.add(cT);
 
 		CourseSection courseSection = new CourseSection(0, "Morning Section", studentList);
@@ -100,7 +100,7 @@ public class LoggedData {
 	{
 		// To retrieve the Grading System from database;
 		
-		//GS = new GradingSystem(1,prof, activeCourseList, cTList);
+		GS = new GradingSystem(1,prof, activeCourseList, LoggedData.cTList );
 		
 	}
 
@@ -113,11 +113,11 @@ public class LoggedData {
 	}
 
 	public static GradingSystem getGrading() {
-		return grading;
+		return GS;
 	}
 
 	public static void setGrading(GradingSystem grading) {
-		LoggedData.grading = grading;
+		LoggedData.GS = grading;
 	}
 
 	public static ArrayList<Course> getActiveCourseList() {

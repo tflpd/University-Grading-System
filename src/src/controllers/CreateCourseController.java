@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFileChooser;
@@ -16,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
 import models.ImportExcel;
+import models.LoggedData;
 import models.Student;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
@@ -57,7 +59,13 @@ public class CreateCourseController {
 
 	private void Create()
 	{
-	
+		ArrayList<Student> studentList= new ArrayList<Student>();
+	    
+		
+		LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(), 
+				createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), studentList));
+		
+		
 		
 		ClassHomePageController cHPC = new ClassHomePageController(null);
 	}
