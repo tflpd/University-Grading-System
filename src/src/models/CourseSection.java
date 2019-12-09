@@ -30,4 +30,8 @@ public class CourseSection {
         }
         return false;
     }
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
 }
