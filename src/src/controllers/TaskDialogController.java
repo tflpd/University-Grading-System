@@ -16,7 +16,7 @@ public class TaskDialogController {
 
 	private TaskDialog dialog; 
 	private ClassHomePage classHomePage;
-	private int TaskId;
+	private int TaskId; // 0 means creating new task
 
 
 	public TaskDialogController(ClassHomePage c)
@@ -33,6 +33,7 @@ public class TaskDialogController {
 			initController();
 			dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo(classHomePage);
 			dialog.setVisible(true);
 
 		} catch (Exception ex) {
@@ -106,6 +107,9 @@ public class TaskDialogController {
 				}
 			}
 			UpdateTaskTable(taskList);
+
+			LoggedData.setSelectedTask(null);
+			LoggedData.setSelectedSubTask(null);
 		}
 		Close();
 	}

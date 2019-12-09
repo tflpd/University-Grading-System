@@ -2,30 +2,30 @@ package models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class SubTask {
     private int id;
     private String name;
-    private LocalDateTime creationDate;
-    private LocalDateTime dateDue;
+    private LocalDateTime releaseDate;
+    //private LocalDateTime dateDue;
+    private String dateDue;
     private Float totalPointsAvailable;
     private Float weightInParentTask;
-    private Float bonusPoints;
+    private Float maxAvailableBonusPoints;
     private ArrayList<Grade> grades;
     private String otherComments;
     private boolean groupProject;
 
 
-    public SubTask(int id, ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
+    public SubTask(int id, ArrayList<Student> students, String name, LocalDateTime releaseDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
         this.id = id;
         this.name = name;
-        this.creationDate = creationDate;
+        this.releaseDate = releaseDate;
         this.dateDue = dateDue;
         this.totalPointsAvailable = totalPointsAvailable;
         this.weightInParentTask = weightInParentTask;
-        this.bonusPoints = bonusPoints;
+        this.maxAvailableBonusPoints = bonusPoints;
         this.grades = new ArrayList<Grade>();
         for (Student student:students){
             grades.add(new Grade(0, student, 0f, ""));
@@ -34,15 +34,17 @@ public class SubTask {
         this.groupProject = groupProject;
     }
 
+
+
     public String getName() {
         return name;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
+    public LocalDateTime getReleaseDate() {
+        return releaseDate;
     }
 
-    public LocalDateTime getDateDue() {
+    public String getDateDue() {
         return dateDue;
     }
 
@@ -52,10 +54,6 @@ public class SubTask {
 
     public Float getWeightInParentTask() {
         return weightInParentTask;
-    }
-
-    public Float getBonusPoints() {
-        return bonusPoints;
     }
 
     public ArrayList<Grade> getGrades() {
@@ -74,11 +72,11 @@ public class SubTask {
         this.name = name;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
+    public void setReleaseDate(LocalDateTime releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    public void setDateDue(LocalDateTime dateDue) {
+    public void setDateDue(String dateDue) {
         this.dateDue = dateDue;
     }
 
@@ -88,10 +86,6 @@ public class SubTask {
 
     public void setWeightInParentTask(Float weightInParentTask) {
         this.weightInParentTask = weightInParentTask;
-    }
-
-    public void setBonusPoints(Float bonusPoints) {
-        this.bonusPoints = bonusPoints;
     }
 
     public void setOtherComments(String otherComments) {
@@ -129,11 +123,29 @@ public class SubTask {
         }
     }
 
+    public Float getStudentsBonusGrade(Student student){
+        for (Grade grade:grades){
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                return grade.getBonusPoints();
+            }
+        }
+        return -1f;
+    }
+
+    public void setStudentsBonusGrade(Student student, Float bonus){
+        for (Grade grade:grades){
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                grade.setBonusPoints(bonus);
+                return;
+            }
+        }
+    }
+
     // When creating a copy of this sub task for future use we copy everything but the dates; this has to be set again from the user for the
     // new sub task as they will definitely not be the same
     // MAKE SURE TO BE READY TO HANDLE NULL VALUES ON THOSE TWO FIELDS
     public SubTask getDeepCopyOfSubTask(){
-        return new SubTask(0, null, name, null, null, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
+        return new SubTask(0, null, name, null, null, totalPointsAvailable, weightInParentTask, maxAvailableBonusPoints, otherComments, groupProject);
     }
 
     public Float getMeanGrade(){
@@ -185,5 +197,26 @@ public class SubTask {
             return (pointsScoredList.get(listSize/2) + pointsScoredList.get(listSize/2 - 1))/2;
         else
             return pointsScoredList.get(listSize/2);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+
+    public Float getMaxAvailableBonusPoints() {
+        return maxAvailableBonusPoints;
+    }
+
+    public void setMaxAvailableBonusPoints(Float maxAvailableBonusPoints) {
+        this.maxAvailableBonusPoints = maxAvailableBonusPoints;
+    }
+
+    public void deleteStudentFromSubTask(Student student){
+        for (Grade grade:grades) {
+            if (grade.getStudent().getBuID().equals(student.getBuID())){
+                grades.remove(grade);
+            }
+        }
     }
 }

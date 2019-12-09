@@ -9,12 +9,15 @@ import java.util.Iterator;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-import org.apache.poi.ss.usermodel.Cell;
+/*import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
+import models.ImportExcel;
+import models.Student;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
 import views.MainPanelView;
 
@@ -41,7 +44,15 @@ public class CreateCourseController {
 	private void initController()
 	{
 		createCourse.getCreateButton().addActionListener(l -> Create());
-		createCourse.getImportButton().addActionListener(l -> ImportStudent());
+		createCourse.getImportButton().addActionListener(l -> {
+			try {
+				ImportStudent();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InvalidFormatException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	private void Create()
@@ -51,29 +62,32 @@ public class CreateCourseController {
 		ClassHomePageController cHPC = new ClassHomePageController(null);
 	}
 
-	private void ImportStudent()
-	{
+	private void ImportStudent() throws IOException, InvalidFormatException {
 		chooseFile();
 	}
 
-	private void chooseFile() {
+	private void chooseFile() throws IOException, InvalidFormatException {
 		JFileChooser fileChooser = new JFileChooser();
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 			var keep = selectedFile.getName();
-			try {
+			/*try {
 				read(selectedFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}*/
+
+			ImportExcel importExcel = new ImportExcel(selectedFile.getPath());
+			for(Student student : importExcel.importE()){
+				System.out.println(student.getBuID());
 			}
-			System.out.println(keep);
 		}
 	}
 
 
-	private void read(File file) throws IOException
+	/*private void read(File file) throws IOException
 	{
 		//File excelFile = new File("contacts.xlsx");
 	    FileInputStream fis = new FileInputStream(file);
@@ -102,7 +116,7 @@ public class CreateCourseController {
 
 	    workbook.close();
 	    fis.close();
-	  }
+	  }*/
 	
 
 }

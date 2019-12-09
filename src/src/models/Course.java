@@ -2,6 +2,7 @@ package models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
 * Variables semester and year are the ones that will be used to make the template's
@@ -65,15 +66,23 @@ public class Course {
         return tasks;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void addNewTask(String name, Float weightInFinalGrade){
         courseTemplate.addNewTask(name, weightInFinalGrade);
     }
 
-    public void addNewSubTask(Task targetTask, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
+    public void addNewSubTask(Task targetTask, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
         targetTask.addNewSubTask(getAllStudents(), name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
     }
 
-    private ArrayList<Student> getAllStudents(){
+    public ArrayList<Student> getAllStudents(){
         ArrayList<Student> allStudents = new ArrayList<Student>();
         for (CourseSection courseSection:courseSections){
             allStudents.addAll(courseSection.getStudents());
@@ -89,7 +98,73 @@ public class Course {
         return finalGrade;
     }
 
+    public Float getMeanGrade(CourseSection courseSection){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (Student student:courseSection.getStudents()) {
+            grades.add(getStudentsFinalGrade(student));
+        }
+        Float aggregatePointsScored = 0f;
+        for (Float grade:grades){
+            aggregatePointsScored += grade;
+        }
+        return aggregatePointsScored/grades.size();
+    }
+
+
+    public float getStandardDeviation(CourseSection courseSection){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (Student student:courseSection.getStudents()) {
+            grades.add(getStudentsFinalGrade(student));
+        }
+        float standardDeviation = 0f;
+        Float mean =  getMeanGrade(courseSection);
+
+        for(Float grade: grades) {
+            standardDeviation += (float)Math.pow(grade - mean, 2);
+        }
+        if (grades.size() == 0){
+            return 0;
+        }
+        return (float)Math.sqrt(standardDeviation/grades.size());
+    }
+
+    public Float getMedianPercentage(CourseSection courseSection){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (Student student:courseSection.getStudents()) {
+            grades.add(getStudentsFinalGrade(student));
+        }
+
+        if (grades.size() == 0){
+            return 0f;
+        }
+        Collections.sort(grades);
+        int listSize = grades.size();
+        if (listSize % 2 == 0)
+            return (grades.get(listSize/2) + grades.get(listSize/2 - 1))/2;
+        else
+            return grades.get(listSize/2);
+    }
+
     public String getStudentsFinalLetterGrade(Student student){
         return Grade.translateGradeToLetter(getStudentsFinalGrade(student), 100f);
+    }
+
+    public void deleteStudentFromSections(Student student){
+        for (CourseSection courseSection:courseSections) {
+            if (courseSection.deleteStudent(student)){
+                return;
+            }
+        }
+    }
+
+    public void deleteStudentFromCourse(Student student){
+        for (Task task:tasks) {
+            task.deleteStudentFromTask(student);
+        }
+    }
+
+    public void deleteStudent(Student student){
+        deleteStudentFromSections(student);
+        deleteStudentFromCourse(student);
     }
 }

@@ -60,9 +60,6 @@ public class Task {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
-	
     
 
     public Float getStudentsGrade(Student student){
