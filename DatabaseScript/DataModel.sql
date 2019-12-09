@@ -9,14 +9,13 @@ DROP TABLE IF EXISTS `Credential`;
 DROP TABLE IF EXISTS `Grade`;
 DROP TABLE IF EXISTS `Enrollment`;
 
-DROP TABLE IF EXISTS `TemplateSubTask`;
-DROP TABLE IF EXISTS `TemplateTask`;
-DROP TABLE IF EXISTS `TemplateCourse`;
+
 DROP TABLE IF EXISTS `CourseSection`;
 DROP TABLE IF EXISTS `SubTask`;
 DROP TABLE IF EXISTS `Task`;
 DROP TABLE IF EXISTS `Student`;
 DROP TABLE IF EXISTS `Course`;
+DROP TABLE IF EXISTS `TemplateCourse`;
 DROP TABLE IF EXISTS `Professor`;
 
 -- done
@@ -40,7 +39,6 @@ CREATE TABLE `Professor` (
 CREATE TABLE `Enrollment` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
                               `studentId` int,
-                              `isWithdrawn` boolean,
                               `courseSectionId` int
 );
 
@@ -51,7 +49,8 @@ CREATE TABLE `Student` (
                            `first_name` varchar(255),
                            `last_name` varchar(255),
                            `email` varchar(255),
-                           `buid` varchar(255)
+                           `buid` varchar(255),
+                           `isWithdrawn` boolean
 );
 
 CREATE TABLE `TemplateCourse` (
