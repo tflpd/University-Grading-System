@@ -27,8 +27,10 @@ public class SubTask {
         this.weightInParentTask = weightInParentTask;
         this.maxAvailableBonusPoints = bonusPoints;
         this.grades = new ArrayList<Grade>();
-        for (Student student:students){
-            grades.add(new Grade(0, student, 0f, ""));
+        if (students != null){
+            for (Student student:students){
+                grades.add(new Grade(0, student, 0f, ""));
+            }
         }
         this.otherComments = otherComments;
         this.groupProject = groupProject;

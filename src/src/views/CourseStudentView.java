@@ -20,6 +20,7 @@ public class CourseStudentView extends JPanel{
 	JButton homeButton;
 	private JLabel courseLabel;
 	private JLabel statisticLabel;
+	private JButton addButton;
 
 	public CourseStudentView() {
 		//frame = new JFrame("Course Student");
@@ -64,7 +65,7 @@ public class CourseStudentView extends JPanel{
 		
 		//frame.getContentPane().repaint();
 
-		JButton addButton = new JButton("Add Students");
+		addButton = new JButton("Add Students");
 
 		centerPanel.add(courseLabel, gc);
 		gc.gridy = 1;
@@ -112,8 +113,9 @@ public class CourseStudentView extends JPanel{
 		this.statisticLabel.setText(statisticLabel);
 	}
 
-
-
+	public JButton getAddButton() {
+		return addButton;
+	}
 }
 
 

@@ -16,6 +16,13 @@ public class Task {
         this.subTasks = new ArrayList<SubTask>();
     }
 
+    public Task(int id, String name, Float weightInFinalGrade, ArrayList<SubTask> subTasks) {
+        this.id = id;
+        this.name = name;
+        this.weightInFinalGrade = weightInFinalGrade;
+        this.subTasks = subTasks;
+    }
+
     public String getName() {
         return name;
     }

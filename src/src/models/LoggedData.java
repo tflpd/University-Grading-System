@@ -8,13 +8,13 @@ public class LoggedData {
 	
 	private static Professor prof;
 	private static ArrayList<Professor> profList;
-	private static GradingSystem grading;
 	private static ArrayList<Course> activeCourseList;
 	private static Course selectedCourse;
 	private static Task selectedTask;
 
 	private static SubTask selectedSubTask; 
 	private static GradingSystem GS;
+	private static ArrayList<CourseTemplate> cTList;
 
 	public static int subTaskID = 1;
 
@@ -33,6 +33,11 @@ public class LoggedData {
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
+
+		name = new Name("Ruizhi"," ", "Jiang");
+		ArrayList<Student> studentList1 = new ArrayList<Student>();
+		Student s1 = new Student(12, name, "sss.bu.edu", "14567");
+		studentList1.add(s1);
 	
 		
 		CourseSection cc = new CourseSection(1,"Morning Section", studentList );
@@ -56,12 +61,13 @@ public class LoggedData {
 		
 		
 		CourseTemplate cT = new CourseTemplate(0,"CS591P1", "Fall", "2019", taskList);
-		ArrayList<CourseTemplate> cTList = new ArrayList<CourseTemplate>();
+		cTList = new ArrayList<CourseTemplate>();
 		cTList.add(cT);
 
-		CourseSection courseSection = new CourseSection(0, "Morning Section", studentList);
-		ArrayList<CourseSection> courseSections = new ArrayList<>();
-		courseSections.add(courseSection);
+		CourseSection courseSection = new CourseSection(0, "Evening Section", studentList1);
+		//ArrayList<CourseSection> courseSections = new ArrayList<>();
+		//courseSections.add(courseSection);
+		ccList.add(courseSection);
 		
 		activeCourseList = new ArrayList<Course>();
 
@@ -100,7 +106,7 @@ public class LoggedData {
 	{
 		// To retrieve the Grading System from database;
 		
-		//GS = new GradingSystem(1,prof, activeCourseList, cTList);
+		GS = new GradingSystem(1,prof, activeCourseList, LoggedData.cTList );
 		
 	}
 
@@ -113,11 +119,11 @@ public class LoggedData {
 	}
 
 	public static GradingSystem getGrading() {
-		return grading;
+		return GS;
 	}
 
 	public static void setGrading(GradingSystem grading) {
-		LoggedData.grading = grading;
+		LoggedData.GS = grading;
 	}
 
 	public static ArrayList<Course> getActiveCourseList() {

@@ -31,10 +31,13 @@ public class CourseStudentController {
 	{
 		courseStudentView.getHomeButton().addActionListener(l -> backHome());
 		courseStudentView.getBackButton().addActionListener(l -> back());
+		courseStudentView.getAddButton().addActionListener(l -> create());
 	}
 
 	private void create()
 	{
+		AddSingleStudentController ass = new AddSingleStudentController();
+
 
 	}
 	private void backHome()
