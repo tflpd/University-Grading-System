@@ -51,15 +51,26 @@ public class DBManager {
 
     }
 
+//                               `id` int PRIMARY KEY AUTO_INCREMENT,
+//                           `first_name` varchar(255),
+//                           `last_name` varchar(255),
+//                           `email` varchar(255),
+//                           `buid` varchar(255)
+
     public void addStudent(Student student, String comment){
 
-        String sql = "INSERT INTO grading_system.Student (id, first_name, last_name, email, buid, comment) VALUES (\'"+ student.getId() + "\', \'"+ student.getNameObject().getFirstName() +"\', \'"+ student.getNameObject().getSurname() +"\', \'" + student.getEmail() + "\', \'" + student.getBuID() + "\', \'"+ comment +"\')";
+        String sql = "INSERT INTO grading_system.Student (id, first_name, last_name, email, buid) VALUES (\'"+ student.getId() + "\', \'"+ student.getNameObject().getFirstName() +"\', \'"+ student.getNameObject().getSurname() +"\', \'" + student.getEmail() + "\', \'" + student.getBuID() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
     }
 
-    public void addEnrollment(int studentId, int courseId, int courseSectionId){
-        String sql = "INSERT INTO grading_system.Enrollment (studentId, courseId, courseSectionId) VALUES (\'"+ studentId + "\', \'"+ courseId +"\', \'"+ courseSectionId +"\')";
+
+//                                  `id` int PRIMARY KEY AUTO_INCREMENT,
+//                              `studentId` int,
+//            `isWithdrawn` boolean,
+//            `courseSectionId` int
+    public void addEnrollment(int studentId, boolean isWithdrawn, int courseSectionId){
+        String sql = "INSERT INTO grading_system.Enrollment (studentId, courseSectionId) VALUES (\'"+ studentId + "\', \'"+ courseSectionId +"\')";
         System.out.println(sql);
         sqlExecute(sql);
     }
