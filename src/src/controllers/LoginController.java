@@ -39,7 +39,7 @@ public class LoginController {
 	private void Login()
 	{
 		
-		Name name = new Name(1, "Christine"," ", "Papapdakis");
+		//Name name = new Name("Christine"," ", "Papapdakis");
 	    Professor prf = LoggedData.getProf();
 		String id = loginView.getIdText().getText();
 		String pwd = String.valueOf(loginView.getPwdText().getPassword());

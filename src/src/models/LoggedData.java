@@ -22,14 +22,14 @@ public class LoggedData {
 	public  static void  InitData()
 	{
 		//Professor
-		Name name = new Name(0,"Christine"," ", "Papapdakis");
+		Name name = new Name("Christine"," ", "Papapdakis");
 		prof = new Professor(0, name, "c@bu.edu", "1234");	
 		
 		profList = new ArrayList<Professor>();
 		profList.add(prof);
 		
 		//Student
-		name = new Name(0,"Jone"," ", "Doe");		
+		name = new Name("Jone"," ", "Doe");		
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
