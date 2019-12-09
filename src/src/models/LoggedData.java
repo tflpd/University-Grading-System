@@ -33,6 +33,11 @@ public class LoggedData {
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
+
+		name = new Name("Ruizhi"," ", "Jiang");
+		ArrayList<Student> studentList1 = new ArrayList<Student>();
+		Student s1 = new Student(12, name, "sss.bu.edu", "14567");
+		studentList1.add(s1);
 	
 		
 		CourseSection cc = new CourseSection(1,"Morning Section", studentList );
@@ -59,9 +64,10 @@ public class LoggedData {
 		cTList = new ArrayList<CourseTemplate>();
 		cTList.add(cT);
 
-		CourseSection courseSection = new CourseSection(0, "Morning Section", studentList);
-		ArrayList<CourseSection> courseSections = new ArrayList<>();
-		courseSections.add(courseSection);
+		CourseSection courseSection = new CourseSection(0, "Evening Section", studentList1);
+		//ArrayList<CourseSection> courseSections = new ArrayList<>();
+		//courseSections.add(courseSection);
+		ccList.add(courseSection);
 		
 		activeCourseList = new ArrayList<Course>();
 
