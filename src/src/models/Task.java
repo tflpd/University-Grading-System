@@ -60,10 +60,6 @@ public class Task {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
-	
-    
 
     public Float getStudentsGrade(Student student){
         Float taskAggregateGrade = 0f;
@@ -71,6 +67,12 @@ public class Task {
             taskAggregateGrade += subTask.getStudentsGrade(student)*subTask.getWeightInParentTask();
         }
         return taskAggregateGrade;
+    }
+
+    public void deleteStudentFromTask(Student student){
+        for (SubTask subTask:subTasks) {
+            subTask.deleteStudentFromSubTask(student);
+        }
     }
 
 }

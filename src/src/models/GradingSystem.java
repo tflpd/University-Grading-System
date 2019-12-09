@@ -45,5 +45,15 @@ public class GradingSystem extends ProfessorsTool{
         courseTemplates.add(newCourseTemplate);
         activeCourses.add(newCourse);
     }
-    
+
+
+    public void deleteCourse(Course courseToDelete){
+        for (Course course:activeCourses){
+            if (course.getId() == courseToDelete.getId()){
+                activeCourses.remove(course);
+                return;
+            }
+        }
+    }
+
 }

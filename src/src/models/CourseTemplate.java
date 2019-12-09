@@ -27,6 +27,14 @@ public class CourseTemplate {
         this(id, name, semester, year, new ArrayList<Task>());
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

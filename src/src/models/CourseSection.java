@@ -20,4 +20,14 @@ public class CourseSection {
     public String getName() {
         return name;
     }
+
+    public boolean deleteStudent(Student studentToDelete){
+        for (Student student:students) {
+            if (student.getBuID().equals(studentToDelete.getBuID())){
+                students.remove(student);
+                return true;
+            }
+        }
+        return false;
+    }
 }
