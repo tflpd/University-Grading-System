@@ -78,7 +78,7 @@ CREATE TABLE `Task` (
                         `id` int PRIMARY KEY AUTO_INCREMENT,
                         `name` varchar(255),
                         `templateCourseId` int,
-                        `weight` double,
+                        `weight` double
 );
 
 CREATE TABLE `SubTask` (
@@ -96,7 +96,7 @@ CREATE TABLE `SubTask` (
 CREATE TABLE `Grade` (
                          `id` int PRIMARY KEY AUTO_INCREMENT,
                          `subTaskId` int,
-                         `enrollmentId` int,
+                         `studentId` int,
                          `absolutePointsScored` float ,
                          `bonusPoints` float ,
                          `comment` varchar(255)
@@ -107,7 +107,7 @@ CREATE TABLE `Grade` (
 
 
 
-ALTER TABLE `Grade` ADD FOREIGN KEY (`enrollmentId`) REFERENCES `Enrollment` (`id`);
+ALTER TABLE `Grade` ADD FOREIGN KEY (`studentId`) REFERENCES `Student` (`id`);
 
 ALTER TABLE `Task` ADD FOREIGN KEY (`templateCourseId`) REFERENCES `TemplateCourse` (`id`);
 
