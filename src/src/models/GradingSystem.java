@@ -13,6 +13,13 @@ public class GradingSystem extends ProfessorsTool{
         this.activeCourses = activeCourses;
         this.courseTemplates = courseTemplates;
     }
+    
+    public GradingSystem(int id, Professor ownerProfessor) {
+        super(ownerProfessor);
+        this.id = id;
+        this.activeCourses = null;
+        this.courseTemplates = null;
+    }
 
     public ArrayList<Course> getActiveCourses() {
         return activeCourses;
@@ -23,7 +30,7 @@ public class GradingSystem extends ProfessorsTool{
     }
 
     // Creates a new course NOT based in any previous one
-    public void addNewCourse(String name, String semester, String year, ArrayList<Student> students){
+    public Course addNewCourse(String name, String semester, String year, ArrayList<Student> students){
         CourseSection courseSection = new CourseSection(0,"First section", students);
         ArrayList<CourseSection> courseSections = new ArrayList<CourseSection>();
         courseSections.add(courseSection);
@@ -32,10 +39,12 @@ public class GradingSystem extends ProfessorsTool{
 
         courseTemplates.add(newCourseTemplate);
         activeCourses.add(newCourse);
+        
+        return newCourse;
     }
 
     // Creates a new course based on the template courseTemplate
-    public void addNewCourse(String name, String semester, String year, ArrayList<Student> students, CourseTemplate courseTemplate){
+    public Course addNewCourse(String name, String semester, String year, ArrayList<Student> students, CourseTemplate courseTemplate){
         CourseSection courseSection = new CourseSection(0,"First section", students);
         ArrayList<CourseSection> courseSections = new ArrayList<CourseSection>();
         courseSections.add(courseSection);
@@ -44,6 +53,8 @@ public class GradingSystem extends ProfessorsTool{
 
         courseTemplates.add(newCourseTemplate);
         activeCourses.add(newCourse);
+        
+        return newCourse;
     }
 
 
