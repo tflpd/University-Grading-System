@@ -9,6 +9,8 @@ public class Task {
     private Float weightInFinalGrade;
     private ArrayList<SubTask> subTasks;
 
+
+
     public Task(int id, String name, Float weightInFinalGrade) {
         this.id = id;
         this.name = name;
