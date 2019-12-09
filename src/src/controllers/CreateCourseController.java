@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class CreateCourseController {
 
 	private CreateCourseView createCourse;
 	private JPanel parentPanel;
+	private ArrayList<Student> importedStudents;
 
 	public CreateCourseController()
 	{
@@ -41,6 +43,7 @@ public class CreateCourseController {
 		parentPanel.add(createCourse, BorderLayout.CENTER);
 
 		initController();
+		importedStudents = new ArrayList<Student>();
 	}
 
 	private void initController()
@@ -59,15 +62,18 @@ public class CreateCourseController {
 
 	private void Create()
 	{
-		ArrayList<Student> studentList= new ArrayList<Student>();
-	    
+		//ArrayList<Student> studentList= new ArrayList<Student>();
+	    if (importedStudents == null)
+		{
+			importedStudents = new ArrayList<Student>();
+		}
 		
 		LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(), 
-				createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), studentList));
+				createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
 		
 		
 		
-		ClassHomePageController cHPC = new ClassHomePageController(null);
+		ClassHomePageController cHPC = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
 	}
 
 	private void ImportStudent() throws IOException, InvalidFormatException {
@@ -88,9 +94,16 @@ public class CreateCourseController {
 			}*/
 
 			ImportExcel importExcel = new ImportExcel(selectedFile.getPath());
-			for(Student student : importExcel.importE()){
-				System.out.println(student.getBuID());
-			}
+			List<Student> list = importExcel.importE();
+//			for(Student student : importExcel.importE()){
+//				System.out.println(student.getBuID());
+//			}
+			importedStudents = new ArrayList<>(list);
+			//for(Student student : importedStudents){
+			//	System.out.println(student.getBuID());
+			//}
+
+
 		}
 	}
 
