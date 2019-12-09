@@ -149,10 +149,6 @@ public class Course {
         return Grade.translateGradeToLetter(getStudentsFinalGrade(student), 100f);
     }
 
-    public int getId() {
-        return id;
-    }
-
     public void deleteStudentFromSections(Student student){
         for (CourseSection courseSection:courseSections) {
             if (courseSection.deleteStudent(student)){
