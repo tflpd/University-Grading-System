@@ -44,13 +44,6 @@ public class DBManager {
     * */
 
 
-    public void addCourse(Course course, String courseCode, Timestamp timestamp, int professorId, boolean isDeleted){
-        String sql = "INSERT INTO grading_system.Course(id, code, name, created_at, professorId, isDeleted) VALUES (\'"+ course.getId() + "\', \'"+ courseCode +"\', \'"+ course.getName() +"\', \'" + timestamp + "\', \'" + professorId + "\', \'"+ isDeleted +"\')";
-        System.out.println(sql);
-        sqlExecute(sql);
-
-    }
-
 
     public void addStudent(Student student){
 
@@ -59,17 +52,18 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-
-
     public void addTemplateCourse(CourseTemplate courseTemplate){
         String sql = "INSERT INTO grading_system.TemplateCourse (id, name, year, semester) VALUES (\'"+ courseTemplate.getId() + "\', \'"+ courseTemplate.getName() +"\', \'"+ courseTemplate.getYear() +"\', \'" + courseTemplate.getSemester() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
     }
 
+    public void addCredential(Professor professor){
+        String sql = "INSERT INTO grading_system.Credential(email, password) VALUES (\'"+ professor.getEmail() + "\', \'"+ professor.getPassword() +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
 
-
-
+    }
     public void addEnrollment(int studentId, boolean isWithdrawn, int courseSectionId){
         String sql = "INSERT INTO grading_system.Enrollment (studentId, courseSectionId) VALUES (\'"+ studentId + "\', \'"+ courseSectionId +"\')";
         System.out.println(sql);
@@ -83,16 +77,26 @@ public class DBManager {
     }
 
 
-//    CREATE TABLE `SubTask` (
+//    CREATE TABLE `Course` (
 //            `id` int PRIMARY KEY AUTO_INCREMENT,
-//                           `taskId` int,
-//            `weight` double,
-//            `name` varchar(255),
-//                           `totalPointsAvailable` float,
-//            `releasedDate` datetime,
-//            `dueDate` datetime,
-//            `groupProject` bit,
-//            `maxAvailableBonusPoints` float
+//                          `templateCourseId` int,
+//            `year` varchar(255),
+//                          `semester` varchar(255),
+//                          `name` varchar(255),
+//                          `professorId` int
+//);
+    public void addCourse(Course course, int templateCourseId, int professorId){
+        String sql = "INSERT INTO grading_system.Task(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
+                "(\'"+ course.getId() + "\', \'"+ templateCourseId +"\', \'"+ course.getYear() +"\', \'" + course.getSemester() + "\', \'" + course.getName() + "\', \'"+ professorId +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
+
+    public void addProfessor(Professor professor, int credentialId){
+        String sql = "INSERT INTO grading_system.Task(id, first_name, last_name, credentialId) VALUES (\'"+ professor.getId() + "\', \'"+ professor.getName().getFirstName() +"\', \'"+ professor.getName().getSurname()+"\', \'" + credentialId + "\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
 
     public void addSubtask(SubTask subTask){
         String sql = "INSERT INTO grading_system.Task(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
@@ -101,23 +105,21 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-//    CREATE TABLE `Grade` (
-//            `id` int PRIMARY KEY AUTO_INCREMENT,
-//                         `subTaskId` int,
-//            `enrollmentId` int,
-//            `absolutePointsScored` float ,
-//            `bonusPoints` float ,
-//            `comment` varchar(255)
-//);
+    public void addGrade(Grade grade, int subTaskId, int studentId){
 
-//    public void addGrade(Grade grade){
-//
-//        String sql = "INSERT INTO grading_system.Grade(id, subTaskId, enrollmentId, absolutePointsScored) VALUES (\'"+ task.getId() + "\', \'"+ task.getName() +"\', \'"+ courseTemplateId +"\', \'" + task.getWeightInFinalGrade() + "\')";
-//        System.out.println(sql);
-//        sqlExecute(sql);
-//
-//    }
+        String sql = "INSERT INTO grading_system.Grade(id, subTaskId, studentId, absolutePointsScored) VALUES (\'"+ grade.getId() + "\', \'"+ subTaskId +"\', \'"+ studentId +"\', \'" + grade.getAbsolutePointsScored() + "\')";
+        System.out.println(sql);
+        sqlExecute(sql);
 
+    }
+
+    public void addCourseSection(CourseSection courseSection, int courseId){
+
+        String sql = "INSERT INTO grading_system.CourseSection(id, name, courseId) VALUES (\'"+ courseSection.getId() + "\', \'"+ courseSection.getName() +"\', \'"+ courseId +"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+
+    }
 
 
     /*
