@@ -45,4 +45,5 @@ public class GradingSystem extends ProfessorsTool{
         courseTemplates.add(newCourseTemplate);
         activeCourses.add(newCourse);
     }
+    
 }

@@ -95,7 +95,6 @@ public class ClassHomePageController {
 		classHomePage.getHomeButton().addActionListener(l -> backHome());
 
 		fillTaskData();
-		//fillSubTaskData();
 	}
 
 	

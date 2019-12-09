@@ -45,13 +45,13 @@ public class SubTaskGradeController {
 	
 	public void fillStudentData()
 	{
-		String header = LoggedData.getGradingSystem().getActiveCourses().get(0).getName();
+		String header = LoggedData.getSelectedSubTask().getName();
 		//courseStudentView.setCourseLabel(header+"'s Students List");
 		
 		
 		
 		
-		var subTask = LoggedData.getGradingSystem().getActiveCourses().get(0).getTasks().get(1).getSubTasks().get(0);
+		var subTask = LoggedData.getSelectedSubTask();
 
 	
         int columSize = 9;
@@ -69,7 +69,7 @@ public class SubTaskGradeController {
 
 		int studentCount = 0;
 		tableModel = new DefaultTableModel(col, 0);
-		for (var cSc : LoggedData.getGradingSystem().getActiveCourses().get(0).getCourseSections())
+		for (var cSc : LoggedData.getSelectedCourse().getCourseSections())
 		{
 			var studentList = cSc.getStudents();
 			studentCount= studentCount+ studentList.size();

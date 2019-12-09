@@ -7,6 +7,7 @@ import java.util.Date;
 public class LoggedData {
 	
 	private static Professor prof;
+	private static ArrayList<Professor> profList;
 	private static GradingSystem grading;
 	private static ArrayList<Course> activeCourseList;
 	private static Course selectedCourse;
@@ -23,6 +24,9 @@ public class LoggedData {
 		//Professor
 		Name name = new Name(0,"Christine"," ", "Papapdakis");
 		prof = new Professor(0, name, "c@bu.edu", "1234");	
+		
+		profList = new ArrayList<Professor>();
+		profList.add(prof);
 		
 		//Student
 		name = new Name(0,"Jone"," ", "Doe");		
@@ -69,7 +73,34 @@ public class LoggedData {
 		
 		
 				
-		GS = new GradingSystem(1,prof, activeCourseList, cTList);
+		
+		
+	}
+	
+	public static boolean Login(String email, String pswd)
+	{
+		
+		boolean isLogin = false;
+		for (var pr : profList)
+		{
+			if (pr.getEmail().equalsIgnoreCase(email) && pswd.equalsIgnoreCase(pr.getPassword()))
+			{
+				isLogin = true;
+				prof = pr;
+				RetrieveGradingStystemByProfessor(prof);
+				break;
+			}
+		}
+		
+		return isLogin;
+	}
+	
+	
+	public static void RetrieveGradingStystemByProfessor(Professor pr)
+	{
+		// To retrieve the Grading System from database;
+		
+		//GS = new GradingSystem(1,prof, activeCourseList, cTList);
 		
 	}
 
