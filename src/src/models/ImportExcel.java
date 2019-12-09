@@ -46,7 +46,7 @@ public class ImportExcel {
                         } else {
                             LastName = arr[1];
                         }
-                        Name name = new Name(90, firstName, LastName);
+                        Name name = new Name(firstName, LastName);
                         String email = row.getCell(2).getStringCellValue();
                         //System.out.println(row.getCell(3).getStringCellValue());
                         String buID = row.getCell(3).getStringCellValue();
