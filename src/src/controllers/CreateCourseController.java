@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /*import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,9 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
-import models.ImportExcel;
-import models.LoggedData;
-import models.Student;
+import models.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
 import views.MainPanelView;
@@ -42,12 +39,20 @@ public class CreateCourseController {
 		parentPanel.repaint();
 		parentPanel.add(createCourse, BorderLayout.CENTER);
 
+
+		var tempList = LoggedData.getGrading().getCourseTemplates();
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		model.addAll(tempList);
+		createCourse.setTemplateList(model);
+
 		initController();
 		importedStudents = new ArrayList<Student>();
 	}
 
 	private void initController()
 	{
+
+
 		createCourse.getCreateButton().addActionListener(l -> Create());
 		createCourse.getImportButton().addActionListener(l -> {
 			try {
@@ -58,6 +63,10 @@ public class CreateCourseController {
 				e.printStackTrace();
 			}
 		});
+
+
+
+
 	}
 
 	private void Create()
@@ -67,12 +76,22 @@ public class CreateCourseController {
 		{
 			importedStudents = new ArrayList<Student>();
 		}
-		
-		LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(), 
-				createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
-		
-		
-		
+
+	    //System.out.println("Selected template "+template);
+
+		if (createCourse.getTemplateList().getSelectedObjects().length > 0)
+		{
+			var template = (CourseTemplate) createCourse.getTemplateList().getSelectedObjects()[0];
+			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
+					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents, template));
+		}
+		else
+		{
+			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
+					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
+		}
+
+
 		ClassHomePageController cHPC = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
 	}
 

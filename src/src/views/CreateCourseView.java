@@ -73,8 +73,8 @@ public class CreateCourseView extends JPanel {
 		return templateList;
 	}
 
-	public void setTemplateList(JComboBox templateList) {
-		this.templateList = templateList;
+	public void setTemplateList(DefaultComboBoxModel  templateList) {
+		this.templateList.setModel(templateList);
 	}
 
 	public JTextField getYearText() {

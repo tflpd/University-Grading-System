@@ -27,6 +27,10 @@ public class CourseTemplate {
         this(id, name, semester, year, new ArrayList<Task>());
     }
 
+    public String toString(){
+        return name +" "+year+" "+semester;
+    }
+
     public int getId() {
         return id;
     }
