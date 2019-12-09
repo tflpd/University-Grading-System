@@ -49,13 +49,10 @@ public class CourseStudentController {
 
 	public void fillStudentData()
 	{
-		String header = LoggedData.getGradingSystem().getActiveCourses().get(0).getName();
+		String header = LoggedData.getSelectedCourse().getName();
 		courseStudentView.setCourseLabel(header+"'s Students List");
-		
-		
-		
-		
-		var taskList = LoggedData.getGradingSystem().getActiveCourses().get(0).getTasks();
+	
+		var taskList = LoggedData.getSelectedCourse().getTasks();
 
 		int columSize = taskList.size()+6;
 
@@ -73,7 +70,7 @@ public class CourseStudentController {
 
 		int studentCount = 0;
 		tableModel = new DefaultTableModel(col, 0);
-		for (var cSc : LoggedData.getGradingSystem().getActiveCourses().get(0).getCourseSections())
+		for (var cSc : LoggedData.getSelectedCourse().getCourseSections())
 		{
 			var studentList = cSc.getStudents();
 			studentCount= studentCount+ studentList.size();
@@ -90,7 +87,7 @@ public class CourseStudentController {
 						objs[i+3] = taskList.get(i).getStudentsGrade(s);
 					}
 
-					col[columSize-3] = LoggedData.getGradingSystem().getActiveCourses().get(0).getStudentsFinalLetterGrade(s);
+					col[columSize-3] = LoggedData.getSelectedCourse().getStudentsFinalLetterGrade(s);
 					col[columSize-2] = "";
 					col[columSize-1] = "Edit";
 

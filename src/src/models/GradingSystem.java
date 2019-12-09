@@ -46,6 +46,7 @@ public class GradingSystem extends ProfessorsTool{
         activeCourses.add(newCourse);
     }
 
+
     public void deleteCourse(Course courseToDelete){
         for (Course course:activeCourses){
             if (course.getId() == courseToDelete.getId()){
@@ -54,4 +55,5 @@ public class GradingSystem extends ProfessorsTool{
             }
         }
     }
+
 }

@@ -45,6 +45,15 @@ public class LoginController {
 		String pwd = String.valueOf(loginView.getPwdText().getPassword());
 		System.out.println("User id "+id +" "+pwd);
 		
+		if(LoggedData.Login(id, pwd))
+		{
+			CourseListController clC = new CourseListController();
+		}
+		else
+		{
+			loginView.setMsgLabel("Wrong email or password");
+		}
+		
 		if (prf.getEmail().equalsIgnoreCase(id) && pwd.equalsIgnoreCase(prf.getPassword()))
 		{
 			CourseListController clC = new CourseListController();
@@ -52,7 +61,7 @@ public class LoginController {
 			
 		}else
 		{
-			loginView.setMsgLabel("Wrong email or password");
+			
 		}	
 	}
 	
