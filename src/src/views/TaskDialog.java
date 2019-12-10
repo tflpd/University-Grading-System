@@ -117,6 +117,11 @@ public class TaskDialog extends JDialog {
 	public void setWeightTf(String weightTf) {
 		this.weightTf.setText(weightTf);
 	}
+
+	public void hideDeleteButton()
+    {
+        this.deleteButton.setVisible(false);
+    }
     
     
 }

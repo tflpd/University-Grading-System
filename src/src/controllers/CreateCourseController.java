@@ -91,6 +91,9 @@ public class CreateCourseController {
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
 		}
 
+        //to do
+		// Add to database
+		//
 
 		ClassHomePageController cHPC = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
 	}

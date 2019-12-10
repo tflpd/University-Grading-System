@@ -21,15 +21,23 @@ public class TaskDialogController {
 
 	public TaskDialogController(ClassHomePage c)
 	{
+
 		this(c, 0);
+		//dialog.getDeleteButton().setVisible(false);
+		//System.out.println("hide");
 	}
 
 	public TaskDialogController(ClassHomePage c, int id)
 	{
+		System.out.println("with id ");
 		TaskId = id;
 		classHomePage = c;
 		try {
 			dialog = new TaskDialog();
+			if (TaskId == 0)
+			{
+				dialog.getDeleteButton().setVisible(false);
+			}
 			initController();
 			dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -63,11 +71,9 @@ public class TaskDialogController {
 
 	private void SaveTask()
 	{
-
+		var taskList = LoggedData.getSelectedCourse().getTasks();
 		if (TaskId != 0)
-		{	
-			var taskList = LoggedData.getSelectedCourse().getTasks();
-
+		{
 			for (var t : taskList)
 			{
 				if (t.getId() == TaskId)
@@ -77,11 +83,10 @@ public class TaskDialogController {
 					break;
 				}
 			}
-			
 		}
 		else
 		{
-			Task task = new Task(1, dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
+			Task task = new Task(0, dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
 			LoggedData.getSelectedCourse().getTasks().add(task);		
 		}
 		UpdateTaskTable(LoggedData.getSelectedCourse().getTasks());
