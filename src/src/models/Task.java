@@ -45,8 +45,13 @@ public class Task {
         this.weightInFinalGrade = weightInFinalGrade;
     }
 
+
     public void addNewSubTask(ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
         subTasks.add(new SubTask(0, students, name, creationDate,  dateDue.toString(), totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject));
+
+   public void addNewSubTask(ArrayList<Student> students, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
+        subTasks.add(new SubTask(0, students, name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject));
+
     }
 
     public void addNewSubTask(SubTask subTask){
@@ -69,7 +74,6 @@ public class Task {
 	public void setId(int id) {
 		this.id = id;
 	}
-    
 
     public Float getStudentsGrade(Student student){
         Float taskAggregateGrade = 0f;
@@ -77,6 +81,12 @@ public class Task {
             taskAggregateGrade += subTask.getStudentsGrade(student)*subTask.getWeightInParentTask();
         }
         return taskAggregateGrade;
+    }
+
+    public void deleteStudentFromTask(Student student){
+        for (SubTask subTask:subTasks) {
+            subTask.deleteStudentFromSubTask(student);
+        }
     }
 
 }
