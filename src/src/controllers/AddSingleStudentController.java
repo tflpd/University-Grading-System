@@ -72,6 +72,7 @@ public class AddSingleStudentController {
         Student student = new Student(name1, email, buid);
         int section = addingSingleStudnetView.getSectionCombo().getSelectedIndex();
         LoggedData.getSelectedCourse().getCourseSections().get(section).addStudent(student);
+        back();
         //System.out.println(student.getName()+" "+student.getBuID()+" "+student.getEmail()+" ");
 
     }

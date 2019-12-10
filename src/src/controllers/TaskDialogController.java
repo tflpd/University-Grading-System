@@ -3,7 +3,7 @@ package controllers;
 import java.awt.Dialog.ModalityType;
 import java.util.ArrayList;
 
-import javax.swing.JDialog;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -16,20 +16,20 @@ public class TaskDialogController {
 
 	private TaskDialog dialog; 
 	private ClassHomePage classHomePage;
+	private ClassHomePageController cHController;
 	private int TaskId; // 0 means creating new task
 
 
-	public TaskDialogController(ClassHomePage c)
+	public TaskDialogController(ClassHomePage c, ClassHomePageController cr)
 	{
 
-		this(c, 0);
-		//dialog.getDeleteButton().setVisible(false);
-		//System.out.println("hide");
+		this(c,0, cr);
+
 	}
 
-	public TaskDialogController(ClassHomePage c, int id)
+	public TaskDialogController(ClassHomePage c, int id, ClassHomePageController cr)
 	{
-		System.out.println("with id ");
+		cHController = cr;
 		TaskId = id;
 		classHomePage = c;
 		try {
@@ -72,6 +72,13 @@ public class TaskDialogController {
 	private void SaveTask()
 	{
 		var taskList = LoggedData.getSelectedCourse().getTasks();
+		Float totalWeight = 0.f;
+		for (var t : taskList)
+		{
+			totalWeight = totalWeight+ t.getWeightInFinalGrade();
+		}
+		boolean isAllowed = true;
+
 		if (TaskId != 0)
 		{
 			for (var t : taskList)
@@ -79,18 +86,39 @@ public class TaskDialogController {
 				if (t.getId() == TaskId)
 				{
 					t.setName(dialog.getNameTf().getText());
-					t.setWeightInFinalGrade(Float.parseFloat(dialog.getWeightTf().getText()));
+					if ((totalWeight - t.getWeightInFinalGrade() + Float.parseFloat(dialog.getWeightTf().getText())) > 100)
+					{
+						isAllowed = false;
+					}
+					else {
+						t.setWeightInFinalGrade(Float.parseFloat(dialog.getWeightTf().getText()));
+					}
+
 					break;
 				}
 			}
 		}
 		else
 		{
-			Task task = new Task(0, dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
-			LoggedData.getSelectedCourse().getTasks().add(task);		
+			if ((totalWeight + Float.parseFloat(dialog.getWeightTf().getText())) <= 100) {
+				Task task = new Task(0, dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
+				LoggedData.getSelectedCourse().getTasks().add(task);
+			}else
+			{
+				isAllowed = false;
+			}
 		}
-		UpdateTaskTable(LoggedData.getSelectedCourse().getTasks());
-		Close();
+		if (isAllowed) {
+			UpdateTaskTable(LoggedData.getSelectedCourse().getTasks());
+			Close();
+		}else
+		{
+			String message = "\" Error\"\n"
+					+ "The total weight is more than 100";
+
+			JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void Close()
@@ -121,19 +149,8 @@ public class TaskDialogController {
 
 	private void UpdateTaskTable(ArrayList<Task> taskList)
 	{
-		String col[] = {"Id","Task Name","Edit",};
-		TableModel tableModel = new DefaultTableModel(col, 0);
 
-		if (taskList != null)
-		{
-			System.out.println(taskList.size());
-			for (int i = 0; i < taskList.size(); i++)
-			{
-				Object[] objs = {taskList.get(i).getId(), taskList.get(i).getName(),
-				"Edit"};
-				((DefaultTableModel) tableModel).addRow(objs);
-			}	
-		}
-		classHomePage.setTaskTable(tableModel);
+		cHController.fillTaskData();
+
 	}
 }
