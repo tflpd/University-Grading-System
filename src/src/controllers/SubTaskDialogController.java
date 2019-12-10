@@ -110,7 +110,7 @@ public class SubTaskDialogController {
 	
 	private void Grade()
 	{
-		SubTaskGradeController sTGC = new SubTaskGradeController();
+		//SubTaskGradeController sTGC = new SubTaskGradeController();
 		dialog.dispose();
 	}
 

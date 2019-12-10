@@ -78,7 +78,7 @@ public class Course {
         courseTemplate.addNewTask(name, weightInFinalGrade);
     }
 
-    public void addNewSubTask(Task targetTask, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
+    public void addNewSubTask(Task targetTask, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
         targetTask.addNewSubTask(getAllStudents(), name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject);
     }
 
@@ -159,7 +159,7 @@ public class Course {
 
     public void deleteStudentFromCourse(Student student){
         for (Task task:tasks) {
-            task.deleteStudentFromTask(student);
+            //task.deleteStudentFromTask(student);
         }
     }
 

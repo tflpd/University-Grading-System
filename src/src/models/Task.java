@@ -46,7 +46,7 @@ public class Task {
     }
 
     public void addNewSubTask(ArrayList<Student> students, String name, LocalDateTime creationDate, LocalDateTime dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject){
-        subTasks.add(new SubTask(0, students, name, creationDate, dateDue, totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject));
+        subTasks.add(new SubTask(0, students, name, creationDate,  dateDue.toString(), totalPointsAvailable, weightInParentTask, bonusPoints, otherComments, groupProject));
     }
 
     public void addNewSubTask(SubTask subTask){
