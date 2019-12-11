@@ -21,6 +21,7 @@ public class CourseStudentView extends JPanel{
 	private JLabel courseLabel;
 	private JLabel statisticLabel;
 	private JButton addButton;
+	private JButton saveButton;
 
 	public CourseStudentView() {
 		//frame = new JFrame("Course Student");
@@ -66,14 +67,21 @@ public class CourseStudentView extends JPanel{
 		//frame.getContentPane().repaint();
 
 		addButton = new JButton("Add Students");
+		saveButton = new JButton("Save the change");
 
 		centerPanel.add(courseLabel, gc);
 		gc.gridy = 1;
 		centerPanel.add(statisticLabel, gc);
 
 		gc.gridy = 3;
+		JPanel bPanel = new JPanel(new FlowLayout());
+		bPanel.add(addButton);
+		bPanel.add(saveButton);
 
-		centerPanel.add(addButton, gc);
+		centerPanel.add(bPanel, gc);
+
+
+
 
 		this.add(centerPanel, BorderLayout.CENTER);
 
@@ -115,6 +123,10 @@ public class CourseStudentView extends JPanel{
 
 	public JButton getAddButton() {
 		return addButton;
+	}
+
+	public JButton getSaveButton() {
+		return saveButton;
 	}
 }
 
