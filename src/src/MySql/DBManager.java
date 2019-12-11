@@ -83,7 +83,7 @@ public class DBManager {
 
 //);
     public static int addCourse(Course course, int templateCourseId, int professorId){
-        String sql = "INSERT INTO grading_system.Task(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
+        String sql = "INSERT INTO grading_system.Course(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
                 "(\'"+ course.getId() + "\', \'"+ templateCourseId +"\', \'"+ course.getYear() +"\', \'" + course.getSemester() + "\', \'" + course.getName() + "\', \'"+ professorId +"\')";
         System.out.println(sql);
         sqlExecute(sql);
