@@ -91,14 +91,14 @@ public class DBManager {
     }
 
     public static int addProfessor(Professor professor, int credentialId){
-        String sql = "INSERT INTO grading_system.Task(id, first_name, last_name, email, credentialId) VALUES (\'"+ professor.getId() + "\', \'"+ professor.getName().getFirstName() +"\', \'"+ professor.getName().getSurname()+"\', \'"+ professor.getEmail()+ "\', \'" + credentialId + "\')";
+        String sql = "INSERT INTO grading_system.Professor(id, first_name, last_name, email, credentialId) VALUES (\'"+ professor.getId() + "\', \'"+ professor.getName().getFirstName() +"\', \'"+ professor.getName().getSurname()+"\', \'"+ professor.getEmail()+ "\', \'" + credentialId + "\')";
         System.out.println(sql);
         sqlExecute(sql);
         return professor.getId();
     }
 
     public static int addSubtask(SubTask subTask){
-        String sql = "INSERT INTO grading_system.Task(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
+        String sql = "INSERT INTO grading_system.SubTask(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
                 "(\'"+ subTask.getId() + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\', \'" + subTask.getReleaseDate() + "\', \'"+ subTask.getDateDue() +"\', \'"+ subTask.isGroupProject() +"\', \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
         System.out.println(sql);
         sqlExecute(sql);
