@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
+import MySql.DBManager;
 import models.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
@@ -63,15 +64,17 @@ public class CreateCourseController {
 				e.printStackTrace();
 			}
 		});
+		createCourse.getCancelButton().addActionListener(l -> Cancel());
+	}
 
-
-
-
+	private void Cancel()
+	{
+		CourseListController cLC = new CourseListController();
 	}
 
 	private void Create()
 	{
-		//ArrayList<Student> studentList= new ArrayList<Student>();
+		int templateId = 0;
 	    if (importedStudents == null)
 		{
 			importedStudents = new ArrayList<Student>();
@@ -82,6 +85,7 @@ public class CreateCourseController {
 		if (createCourse.getTemplateList().getSelectedObjects().length > 0)
 		{
 			var template = (CourseTemplate) createCourse.getTemplateList().getSelectedObjects()[0];
+			templateId = template.getId();
 			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents, template));
 		}
@@ -93,7 +97,15 @@ public class CreateCourseController {
 
         //to do
 		// Add to database
-		//
+		DBManager dbManager = new DBManager();
+		try{
+			dbManager.connect();
+			dbManager.addCourse(LoggedData.getSelectedCourse(), templateId, LoggedData.getProf().getId());
+			dbManager.close();
+		}catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
 
 		ClassHomePageController cHPC = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
 	}
@@ -117,14 +129,7 @@ public class CreateCourseController {
 
 			ImportExcel importExcel = new ImportExcel(selectedFile.getPath());
 			List<Student> list = importExcel.importE();
-//			for(Student student : importExcel.importE()){
-//				System.out.println(student.getBuID());
-//			}
 			importedStudents = new ArrayList<>(list);
-			//for(Student student : importedStudents){
-			//	System.out.println(student.getBuID());
-			//}
-
 
 		}
 	}

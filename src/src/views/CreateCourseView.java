@@ -7,6 +7,7 @@ public class CreateCourseView extends JPanel {
 
 	private JButton createButton;
 	private JButton importButton;
+	private JButton cancelButton;
 	private JTextField nameText;
 	private JTextField semesterText;
 	private JTextField yearText;
@@ -23,6 +24,7 @@ public class CreateCourseView extends JPanel {
 
         createButton = new JButton("Create Course");
         importButton = new JButton("Import Student");
+		cancelButton = new JButton("Cancel");
 
         nameText =new JTextField("Course Name");
         yearText =new JTextField("Year");
@@ -40,6 +42,7 @@ public class CreateCourseView extends JPanel {
         infoPanel.add(semesterText);
 
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+		buttonPanel.add(cancelButton);
         buttonPanel.add(createButton);
         buttonPanel.add(importButton);
         
@@ -81,10 +84,7 @@ public class CreateCourseView extends JPanel {
 		return yearText;
 	}
 
-	
-    
-	
-	
-    
-    
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
 }
