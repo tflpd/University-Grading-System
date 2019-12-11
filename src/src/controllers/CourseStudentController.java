@@ -1,11 +1,14 @@
 package controllers;
 
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.LoggedData;
+import views.ButtonColumn;
 import views.CourseStudentView;
 import views.MainPanelView;
 
@@ -36,9 +39,8 @@ public class CourseStudentController {
 
 	private void create()
 	{
+
 		AddSingleStudentController ass = new AddSingleStudentController();
-
-
 	}
 	private void backHome()
 	{
@@ -68,8 +70,8 @@ public class CourseStudentController {
 			col[i+3] = taskList.get(i).getName() +" ("+taskList.get(i).getWeightInFinalGrade()+"%)";
 		}
 		col[columSize-3] = "Final Grade";
-		col[columSize-2] = "Status";
-		col[columSize-1] = " ";
+		col[columSize-2] = "Has Withdrawn";
+		col[columSize-1] = "Action";
 
 		int studentCount = 0;
 		tableModel = new DefaultTableModel(col, 0);
@@ -90,9 +92,9 @@ public class CourseStudentController {
 						objs[i+3] = taskList.get(i).getStudentsGrade(s);
 					}
 
-					col[columSize-3] = LoggedData.getSelectedCourse().getStudentsFinalLetterGrade(s);
-					col[columSize-2] = "";
-					col[columSize-1] = "Edit";
+					objs[columSize-3] = LoggedData.getSelectedCourse().getStudentsFinalLetterGrade(s);
+					objs[columSize-2] = s.isWithdrawn();
+					objs[columSize-1] = "Delete";
 
 					((DefaultTableModel) tableModel).addRow(objs);
 				}					
@@ -103,7 +105,23 @@ public class CourseStudentController {
 		courseStudentView.setTable(tableModel);
 		//double mean = DoubleSummaryStatistics.
 		
-		//String stat = "Statistic:   Mean: "+ LoggedData.getGradingSystem().getActiveCourses().get(0). + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
+		//String stat = "Statistic:   Mean: "+ LoggedData.getSelectedCourse(). + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
 	    courseStudentView.setStatisticLabel("");
+
+		Action delete = new AbstractAction()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JTable table = (JTable)e.getSource();
+				int modelRow = Integer.valueOf( e.getActionCommand() );
+				((DefaultTableModel)table.getModel()).removeRow(modelRow);
+			}
+		};
+
+
+		ButtonColumn buttonColumn = new ButtonColumn(courseStudentView.getTable(), delete, columSize-2);
+		buttonColumn.setMnemonic(KeyEvent.VK_D);
 	}
+
+
 }
