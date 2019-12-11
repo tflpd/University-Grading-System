@@ -342,7 +342,7 @@ public class DBManager {
         Professor professor = readAllProfessors().get(0);
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from Task TemplateCourse";
+            String sql = "select * from TemplateCourse";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             CourseTemplate tmpCourseTemplate = null;
