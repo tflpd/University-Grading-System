@@ -9,9 +9,9 @@ import java.util.List;
 
 public class DBManager {
 
-    Connection con;
+    static Connection con;
 
-    public void connect(){
+    public static void connect(){
 
 
         try{
@@ -24,14 +24,14 @@ public class DBManager {
             //    System.out.println(rs.getString(2));
         }catch(Exception e){ System.out.println(e);}
     }
-    public void close(){
+    public static void close(){
         try {
             con.close();
         }
         catch(Exception e){ System.out.println(e);}
     }
 
-    public void sqlExecute(String sql){
+    public static void sqlExecute(String sql){
         try {
             Statement stmt = con.createStatement();
             stmt.execute(sql);
@@ -43,73 +43,82 @@ public class DBManager {
     * CREATE
     * */
 
-    public void addStudent(Student student){
+    public static int addStudent(Student student){
 
         String sql = "INSERT INTO grading_system.Student (id, first_name, last_name, email, buid) VALUES (\'"+ student.getId() + "\', \'"+ student.getNameObject().getFirstName() +"\', \'"+ student.getNameObject().getSurname() +"\', \'" + student.getEmail() + "\', \'" + student.getBuID() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return student.getId();
     }
 
-    public void addTemplateCourse(CourseTemplate courseTemplate){
+    public static int addTemplateCourse(CourseTemplate courseTemplate){
         String sql = "INSERT INTO grading_system.TemplateCourse (id, name, year, semester) VALUES (\'"+ courseTemplate.getId() + "\', \'"+ courseTemplate.getName() +"\', \'"+ courseTemplate.getYear() +"\', \'" + courseTemplate.getSemester() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return courseTemplate.getId();
+
     }
 
-    public void addCredential(Professor professor){
+    public static void addCredential(Professor professor){
         String sql = "INSERT INTO grading_system.Credential(email, password) VALUES (\'"+ professor.getEmail() + "\', \'"+ professor.getPassword() +"\')";
         System.out.println(sql);
         sqlExecute(sql);
+
     }
-    public void addEnrollment(int studentId, boolean isWithdrawn, int courseSectionId){
+    public static int addEnrollment(int studentId, boolean isWithdrawn, int courseSectionId){
         String sql = "INSERT INTO grading_system.Enrollment (studentId, courseSectionId) VALUES (\'"+ studentId + "\', \'"+ courseSectionId +"\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return studentId;
 
     }
-    public void addTask(Task task, int courseTemplateId){
+    public static int addTask(Task task, int courseTemplateId){
         String sql = "INSERT INTO grading_system.Task(id, name, templateCourseId, weight) VALUES (\'"+ task.getId() + "\', \'"+ task.getName() +"\', \'"+ courseTemplateId +"\', \'" + task.getWeightInFinalGrade() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return task.getId();
     }
 
 
 
 //);
-    public void addCourse(Course course, int templateCourseId, int professorId){
-        String sql = "INSERT INTO grading_system.Task(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
+    public static int addCourse(Course course, int templateCourseId, int professorId){
+        String sql = "INSERT INTO grading_system.Course(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
                 "(\'"+ course.getId() + "\', \'"+ templateCourseId +"\', \'"+ course.getYear() +"\', \'" + course.getSemester() + "\', \'" + course.getName() + "\', \'"+ professorId +"\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return course.getId();
     }
 
-    public void addProfessor(Professor professor, int credentialId){
-        String sql = "INSERT INTO grading_system.Task(id, first_name, last_name, email, credentialId) VALUES (\'"+ professor.getId() + "\', \'"+ professor.getName().getFirstName() +"\', \'"+ professor.getName().getSurname()+"\', \'"+ professor.getEmail()+ "\', \'" + credentialId + "\')";
+    public static int addProfessor(Professor professor, int credentialId){
+        String sql = "INSERT INTO grading_system.Professor(id, first_name, last_name, email, credentialId) VALUES (\'"+ professor.getId() + "\', \'"+ professor.getName().getFirstName() +"\', \'"+ professor.getName().getSurname()+"\', \'"+ professor.getEmail()+ "\', \'" + credentialId + "\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return professor.getId();
     }
 
-    public void addSubtask(SubTask subTask){
-        String sql = "INSERT INTO grading_system.Task(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
+    public static int addSubtask(SubTask subTask){
+        String sql = "INSERT INTO grading_system.SubTask(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
                 "(\'"+ subTask.getId() + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\', \'" + subTask.getReleaseDate() + "\', \'"+ subTask.getDateDue() +"\', \'"+ subTask.isGroupProject() +"\', \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
         System.out.println(sql);
         sqlExecute(sql);
+        return subTask.getId();
     }
 
-    public void addGrade(Grade grade, int subTaskId, int studentId){
+    public static int addGrade(Grade grade, int subTaskId, int studentId){
 
         String sql = "INSERT INTO grading_system.Grade(id, subTaskId, studentId, absolutePointsScored) VALUES (\'"+ grade.getId() + "\', \'"+ subTaskId +"\', \'"+ studentId +"\', \'" + grade.getAbsolutePointsScored() + "\')";
         System.out.println(sql);
         sqlExecute(sql);
-
+        return grade.getId();
     }
 
-    public void addCourseSection(CourseSection courseSection, int courseId){
+    public static int addCourseSection(CourseSection courseSection, int courseId){
 
         String sql = "INSERT INTO grading_system.CourseSection(id, name, courseId) VALUES (\'"+ courseSection.getId() + "\', \'"+ courseSection.getName() +"\', \'"+ courseId +"\')";
         System.out.println(sql);
         sqlExecute(sql);
-
+        return courseSection.getId();
     }
 
 
@@ -117,7 +126,7 @@ public class DBManager {
      * READ
      * */
 
-    public Student readStudentById(int id){
+    public static Student readStudentById(int id){
         Student temp = null;
 
         try {
@@ -133,7 +142,7 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return temp;
     }
-    public List<Student> readAllStudents(){
+    public static List<Student> readAllStudents(){
         List<Student> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -167,7 +176,7 @@ public class DBManager {
         return listTemplate;
     }
 
-    public CourseTemplate readCourseTemplateById(int id){
+    public static CourseTemplate readCourseTemplateById(int id){
         CourseTemplate temp = null;
         try {
             Statement stmt=con.createStatement();
@@ -185,7 +194,7 @@ public class DBManager {
 
 
 
-    public Course readCourseById(int id, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate){
+    public static Course readCourseById(int id, ArrayList<CourseSection> courseSections, CourseTemplate courseTemplate){
         Course temp = null;
 
         try {
@@ -202,7 +211,7 @@ public class DBManager {
         return temp;
     }
 
-    public Course readCourseByCourseTemplateId(int courseTemplateId){
+    public static Course readCourseByCourseTemplateId(int courseTemplateId){
 
         Course course = null;
         try {
@@ -221,7 +230,7 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return null;
     }
-    public ArrayList<Course> readAllCourses(){
+    public static ArrayList<Course> readAllCourses(){
 
         ArrayList<Course> list = new ArrayList<>();
         try {
@@ -241,7 +250,7 @@ public class DBManager {
         return list;
     }
 
-    public String readCredentialById(int id){
+    public static String readCredentialById(int id){
         String temp = null;
         try {
             Statement stmt=con.createStatement();
@@ -258,9 +267,7 @@ public class DBManager {
     }
 
 
-
     public List<Professor> readAllProfessors(){
-
         List<Professor> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -280,7 +287,7 @@ public class DBManager {
         return list;
     }
 
-    public Professor readProfessorById(int id){
+    public static Professor readProfessorById(int id){
         Professor temp = null;
 
         try {
@@ -299,7 +306,7 @@ public class DBManager {
     }
 
 
-    public ArrayList<Student> readEnrollmentsByCourseSectionId(int courseSectionId){
+    public static ArrayList<Student> readEnrollmentsByCourseSectionId(int courseSectionId){
         ArrayList<Student> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -316,7 +323,7 @@ public class DBManager {
         return list;
     }
 
-    public ArrayList<CourseSection> readCourseSectionsByCourseId(int courseId){
+    public static ArrayList<CourseSection> readCourseSectionsByCourseId(int courseId){
         ArrayList<CourseSection> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -355,13 +362,13 @@ public class DBManager {
 //        return list;
 //    }
 
-    public GradingSystem readGradingSystem(){
+    public static GradingSystem readGradingSystem(){
         ArrayList<CourseTemplate> templatesList = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<Course>();
         Professor professor = readAllProfessors().get(0);
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from Task TemplateCourse";
+            String sql = "select * from TemplateCourse";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             CourseTemplate tmpCourseTemplate = null;
@@ -379,7 +386,7 @@ public class DBManager {
         return new GradingSystem(0, professor, courses, templatesList);
     }
 
-    public ArrayList<Task> readTasksByTemplateCourseId(int TemplateCourseId, ArrayList<Student> students){
+    public static ArrayList<Task> readTasksByTemplateCourseId(int TemplateCourseId, ArrayList<Student> students){
         ArrayList<Task> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -398,7 +405,7 @@ public class DBManager {
     }
 
 
-    public ArrayList<SubTask> readSubTasksByTaskId(int TaskId, ArrayList<Student> students){
+    public static ArrayList<SubTask> readSubTasksByTaskId(int TaskId, ArrayList<Student> students){
         ArrayList<SubTask> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -417,7 +424,7 @@ public class DBManager {
 
 
 
-    public Grade readGradeById(int id){
+    public static Grade readGradeById(int id){
         Grade temp = null;
         //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
         try {
@@ -442,28 +449,28 @@ public class DBManager {
     /*
      * DELETE
      * */
-    public void deleteCourseById(int id){
+    public static void deleteCourseById(int id){
         String sql = "DELETE FROM bank_atm.Course WHERE id = \'"+ id +"\'";
         sqlExecute(sql);
     }
-    public void deleteEnrollmentByStudentId(int studentId){
+    public static void deleteEnrollmentByStudentId(int studentId){
         String sql = "DELETE FROM bank_atm.Enrollment WHERE studentId = \'"+ studentId +"\'";
         sqlExecute(sql);
     }
-    public void deleteEnrollmentByCourseSectionId(int courseSectionId){
+    public static void deleteEnrollmentByCourseSectionId(int courseSectionId){
         String sql = "DELETE FROM bank_atm.Enrollment WHERE courseSectionId = \'"+ courseSectionId +"\'";
         sqlExecute(sql);
     }
-    public void deleteCourses(){
+    public static void deleteCourses(){
         String sql = "DELETE FROM grading_system.Course;";
         sqlExecute(sql);
     }
 
-    public void deleteStudentById(int id){
+    public static void deleteStudentById(int id){
         String sql = "DELETE FROM grading_system.Student WHERE id = \'"+ id +"\'";
         sqlExecute(sql);
     }
-    public void deleteStudents(){
+    public static void deleteStudents(){
         String sql = "DELETE FROM grading_system.Student;";
         sqlExecute(sql);
     }

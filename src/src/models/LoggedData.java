@@ -50,19 +50,29 @@ public class LoggedData {
 		ccList.add(cc);
 		
 		LocalDateTime startDate = LocalDateTime.now();
-		
+
+		ArrayList<Student> allStudentList = new ArrayList<Student>();
+		allStudentList.addAll(studentList);
+		allStudentList.addAll(studentList1);
 		
 		ArrayList<Task> taskList = new ArrayList<Task>();
 		Task t = new Task(1, "Exam", 70.0f);
-		taskList.add(t);
-		t = new Task(2, "Assignments", 30.0f);
-		SubTask sT = new SubTask(1, studentList, "Assingment 1", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "First Assignment", false);
+		SubTask sT = new SubTask(1, allStudentList, "Exam 1", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "First Exam", false);
 		sT.setStudentsGrade(s, 70.f);
 		t.addNewSubTask(sT);
-		sT = new SubTask(2, studentList, "Assingment 2", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "Second Assignment", false);
+		sT = new SubTask(2, allStudentList, "Exam 2", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "Second Exam", false);
 		sT.setStudentsGrade(s, 90.f);
 		t.addNewSubTask(sT);
 		taskList.add(t);
+		t = new Task(2, "Assignments", 30.0f);
+		sT = new SubTask(1, allStudentList, "Assingment 1", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "First Assignment", false);
+		sT.setStudentsGrade(s, 70.f);
+		t.addNewSubTask(sT);
+		sT = new SubTask(2, allStudentList, "Assingment 2", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "Second Assignment", false);
+		sT.setStudentsGrade(s, 90.f);
+		t.addNewSubTask(sT);
+		taskList.add(t);
+		//sT = new SubTask(1, studentList, "Exam 1", startDate, startDate.plusDays(5).toString(), 100.f, 50.f, 10.f, "First Assignment", false);
 		
 		
 		CourseTemplate cT = new CourseTemplate(0,"CS591P1", "Fall", "2019", taskList);

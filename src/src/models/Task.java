@@ -83,6 +83,16 @@ public class Task {
         return taskAggregateGrade;
     }
 
+    public void setStudentGrade(Student student, Float grade) {
+        int size = subTasks.size();
+        float subGrade = grade/size;
+        for (SubTask subTask:subTasks){
+
+            subTask.setStudentsGrade(student, subGrade/subTask.getWeightInParentTask()*subTask.getTotalPointsAvailable());
+        }
+
+    }
+
     public void deleteStudentFromTask(Student student){
         for (SubTask subTask:subTasks) {
             subTask.deleteStudentFromSubTask(student);
