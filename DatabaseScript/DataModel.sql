@@ -4,11 +4,8 @@ USE grading_system;
 DROP TABLE IF EXISTS `Grade`;
 DROP TABLE IF EXISTS `Credential`;
 
-
-
 DROP TABLE IF EXISTS `Grade`;
 DROP TABLE IF EXISTS `Enrollment`;
-
 
 DROP TABLE IF EXISTS `CourseSection`;
 DROP TABLE IF EXISTS `SubTask`;
@@ -119,7 +116,7 @@ ALTER TABLE `Grade` ADD FOREIGN KEY (`subTaskId`) REFERENCES `SubTask` (`id`);
 
 ALTER TABLE `Enrollment` ADD FOREIGN KEY (`studentId`) REFERENCES `Student` (`id`);
 
-ALTER TABLE `Credential` ADD FOREIGN KEY (`id`) REFERENCES `Professor` (`id`);
+ALTER TABLE `Professor` ADD FOREIGN KEY (`credentialId`) REFERENCES `Credential` (`id`);
 
 ALTER TABLE `Course` ADD FOREIGN KEY (`professorId`) REFERENCES `Professor` (`id`);
 
