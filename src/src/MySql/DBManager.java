@@ -18,10 +18,10 @@ public class DBManager {
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/grading_system","admin","admin");
-            Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from person");
-            while(rs.next())
-                System.out.println(rs.getString(2));
+            //Statement stmt=con.createStatement();
+            //ResultSet rs=stmt.executeQuery("select * from person");
+            //while(rs.next())
+            //    System.out.println(rs.getString(2));
         }catch(Exception e){ System.out.println(e);}
     }
     public static void close(){
@@ -159,6 +159,22 @@ public class DBManager {
         return list;
     }
 
+    public List<CourseTemplate> readAllCourseTemplate(){
+        List<CourseTemplate> listTemplate = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from TemplateCourse";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            CourseTemplate temp = null;
+            while(rs.next()) {
+                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"));
+                listTemplate.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return listTemplate;
+    }
 
     public static CourseTemplate readCourseTemplateById(int id){
         CourseTemplate temp = null;
@@ -249,8 +265,9 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return temp;
     }
-    public static List<Professor> readAllProfessors(){
 
+
+    public List<Professor> readAllProfessors(){
         List<Professor> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();

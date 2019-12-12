@@ -54,15 +54,7 @@ public class LoginController {
 			loginView.setMsgLabel("Wrong email or password");
 		}
 		
-		if (prf.getEmail().equalsIgnoreCase(id) && pwd.equalsIgnoreCase(prf.getPassword()))
-		{
-			CourseListController clC = new CourseListController();
-			//loginView.
-			
-		}else
-		{
-			
-		}	
+
 	}
 	
 	private void CancelLogin()

@@ -13,25 +13,28 @@ public class LoggedData {
 	private static ArrayList<Course> activeCourseList;
 	private static Course selectedCourse;
 	private static Task selectedTask;
-
 	private static SubTask selectedSubTask; 
 	private static GradingSystem GS;
 	private static ArrayList<CourseTemplate> cTList;
 
 	public static int subTaskID = 1;
-
+    private static DBManager dbManager;
 
 	public  static void  InitData()
 	{
+		dbManager = new DBManager();
+		dbManager.connect();
+		profList = new ArrayList<Professor>(dbManager.readAllProfessors());
+		//System.out.println(profList.size() +" "+ profList.get(0).getEmail() +" "+ profList.get(0).getPassword());
 		//Professor
-		Name name = new Name("Christine"," ", "Papapdakis");
-		prof = new Professor(0, name, "c@bu.edu", "1234");	
+		//Name name = new Name("Christine"," ", "Papapdakis");
+		//prof = new Professor(0, name, "c@bu.edu", "1234");
 		
-		profList = new ArrayList<Professor>();
-		profList.add(prof);
+		//profList = new ArrayList<Professor>();
+		//profList.add(prof);
 		
 		//Student
-		name = new Name("Jone"," ", "Doe");		
+		Name name = new Name("Jone"," ", "Doe");
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
@@ -81,13 +84,13 @@ public class LoggedData {
 		//courseSections.add(courseSection);
 		ccList.add(courseSection);
 		
-		activeCourseList = new ArrayList<Course>();
+		//activeCourseList = new ArrayList<Course>();
 
 		Course c = new Course(0,"CS591P1","Fall", "2019", ccList, cT);
-		activeCourseList.add(c);
+		//activeCourseList.add(c);
 		c = new Course(0,"CS591P1","Spring", "2020", ccList, cT);
 
-		activeCourseList.add(c);
+		//activeCourseList.add(c);
 		
 		
 				
@@ -101,6 +104,8 @@ public class LoggedData {
 		boolean isLogin = false;
 		for (var pr : profList)
 		{
+			//dbManager.connect();;
+			//dbManager.readCredentialById()
 			if (pr.getEmail().equalsIgnoreCase(email) && pswd.equalsIgnoreCase(pr.getPassword()))
 			{
 				isLogin = true;
@@ -117,10 +122,15 @@ public class LoggedData {
 	public static void RetrieveGradingStystemByProfessor(Professor pr)
 	{
 		// To retrieve the Grading System from database;
+
+		activeCourseList = new ArrayList<Course>(dbManager.readAllCourses());
+		cTList = new ArrayList<CourseTemplate>(dbManager.readAllCourseTemplate());
 		
-		GS = new GradingSystem(1,prof, activeCourseList, LoggedData.cTList );
+		GS = new GradingSystem(1,prof, activeCourseList, cTList );
 		
 	}
+
+
 
 	public static Professor getProf() {
 		return prof;
