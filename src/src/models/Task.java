@@ -82,7 +82,7 @@ public class Task {
         }
         return taskAggregateGrade;
     }
-
+    // Method needed
     public void setStudentGrade(Student student, Float grade) {
         int size = subTasks.size();
         float subGrade = grade/size;
