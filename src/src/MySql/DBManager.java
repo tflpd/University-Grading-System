@@ -39,6 +39,15 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
     }
 
+    public static int AddExecute(String sql){
+        try {
+            Statement stmt = con.createStatement();
+            return stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+        }
+        catch(Exception e){ System.out.println(e);}
+        return 0;
+    }
+
     /*
     * CREATE
     * */
@@ -54,9 +63,7 @@ public class DBManager {
     public static int addTemplateCourse(CourseTemplate courseTemplate){
         String sql = "INSERT INTO grading_system.TemplateCourse (id, name, year, semester) VALUES (\'"+ courseTemplate.getId() + "\', \'"+ courseTemplate.getName() +"\', \'"+ courseTemplate.getYear() +"\', \'" + courseTemplate.getSemester() + "\')";
         System.out.println(sql);
-        sqlExecute(sql);
-        return courseTemplate.getId();
-
+        return AddExecute(sql);
     }
 
     public static void addCredential(Professor professor){
@@ -86,8 +93,8 @@ public class DBManager {
         String sql = "INSERT INTO grading_system.Course(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
                 "(\'"+ course.getId() + "\', \'"+ templateCourseId +"\', \'"+ course.getYear() +"\', \'" + course.getSemester() + "\', \'" + course.getName() + "\', \'"+ professorId +"\')";
         System.out.println(sql);
-        sqlExecute(sql);
-        return course.getId();
+        //sqlExecute(sql);
+        return AddExecute(sql);
     }
 
     public static int addProfessor(Professor professor, int credentialId){
@@ -230,6 +237,29 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return null;
     }
+
+    public static List<Course> readCourseByCourseProfId(int profId){
+
+        List<Course> courseList = new ArrayList<Course>();
+
+        //Course course = null;
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Course WHERE professorId ="+ profId ;
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Course temp = null;
+            while(rs.next()) {
+                ArrayList<CourseSection> courseSectionsList = readCourseSectionsByCourseId(rs.getInt("id"));
+                CourseTemplate courseTemplate = readCourseTemplateById(rs.getInt("templateCourseId"));
+                temp = new Course(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), courseSectionsList, courseTemplate);
+                courseList.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return courseList;
+    }
+
     public static ArrayList<Course> readAllCourses(){
 
         ArrayList<Course> list = new ArrayList<>();
@@ -267,7 +297,7 @@ public class DBManager {
     }
 
 
-    public List<Professor> readAllProfessors(){
+    public static List<Professor> readAllProfessors(){
         List<Professor> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -361,6 +391,49 @@ public class DBManager {
 //        catch(Exception e){ System.out.println(e);}
 //        return list;
 //    }
+
+    public static boolean readGradingSystem(String email, String pswd){
+
+        ArrayList<CourseTemplate> templatesList = new ArrayList<>();
+        ArrayList<Course> courses = new ArrayList<Course>();
+        Professor professor = null;
+        boolean isLoggedIn = false;
+        var profList = readAllProfessors();
+        for (var pr : profList)
+        {
+            if (pr.getEmail().equalsIgnoreCase(email) && pswd.equalsIgnoreCase(pr.getPassword()))
+            {
+                professor = pr;
+                isLoggedIn = true;
+                break;
+            }
+        }
+        if (isLoggedIn) {
+            courses = new ArrayList<Course>(readCourseByCourseProfId(professor.getId()));
+
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "select * from TemplateCourse";
+                System.out.println(sql);
+                ResultSet rs = stmt.executeQuery(sql);
+                CourseTemplate tmpCourseTemplate = null;
+                while (rs.next()) {
+                    Course tmpCourse = readCourseByCourseTemplateId(rs.getInt("id"));
+                    ArrayList<Student> students = tmpCourse.getAllStudents();
+                    ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
+                    tmpCourseTemplate = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
+                    tmpCourse.setCourseTemplate(tmpCourseTemplate);
+                    //courses.add(tmpCourse);
+                    templatesList.add(tmpCourseTemplate);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            LoggedData.setGradingSystem(new GradingSystem(0, professor, courses, templatesList));
+            LoggedData.setProf(professor);
+        }
+        return isLoggedIn;
+    }
 
     public static GradingSystem readGradingSystem(){
         ArrayList<CourseTemplate> templatesList = new ArrayList<>();

@@ -10,7 +10,7 @@ public class LoggedData {
 	
 	private static Professor prof;
 	private static ArrayList<Professor> profList;
-	private static ArrayList<Course> activeCourseList;
+	//private static ArrayList<Course> activeCourseList;
 	private static Course selectedCourse;
 	private static Task selectedTask;
 	private static SubTask selectedSubTask; 
@@ -24,7 +24,7 @@ public class LoggedData {
 	{
 		dbManager = new DBManager();
 		dbManager.connect();
-		profList = new ArrayList<Professor>(dbManager.readAllProfessors());
+		//profList = new ArrayList<Professor>(dbManager.readAllProfessors());
 		//System.out.println(profList.size() +" "+ profList.get(0).getEmail() +" "+ profList.get(0).getPassword());
 		//Professor
 		//Name name = new Name("Christine"," ", "Papapdakis");
@@ -100,35 +100,17 @@ public class LoggedData {
 	
 	public static boolean Login(String email, String pswd)
 	{
-		
-		boolean isLogin = false;
-		for (var pr : profList)
+		boolean res = dbManager.readGradingSystem(email, pswd);
+		if (res)
 		{
-			//dbManager.connect();;
-			//dbManager.readCredentialById()
-			if (pr.getEmail().equalsIgnoreCase(email) && pswd.equalsIgnoreCase(pr.getPassword()))
-			{
-				isLogin = true;
-				prof = pr;
-				RetrieveGradingStystemByProfessor(prof);
-				break;
-			}
+			//LoggedData.setActiveCourseList(LoggedData.getGradingSystem().getActiveCourses());
 		}
-		
-		return isLogin;
-	}
-	
-	
-	public static void RetrieveGradingStystemByProfessor(Professor pr)
-	{
-		// To retrieve the Grading System from database;
+		return res;
 
-		activeCourseList = new ArrayList<Course>(dbManager.readAllCourses());
-		cTList = new ArrayList<CourseTemplate>(dbManager.readAllCourseTemplate());
-		
-		GS = new GradingSystem(1,prof, activeCourseList, cTList );
-		
 	}
+	
+	
+
 
 
 
@@ -140,21 +122,6 @@ public class LoggedData {
 		LoggedData.prof = prof;
 	}
 
-	public static GradingSystem getGrading() {
-		return GS;
-	}
-
-	public static void setGrading(GradingSystem grading) {
-		LoggedData.GS = grading;
-	}
-
-	public static ArrayList<Course> getActiveCourseList() {
-		return activeCourseList;
-	}
-
-	public static void setActiveCourseList(ArrayList<Course> activeCourseList) {
-		LoggedData.activeCourseList = activeCourseList;
-	}
 
 	public static Course getSelectedCourse() {
 		return selectedCourse;
@@ -187,8 +154,8 @@ public class LoggedData {
 	public static void setGradingSystem(GradingSystem gS) {
 		GS = gS;
 	}
-	
-	
-	
 
+	public static DBManager getDbManager() {
+		return dbManager;
+	}
 }

@@ -171,4 +171,8 @@ public class Course {
     public void setCourseTemplate(CourseTemplate courseTemplate) {
         this.courseTemplate = courseTemplate;
     }
+
+    public CourseTemplate getCourseTemplate() {
+        return courseTemplate;
+    }
 }

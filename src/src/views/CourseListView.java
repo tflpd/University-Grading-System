@@ -48,19 +48,6 @@ public class CourseListView extends JPanel{
         this.add(infoPanel, gbc);
         this.add(courseListPanel, gbc);
         this.add(buttonPanel, gbc);
-        //this.add(msgPanel, gbc);
-
-        //frame.add(welcomeLabel);
-        //frame.add(infoPanel);
-        //frame.add(buttonPanel);
-
-
-        //frame.setLayout(new GridLayout(3, 1, 0, 50));
-        //frame.setLocationRelativeTo(null);
-        //frame.setResizable(false);
-        //frame.setVisible(true);
-
-
     }
 
 	public JButton getCreateButton() {
@@ -77,11 +64,11 @@ public class CourseListView extends JPanel{
 
 	public void setCourseList(ArrayList<Course> cList) {
 		
-		
-		for(var p : cList ){
-		     dlm.addElement(p.toString());
-		}    
-		
+		if (cList != null) {
+            for (var p : cList) {
+                dlm.addElement(p.toString());
+            }
+        }
 			
 	}
 
