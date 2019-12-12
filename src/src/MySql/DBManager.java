@@ -42,7 +42,16 @@ public class DBManager {
     public static int AddExecute(String sql){
         try {
             Statement stmt = con.createStatement();
-            return stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            int autoIncKeyFromApi = 0;
+            var rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                autoIncKeyFromApi = rs.getInt(1);
+            } else {
+
+                // throw an exception from here
+            }
+            return autoIncKeyFromApi;
         }
         catch(Exception e){ System.out.println(e);}
         return 0;
@@ -79,11 +88,12 @@ public class DBManager {
         return studentId;
 
     }
-    public static int addTask(Task task, int courseTemplateId){
-        String sql = "INSERT INTO grading_system.Task(id, name, templateCourseId, weight) VALUES (\'"+ task.getId() + "\', \'"+ task.getName() +"\', \'"+ courseTemplateId +"\', \'" + task.getWeightInFinalGrade() + "\')";
-        System.out.println(sql);
-        sqlExecute(sql);
-        return task.getId();
+    public static int addTask(Task ta, int courseTemplateId){
+        System.out.println("Task Name "+ta.getWeightInFinalGrade().toString());
+        String sql = "INSERT INTO grading_system.Task(name, templateCourseId, weight) VALUES (\'"+ ta.getName() +"\', \'"+ courseTemplateId +"\', \'" + ta.getWeightInFinalGrade() + "\')";
+        //System.out.println(sql);
+        //sqlExecute(sql);
+        return AddExecute(sql);
     }
 
 
@@ -175,7 +185,8 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
             CourseTemplate temp = null;
             while(rs.next()) {
-                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"));
+                ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), null);
+                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
                 listTemplate.add(temp);
             }
         }
@@ -192,7 +203,8 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
 
             while(rs.next()) {
-                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"));
+                ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), null);
+                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
             }
         }
         catch(Exception e){ System.out.println(e);}
@@ -418,16 +430,17 @@ public class DBManager {
                 ResultSet rs = stmt.executeQuery(sql);
                 CourseTemplate tmpCourseTemplate = null;
                 while (rs.next()) {
-                    Course tmpCourse = readCourseByCourseTemplateId(rs.getInt("id"));
-                    ArrayList<Student> students = tmpCourse.getAllStudents();
-                    ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
-                    tmpCourseTemplate = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
-                    tmpCourse.setCourseTemplate(tmpCourseTemplate);
-                    //courses.add(tmpCourse);
-                    templatesList.add(tmpCourseTemplate);
+                    //Course tmpCourse = readCourseByCourseTemplateId(rs.getInt("id"));
+                    ArrayList<Student> students = null;
+                    //if (tmpCourse != null) {
+                        ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
+                        tmpCourseTemplate = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
+                        //tmpCourse.setCourseTemplate(tmpCourseTemplate);
+                        templatesList.add(tmpCourseTemplate);
+
                 }
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println(e.fillInStackTrace());
             }
             LoggedData.setGradingSystem(new GradingSystem(0, professor, courses, templatesList));
             LoggedData.setProf(professor);
@@ -469,6 +482,7 @@ public class DBManager {
             Task temp = null;
             while(rs.next()) {
                 ArrayList<SubTask> subTasks = readSubTasksByTaskId(rs.getInt("id"), students); //
+                System.out.println("Task Id ="+rs.getInt("id"));
                 temp = new Task(rs.getInt("id"), rs.getString("name"), (float)rs.getDouble("weight"), subTasks);
                 list.add(temp);
             }
@@ -517,7 +531,11 @@ public class DBManager {
     /*
      * UPDATE
      * */
-
+    public static void UpdateTask(Task task)
+    {
+      String sql =   "UPDATE Task SET name = "+task.getName()+", weight = "+task.getWeightInFinalGrade()+" WHERE id = "+task.getId();
+      sqlExecute(sql);
+    }
 
     /*
      * DELETE
