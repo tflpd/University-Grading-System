@@ -93,7 +93,6 @@ public class TaskDialogController {
 					else {
 						t.setWeightInFinalGrade(Float.parseFloat(dialog.getWeightTf().getText()));
 					}
-
 					break;
 				}
 			}
@@ -102,14 +101,19 @@ public class TaskDialogController {
 		{
 			if ((totalWeight + Float.parseFloat(dialog.getWeightTf().getText())) <= 100) {
 				Task task = new Task(0, dialog.getNameTf().getText(), Float.parseFloat(dialog.getWeightTf().getText()));
+				int id = LoggedData.getDbManager().addTask(task, LoggedData.getSelectedCourse().getCourseTemplate().getId());
+				task.setId(id);
+				LoggedData.setSelectedTask(task);
 				LoggedData.getSelectedCourse().getTasks().add(task);
+
 			}else
 			{
 				isAllowed = false;
 			}
 		}
 		if (isAllowed) {
-			UpdateTaskTable(LoggedData.getSelectedCourse().getTasks());
+			//LoggedData.getSelectedTask().setId(LoggedData.getDbManager().addTask(LoggedData.getSelectedTask(), LoggedData.getSelectedCourse().getCourseTemplate().getId()));
+		    UpdateTaskTable(LoggedData.getSelectedCourse().getTasks());
 			Close();
 		}else
 		{

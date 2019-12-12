@@ -24,6 +24,8 @@ public class LoggedData {
 	{
 		dbManager = new DBManager();
 		dbManager.connect();
+
+
 		//profList = new ArrayList<Professor>(dbManager.readAllProfessors());
 		//System.out.println(profList.size() +" "+ profList.get(0).getEmail() +" "+ profList.get(0).getPassword());
 		//Professor
@@ -34,7 +36,7 @@ public class LoggedData {
 		//profList.add(prof);
 		
 		//Student
-		Name name = new Name("Jone"," ", "Doe");
+		/*Name name = new Name("Jone"," ", "Doe");
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		Student s = new Student(1, name, "doe.bu.edu", "1234567");
 		studentList.add(s);
@@ -90,29 +92,17 @@ public class LoggedData {
 		//activeCourseList.add(c);
 		c = new Course(0,"CS591P1","Spring", "2020", ccList, cT);
 
-		//activeCourseList.add(c);
+		//activeCourseList.add(c);*/
 		
-		
-				
-		
-		
+
 	}
 	
 	public static boolean Login(String email, String pswd)
 	{
 		boolean res = dbManager.readGradingSystem(email, pswd);
-		if (res)
-		{
-			//LoggedData.setActiveCourseList(LoggedData.getGradingSystem().getActiveCourses());
-		}
 		return res;
 
 	}
-	
-	
-
-
-
 
 	public static Professor getProf() {
 		return prof;

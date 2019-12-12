@@ -93,6 +93,7 @@ public class CreateCourseController {
 		{
 			LoggedData.setSelectedCourse(LoggedData.getGradingSystem().addNewCourse(createCourse.getNameText().getText(),
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
+			System.out.println("Template id " + LoggedData.getSelectedCourse().getName() +" template id "+LoggedData.getSelectedCourse().getCourseTemplate().getId());
 		}
 
         //to do

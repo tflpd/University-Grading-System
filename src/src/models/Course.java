@@ -84,8 +84,10 @@ public class Course {
 
     public ArrayList<Student> getAllStudents(){
         ArrayList<Student> allStudents = new ArrayList<Student>();
-        for (CourseSection courseSection:courseSections){
-            allStudents.addAll(courseSection.getStudents());
+        if (courseSections != null) {
+            for (CourseSection courseSection : courseSections) {
+                allStudents.addAll(courseSection.getStudents());
+            }
         }
         return allStudents;
     }

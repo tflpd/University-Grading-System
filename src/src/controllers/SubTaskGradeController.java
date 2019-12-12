@@ -47,13 +47,7 @@ public class SubTaskGradeController {
 	{
 		String header = LoggedData.getSelectedSubTask().getName();
 		//courseStudentView.setCourseLabel(header+"'s Students List");
-		
-		
-		
-		
 		var subTask = LoggedData.getSelectedSubTask();
-
-	
         int columSize = 9;
 		String col[] = new String[9];
 		col[0] = "Id";
