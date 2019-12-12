@@ -117,8 +117,6 @@ public class ClassHomePageController {
 
 		String col[] = {"Id","Task Name", "Weight (%)"," ",};
 		tableModel = new DefaultTableModel(col, 0);
-
-		
 		if (taskList != null)
 		{
 			for (int i = 0; i < taskList.size(); i++)
@@ -168,7 +166,7 @@ public class ClassHomePageController {
 
 	public void UpdateSubTaskTable(Task task)
 	{
-		String col[] = {"Id", task.getName()+" sub task(s)"," ",};
+		String col[] = {"Id", task.getName()+" sub task(s)","Weight (%)"," ",};
 		TableModel tableModel = new DefaultTableModel(col, 0);
 		List<SubTask> subTask = task.getSubTasks();
 
@@ -178,6 +176,7 @@ public class ClassHomePageController {
 			for (int i = 0; i < subTask.size(); i++)
 			{
 				Object[] objs = {subTask.get(i).getId(), subTask.get(i).getName(),
+						subTask.get(i).getWeightInParentTask(),
 						"Edit"};
 				((DefaultTableModel) tableModel).addRow(objs);
 			}
