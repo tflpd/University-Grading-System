@@ -41,7 +41,7 @@ public class CreateCourseController {
 		parentPanel.add(createCourse, BorderLayout.CENTER);
 
 
-		var tempList = LoggedData.getGrading().getCourseTemplates();
+		var tempList = LoggedData.getGradingSystem().getCourseTemplates();
 		DefaultComboBoxModel model = new DefaultComboBoxModel();
 		model.addAll(tempList);
 		createCourse.setTemplateList(model);
@@ -86,22 +86,27 @@ public class CreateCourseController {
 		{
 			var template = (CourseTemplate) createCourse.getTemplateList().getSelectedObjects()[0];
 			templateId = template.getId();
-			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
+			LoggedData.setSelectedCourse(LoggedData.getGradingSystem().addNewCourse(createCourse.getNameText().getText(),
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents, template));
 		}
 		else
 		{
-			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
+			LoggedData.setSelectedCourse(LoggedData.getGradingSystem().addNewCourse(createCourse.getNameText().getText(),
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
 		}
 
         //to do
 		// Add to database
-		DBManager dbManager = new DBManager();
-		try{
-			dbManager.connect();
-			dbManager.addCourse(LoggedData.getSelectedCourse(), templateId, LoggedData.getProf().getId());
-			dbManager.close();
+		//DBManager dbManager = new DBManager();
+		try {
+			if (templateId == 0) {
+				templateId = LoggedData.getDbManager().addTemplateCourse(LoggedData.getSelectedCourse().getCourseTemplate());
+				LoggedData.getSelectedCourse().getCourseTemplate().setId(templateId);
+			}
+			System.out.println("template id"+ templateId);
+			int courseId = LoggedData.getDbManager().addCourse(LoggedData.getSelectedCourse(), templateId, LoggedData.getProf().getId());
+			LoggedData.getSelectedCourse().setId(courseId);
+
 		}catch (Exception ex)
 		{
 			ex.printStackTrace();

@@ -27,7 +27,7 @@ public class CourseListController {
 		parentPanel.revalidate();
 		parentPanel.repaint();
 		parentPanel.add(courseList, BorderLayout.CENTER);
-		
+		//LoggedData.setActiveCourseList(LoggedData.getGradingSystem().getActiveCourses());
 		initController();
 	}
 	
@@ -35,7 +35,7 @@ public class CourseListController {
 	{
 		courseList.getCreateButton().addActionListener(l -> CreateCourse());
 		courseList.getLogoutButton().addActionListener(l -> Logout());		
-        courseList.setCourseList(LoggedData.getActiveCourseList());
+        courseList.setCourseList(LoggedData.getGradingSystem().getActiveCourses());
         
         courseList.getCourseList().addMouseListener(new MouseAdapter() {
     	    public void mouseClicked(MouseEvent evt) {
@@ -44,7 +44,7 @@ public class CourseListController {
                 if (index >= 0) {
                     Object o = list.getModel().getElementAt(index);
                     
-                    for(var c : LoggedData.getActiveCourseList())
+                    for(var c : LoggedData.getGradingSystem().getActiveCourses())
                     {
                     	if (c.toString().equalsIgnoreCase( o.toString()))
                     	{
