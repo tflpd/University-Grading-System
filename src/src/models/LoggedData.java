@@ -25,7 +25,7 @@ public class LoggedData {
 		dbManager = new DBManager();
 		dbManager.connect();
 		profList = new ArrayList<Professor>(dbManager.readAllProfessors());
-		System.out.println(profList.size() +" "+ profList.get(0).getEmail() +" "+ profList.get(0).getPassword());
+		//System.out.println(profList.size() +" "+ profList.get(0).getEmail() +" "+ profList.get(0).getPassword());
 		//Professor
 		//Name name = new Name("Christine"," ", "Papapdakis");
 		//prof = new Professor(0, name, "c@bu.edu", "1234");
