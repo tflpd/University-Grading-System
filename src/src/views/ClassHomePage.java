@@ -144,7 +144,7 @@ public class ClassHomePage extends JPanel {
 
 		JScrollPane tableSP = new JScrollPane(TaskTable);
 		//Dimension preferredSize = new Dimension(400, 600);
-		tableSP.setPreferredSize(new Dimension(300,100 ));
+		tableSP.setPreferredSize(new Dimension(400,100 ));
 		tableSP.revalidate();
 		leftPanel.add(tableSP, gc);
 
@@ -210,7 +210,7 @@ public class ClassHomePage extends JPanel {
 
 		JScrollPane tableSP1 = new JScrollPane(subtaskTable);
 		//Dimension preferredSize = new Dimension(400, 600);
-		tableSP1.setPreferredSize(new Dimension(300,100 ));
+		tableSP1.setPreferredSize(new Dimension(400,100 ));
 		tableSP1.revalidate();
 		rightPanel.add(tableSP1, gcr);
 

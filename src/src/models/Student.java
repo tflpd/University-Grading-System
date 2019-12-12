@@ -46,4 +46,8 @@ public class Student {
     public void setWithdrawn(boolean withdrawn) {
         this.withdrawn = withdrawn;
     }
+
+    public void setName(Name name) {
+        this.name = name;
+    }
 }

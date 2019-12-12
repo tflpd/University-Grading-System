@@ -3,8 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import models.LoggedData;
@@ -27,7 +26,13 @@ public class ClassHomePageController {
 		parentPanel.removeAll();
 		parentPanel.revalidate();
 		parentPanel.repaint();
-		parentPanel.add(classHomePage, BorderLayout.CENTER);		
+		parentPanel.add(classHomePage, BorderLayout.CENTER);
+
+		if (LoggedData.getSelectedCourse().getTasks().size() > 0) {
+			LoggedData.setSelectedTask(LoggedData.getSelectedCourse().getTasks().get(0));
+			UpdateSubTaskTable(LoggedData.getSelectedTask());
+		}
+
 		initController();
 	}
 
@@ -58,7 +63,8 @@ public class ClassHomePageController {
 						UpdateSubTaskTable(LoggedData.getSelectedTask());
 					}else if (column == 2)
 					{
-						TaskDialogController tDC = new TaskDialogController(classHomePage, id);
+						//TaskDialogController tDC = new TaskDialogController(classHomePage, id, this.);
+						OpenTaskDialog(id);
 					}
 
 				}
@@ -84,8 +90,9 @@ public class ClassHomePageController {
 					if (column == 0)
 					{
 
-					}else if (column == 1)
+					}else if (column == 2)
 					{
+
 						SubTaskDialogController subTaskDialogController = new SubTaskDialogController(classHomePage, id);
 					}
 
@@ -93,29 +100,29 @@ public class ClassHomePageController {
 			}
 		});
 		classHomePage.getHomeButton().addActionListener(l -> backHome());
+		classHomePage.getDeleteButton().addActionListener(l -> DeleteCourse());
 
 		fillTaskData();
 	}
 
-	
+	private void DeleteCourse(){
+		LoggedData.getGradingSystem().deleteCourse(LoggedData.getSelectedCourse());
+		backHome();
+	}
 
 
 	public void fillTaskData()
 	{
 		var taskList = LoggedData.getSelectedCourse().getTasks();
 
-		String col[] = {"Id","Task Name", "Weightage (%)"," ",};
+		String col[] = {"Id","Task Name", "Weight (%)"," ",};
 		tableModel = new DefaultTableModel(col, 0);
-
-		
 		if (taskList != null)
 		{
-
-			System.out.println(taskList.size());
 			for (int i = 0; i < taskList.size(); i++)
 			{
 				Object[] objs = {taskList.get(i).getId(), taskList.get(i).getName(), taskList.get(i).getWeightInFinalGrade(),
-				"Edit"};
+				"edit"};
 				((DefaultTableModel) tableModel).addRow(objs);
 			}			
 		}
@@ -130,12 +137,27 @@ public class ClassHomePageController {
 
 	private void OpenSubTaskDialog()
 	{
-		SubTaskDialogController tDC = new SubTaskDialogController(classHomePage);
+		if (LoggedData.getSelectedTask() != null) {
+			SubTaskDialogController tDC = new SubTaskDialogController(classHomePage);
+		}else
+		{
+			String message = "\" Error\"\n"
+					+ "Please add a task first before adding subtask";
+
+			JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void OpenTaskDialog()
 	{
-		TaskDialogController tDC = new TaskDialogController(classHomePage);
+		//System.out.println("create new Task");
+		TaskDialogController tDC = new TaskDialogController(classHomePage, this);
+	}
+	private void OpenTaskDialog(int id)
+	{
+		//System.out.println("create new Task");
+		TaskDialogController tDC = new TaskDialogController(classHomePage, id,this);
 	}
 	private void backHome()
 	{
@@ -144,7 +166,7 @@ public class ClassHomePageController {
 
 	public void UpdateSubTaskTable(Task task)
 	{
-		String col[] = {"Id","SubTask Name"," ",};
+		String col[] = {"Id", task.getName()+" sub task(s)","Weight (%)"," ",};
 		TableModel tableModel = new DefaultTableModel(col, 0);
 		List<SubTask> subTask = task.getSubTasks();
 
@@ -154,6 +176,7 @@ public class ClassHomePageController {
 			for (int i = 0; i < subTask.size(); i++)
 			{
 				Object[] objs = {subTask.get(i).getId(), subTask.get(i).getName(),
+						subTask.get(i).getWeightInParentTask(),
 						"Edit"};
 				((DefaultTableModel) tableModel).addRow(objs);
 			}

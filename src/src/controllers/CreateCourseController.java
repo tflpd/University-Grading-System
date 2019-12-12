@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;*/
 
 //import views.CourseListView;
+import MySql.DBManager;
 import models.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
@@ -40,7 +41,7 @@ public class CreateCourseController {
 		parentPanel.add(createCourse, BorderLayout.CENTER);
 
 
-		var tempList = LoggedData.getGrading().getCourseTemplates();
+		var tempList = LoggedData.getGradingSystem().getCourseTemplates();
 		DefaultComboBoxModel model = new DefaultComboBoxModel();
 		model.addAll(tempList);
 		createCourse.setTemplateList(model);
@@ -63,15 +64,17 @@ public class CreateCourseController {
 				e.printStackTrace();
 			}
 		});
+		createCourse.getCancelButton().addActionListener(l -> Cancel());
+	}
 
-
-
-
+	private void Cancel()
+	{
+		CourseListController cLC = new CourseListController();
 	}
 
 	private void Create()
 	{
-		//ArrayList<Student> studentList= new ArrayList<Student>();
+		int templateId = 0;
 	    if (importedStudents == null)
 		{
 			importedStudents = new ArrayList<Student>();
@@ -82,18 +85,33 @@ public class CreateCourseController {
 		if (createCourse.getTemplateList().getSelectedObjects().length > 0)
 		{
 			var template = (CourseTemplate) createCourse.getTemplateList().getSelectedObjects()[0];
-			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
+			templateId = template.getId();
+			LoggedData.setSelectedCourse(LoggedData.getGradingSystem().addNewCourse(createCourse.getNameText().getText(),
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents, template));
 		}
 		else
 		{
-			LoggedData.setSelectedCourse(LoggedData.getGrading().addNewCourse(createCourse.getNameText().getText(),
+			LoggedData.setSelectedCourse(LoggedData.getGradingSystem().addNewCourse(createCourse.getNameText().getText(),
 					createCourse.getSemesterText().getText(), createCourse.getYearText().getText(), importedStudents));
+			System.out.println("Template id " + LoggedData.getSelectedCourse().getName() +" template id "+LoggedData.getSelectedCourse().getCourseTemplate().getId());
 		}
 
         //to do
 		// Add to database
-		//
+		//DBManager dbManager = new DBManager();
+		try {
+			if (templateId == 0) {
+				templateId = LoggedData.getDbManager().addTemplateCourse(LoggedData.getSelectedCourse().getCourseTemplate());
+				LoggedData.getSelectedCourse().getCourseTemplate().setId(templateId);
+			}
+			System.out.println("template id"+ templateId);
+			int courseId = LoggedData.getDbManager().addCourse(LoggedData.getSelectedCourse(), templateId, LoggedData.getProf().getId());
+			LoggedData.getSelectedCourse().setId(courseId);
+
+		}catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
 
 		ClassHomePageController cHPC = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
 	}
@@ -117,14 +135,7 @@ public class CreateCourseController {
 
 			ImportExcel importExcel = new ImportExcel(selectedFile.getPath());
 			List<Student> list = importExcel.importE();
-//			for(Student student : importExcel.importE()){
-//				System.out.println(student.getBuID());
-//			}
 			importedStudents = new ArrayList<>(list);
-			//for(Student student : importedStudents){
-			//	System.out.println(student.getBuID());
-			//}
-
 
 		}
 	}

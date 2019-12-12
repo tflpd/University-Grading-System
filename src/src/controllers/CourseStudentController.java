@@ -1,11 +1,17 @@
 package controllers;
 
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import models.CourseSection;
 import models.LoggedData;
+import models.Name;
+import models.Student;
+import views.ButtonColumn;
 import views.CourseStudentView;
 import views.MainPanelView;
 
@@ -32,13 +38,13 @@ public class CourseStudentController {
 		courseStudentView.getHomeButton().addActionListener(l -> backHome());
 		courseStudentView.getBackButton().addActionListener(l -> back());
 		courseStudentView.getAddButton().addActionListener(l -> create());
+		courseStudentView.getSaveButton().addActionListener(l -> save());
 	}
 
 	private void create()
 	{
+
 		AddSingleStudentController ass = new AddSingleStudentController();
-
-
 	}
 	private void backHome()
 	{
@@ -68,8 +74,8 @@ public class CourseStudentController {
 			col[i+3] = taskList.get(i).getName() +" ("+taskList.get(i).getWeightInFinalGrade()+"%)";
 		}
 		col[columSize-3] = "Final Grade";
-		col[columSize-2] = "Status";
-		col[columSize-1] = " ";
+		col[columSize-2] = "Has Withdrawn";
+		col[columSize-1] = "Action";
 
 		int studentCount = 0;
 		tableModel = new DefaultTableModel(col, 0);
@@ -87,12 +93,12 @@ public class CourseStudentController {
 					objs[2] = cSc.getName();
 					for (int i=0; i < taskList.size(); i++)
 					{
-						objs[i+3] = taskList.get(i).getStudentsGrade(s);
+						objs[i+3] = String.valueOf(taskList.get(i).getStudentsGrade(s));
 					}
 
-					col[columSize-3] = LoggedData.getSelectedCourse().getStudentsFinalLetterGrade(s);
-					col[columSize-2] = "";
-					col[columSize-1] = "Edit";
+					objs[columSize-3] = LoggedData.getSelectedCourse().getStudentsFinalLetterGrade(s);
+					objs[columSize-2] = String.valueOf(s.isWithdrawn());
+					objs[columSize-1] = "Delete";
 
 					((DefaultTableModel) tableModel).addRow(objs);
 				}					
@@ -103,7 +109,122 @@ public class CourseStudentController {
 		courseStudentView.setTable(tableModel);
 		//double mean = DoubleSummaryStatistics.
 		
-		//String stat = "Statistic:   Mean: "+ LoggedData.getGradingSystem().getActiveCourses().get(0). + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
+		//String stat = "Statistic:   Mean: "+ LoggedData.getSelectedCourse(). + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
 	    courseStudentView.setStatisticLabel("");
+
+		Action delete = new AbstractAction()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JTable table = (JTable)e.getSource();
+				int modelRow = Integer.valueOf( e.getActionCommand() );
+				((DefaultTableModel)table.getModel()).removeRow(modelRow);
+			}
+		};
+
+
+		ButtonColumn buttonColumn = new ButtonColumn(courseStudentView.getTable(), delete, columSize-2);
+		buttonColumn.setMnemonic(KeyEvent.VK_D);
 	}
+
+	private void save() {
+		DefaultTableModel model = (DefaultTableModel) courseStudentView.getTable().getModel();
+		var taskList = LoggedData.getSelectedCourse().getTasks();
+		//name
+		for (int i = 0; i < model.getRowCount(); i++) {
+
+			String name = (String) model.getValueAt(i, 1);
+
+				String[] arr = name.split(" ");
+				String firstName = arr[0];
+				String LastName;
+				if (arr.length == 1) {
+					LastName = "";
+				} else {
+					LastName = arr[1];
+				}
+				Name name1 = new Name(firstName, LastName);
+				int id = (int)model.getValueAt(i, 0);
+				for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+					if(cSc.getSingleStudent(id) != null){
+						cSc.getSingleStudent(id).setName(name1);
+					}
+				}
+
+		}
+
+		//grade
+		for (int i = 0; i < model.getRowCount(); i++) {
+
+
+			int id = (int)model.getValueAt(i, 0);
+			Student student = null;
+			for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+				if(cSc.getSingleStudent(id) != null){
+					student = cSc.getSingleStudent(id);
+				}
+			}
+			//System.out.println(student.getName());
+			for (int ii=0; ii < taskList.size(); ii++)
+			{
+//				System.out.println(model.getValueAt(i, ii+3));
+
+				String grade = (String) model.getValueAt(i, ii+3);
+				//System.out.println(Float.parseFloat(grade));
+				taskList.get(ii).setStudentGrade(student, Float.parseFloat(grade));
+
+			}
+		}
+
+		//with draw
+		for (int i = 0; i < model.getRowCount(); i++) {
+
+			int id = (int)model.getValueAt(i, 0);
+			Student student = null;
+			for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+				if(cSc.getSingleStudent(id) != null){
+					student = cSc.getSingleStudent(id);
+				}
+			}
+			//System.out.println(student.getName());
+
+			String withDraw = (String) model.getValueAt(i, 6);
+			boolean withDrawB;
+			if (withDraw.equals("True") || withDraw.equals("true")) {
+				student.setWithdrawn(true);
+			} else {
+				student.setWithdrawn(false);
+			}
+
+		}
+
+		//section
+		for (int i = 0; i < model.getRowCount(); i++) {
+
+			int id = (int)model.getValueAt(i, 0);
+			Student student = null;
+			CourseSection originalSection = null;
+			for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+				if(cSc.getSingleStudent(id) != null){
+					originalSection = cSc;
+					student = cSc.getSingleStudent(id);
+				}
+			}
+			//System.out.println(student.getName());
+
+			String section = (String) model.getValueAt(i, 2);
+			for (var cSc1 : LoggedData.getSelectedCourse().getCourseSections()) {
+				if (cSc1.getName().equals(section)) {
+					originalSection.deleteStudent(student);
+					cSc1.addStudent(student);
+				}
+			}
+
+
+		}
+
+
+	}
+
+
 }

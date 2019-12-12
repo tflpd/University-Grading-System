@@ -31,6 +31,10 @@ public class SubTaskDialogController {
 		classHomePage = c;
 		try {
 	        dialog = new SubTaskDialog();
+			if (subTaskID == 0)
+			{
+				dialog.getDeleteButton().setVisible(false);
+			}
 	        initController();
 	        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -110,13 +114,13 @@ public class SubTaskDialogController {
 	
 	private void Grade()
 	{
-		//SubTaskGradeController sTGC = new SubTaskGradeController();
+		SubTaskGradeController sTGC = new SubTaskGradeController();
 		dialog.dispose();
 	}
 
 	public void UpdateTaskTable(Task task)
 	{
-		String col[] = {"Id","SubTask Name","Edit",};
+		String col[] = {"Id","SubTask Name","Weight (%)", " "};
 		TableModel tableModel = new DefaultTableModel(col, 0);
 		List<SubTask> subTask = task.getSubTasks();
 
@@ -126,7 +130,7 @@ public class SubTaskDialogController {
 			for (int i = 0; i < subTask.size(); i++)
 			{
 				Object[] objs = {subTask.get(i).getId(), subTask.get(i).getName(),
-						"Edit"};
+						subTask.get(i).getWeightInParentTask(), "edit"};
 				((DefaultTableModel) tableModel).addRow(objs);
 			}
 		}

@@ -38,4 +38,13 @@ public class CourseSection {
     public void addStudent(Student student) {
         students.add(student);
     }
+
+    public Student getSingleStudent(int id) {
+        for (Student st : students) {
+            if (st.getId() == id) {
+                return st;
+            }
+        }
+        return null;
+    }
 }
