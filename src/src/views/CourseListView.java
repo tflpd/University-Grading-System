@@ -11,7 +11,7 @@ public class CourseListView extends JPanel{
 	private JButton createButton;
     private JButton logoutButton;
     private JList courseList;
-    DefaultListModel<String> dlm;
+    DefaultListModel<Course> dlm;
 	
     public CourseListView() {
         //JFrame frame = new JFrame("Grading System");
@@ -20,8 +20,8 @@ public class CourseListView extends JPanel{
         JLabel welcomeLabel = new JLabel("Select an Existing Course or Create a New Course", SwingConstants.CENTER);
         JLabel courseLabel = new JLabel("Active Courses", SwingConstants.CENTER);
         
-        dlm = new DefaultListModel<String>();
-        courseList = new JList<String>(dlm);
+        dlm = new DefaultListModel<Course>();
+        courseList = new JList<Course>(dlm);
         courseList.setPreferredSize(new Dimension(1000, 300));
 
         createButton = new JButton("Create Course");
@@ -66,7 +66,7 @@ public class CourseListView extends JPanel{
 		
 		if (cList != null) {
             for (var p : cList) {
-                dlm.addElement(p.toString());
+                dlm.addElement(p);
             }
         }
 			

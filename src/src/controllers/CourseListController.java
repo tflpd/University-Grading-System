@@ -5,8 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import models.Course;
 import models.LoggedData;
@@ -40,19 +40,15 @@ public class CourseListController {
         courseList.getCourseList().addMouseListener(new MouseAdapter() {
     	    public void mouseClicked(MouseEvent evt) {
     	        JList list = (JList)evt.getSource();
+
+				//JTable table = (JTable)e.getSource();
+				//int modelRow = Integer.valueOf( evt.getActionCommand() );
+				//((DefaultTableModel)table.getModel()).removeRow(modelRow);
+
     	        int index = list.locationToIndex(evt.getPoint());
                 if (index >= 0) {
-                    Object o = list.getModel().getElementAt(index);
-                    
-                    for(var c : LoggedData.getGradingSystem().getActiveCourses())
-                    {
-                    	if (c.toString().equalsIgnoreCase( o.toString()))
-                    	{
-                    		LoggedData.setSelectedCourse(c);
-                    		
-                    	}
-                    }
-                    
+                    Course o = (Course)list.getModel().getElementAt(index);
+					LoggedData.setSelectedCourse(o);
                     System.out.println("Double-clicked on: " + o.toString());
                     ClassHomePageController chP = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
                 }

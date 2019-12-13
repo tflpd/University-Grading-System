@@ -15,6 +15,14 @@ public class Student {
         this.withdrawn = false;
     }
 
+    public Student(int id, Name name, String email, String buID, boolean withdrawn) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.buID = buID;
+        this.withdrawn = withdrawn;
+    }
+
     public Student(Name name, String email, String buID) {
         this(0, name, email, buID);
     }
@@ -49,5 +57,9 @@ public class Student {
 
     public void setName(Name name) {
         this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

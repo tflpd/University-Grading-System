@@ -37,7 +37,9 @@ CREATE TABLE `Professor` (
 CREATE TABLE `Enrollment` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
                               `studentId` int,
-                              `courseSectionId` int
+                              `courseSectionId` int,
+                              `courseId` int
+
 );
 
 
@@ -68,8 +70,8 @@ CREATE TABLE `Course` (
 );
 CREATE TABLE `CourseSection` (
                                  `id` int PRIMARY KEY AUTO_INCREMENT,
-                                 `name` varchar(255),
-                                 `courseId` int
+                                 `name` varchar(255)
+
 );
 
 CREATE TABLE `Task` (

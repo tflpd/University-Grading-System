@@ -22,8 +22,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import views.CreateCourseView;
 import views.MainPanelView;
 
-
-
 public class CreateCourseController {
 
 	private CreateCourseView createCourse;
@@ -39,7 +37,6 @@ public class CreateCourseController {
 		parentPanel.revalidate();
 		parentPanel.repaint();
 		parentPanel.add(createCourse, BorderLayout.CENTER);
-
 
 		var tempList = LoggedData.getGradingSystem().getCourseTemplates();
 		DefaultComboBoxModel model = new DefaultComboBoxModel();
@@ -75,12 +72,16 @@ public class CreateCourseController {
 	private void Create()
 	{
 		int templateId = 0;
-	    if (importedStudents == null)
-		{
+	    if (importedStudents == null) {
 			importedStudents = new ArrayList<Student>();
+		}else
+		{
+			for (var s : importedStudents) {
+				int id = LoggedData.getDbManager().addStudent(s);
+				s.setId(id);
+			}
 		}
 
-	    //System.out.println("Selected template "+template);
 
 		if (createCourse.getTemplateList().getSelectedObjects().length > 0)
 		{
@@ -108,6 +109,15 @@ public class CreateCourseController {
 			System.out.println("template id"+ templateId);
 			int courseId = LoggedData.getDbManager().addCourse(LoggedData.getSelectedCourse(), templateId, LoggedData.getProf().getId());
 			LoggedData.getSelectedCourse().setId(courseId);
+
+			if (importedStudents.size() > 0)
+			{
+				for (var s : importedStudents) {
+					int id = LoggedData.getDbManager().addEnrollment(s.getId(), false, 1, courseId);
+					s.setId(id);
+				}
+			}
+
 
 		}catch (Exception ex)
 		{
