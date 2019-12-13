@@ -562,17 +562,39 @@ public class DBManager {
         sqlExecute(sql);
     }
     public static void deleteStudents(){
-        String sql = "DELETE FROM grading_system.Student;";
+        String sql = "DELETE FROM grading_system.Student";
         sqlExecute(sql);
     }
 
 
-    public void deleteTask(){
+    public void deleteTask(Task task){
+        if (task.getSubTasks() != null)
+        {
+            deleteSubtasks(task.getSubTasks());
+        }
+        String sql = "DELETE FROM grading_system.Task where id = \'"+task.getId()+"\'";
+        sqlExecute(sql);
 
     }
 
-    public void deleteSubtask(){
+    public void deleteSubtasks(List<SubTask> subTaskList){
+        if (subTaskList != null)
+        {
+            for(var sT : subTaskList)
+            {
+                deleteSubtask(sT);
+            }
+        }
+    }
 
+    public void deleteSubtask(SubTask subTask){
+        String sql = "DELETE FROM grading_system.SubTask where id = \'"+subTask.getId()+"\'";
+        sqlExecute(sql);
+    }
+
+    public void deleteGrade(int gradeId){
+        String sql = "DELETE FROM grading_system.Grade where id = \'"+gradeId+"\'";
+        sqlExecute(sql);
     }
 
 

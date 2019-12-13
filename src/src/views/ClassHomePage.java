@@ -72,6 +72,7 @@ public class ClassHomePage extends JPanel {
 		//subTaskDialog = new SubTaskDialog(frame);
 
 		JLabel courseNameLabel = new JLabel(courseName, JLabel.CENTER);
+		courseNameLabel.setFont(new Font("", Font.PLAIN, 25));
 		topPanel.add(courseNameLabel, bl.CENTER);
 
 		leftPanel = new JPanel();

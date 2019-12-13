@@ -100,10 +100,11 @@ public class CreateCourseController {
 		// Add to database
 		//DBManager dbManager = new DBManager();
 		try {
-			if (templateId == 0) {
-				templateId = LoggedData.getDbManager().addTemplateCourse(LoggedData.getSelectedCourse().getCourseTemplate());
-				LoggedData.getSelectedCourse().getCourseTemplate().setId(templateId);
+			if (templateId != 0) {
+				LoggedData.getSelectedCourse().getCourseTemplate().setId(0);
 			}
+			templateId = LoggedData.getDbManager().addTemplateCourse(LoggedData.getSelectedCourse().getCourseTemplate());
+			LoggedData.getSelectedCourse().getCourseTemplate().setId(templateId);
 			System.out.println("template id"+ templateId);
 			int courseId = LoggedData.getDbManager().addCourse(LoggedData.getSelectedCourse(), templateId, LoggedData.getProf().getId());
 			LoggedData.getSelectedCourse().setId(courseId);

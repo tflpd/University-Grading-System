@@ -140,11 +140,11 @@ public class TaskDialogController {
 				if (t.getId() == TaskId)
 				{
 					taskList.remove(t);
+					LoggedData.getDbManager().deleteTask(t);
 					break;
 				}
 			}
 			UpdateTaskTable(taskList);
-
 			LoggedData.setSelectedTask(null);
 			LoggedData.setSelectedSubTask(null);
 		}
