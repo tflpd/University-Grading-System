@@ -113,9 +113,9 @@ public class DBManager {
         return professor.getId();
     }
 
-    public static int addSubtask(SubTask subTask){
-        String sql = "INSERT INTO grading_system.SubTask(id, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
-                "(\'"+ subTask.getId() + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\', \'" + subTask.getReleaseDate() + "\', \'"+ subTask.getDateDue() +"\', \'"+ subTask.isGroupProject() +"\', \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
+    public static int addSubtask(SubTask subTask, int taskId){
+        String sql = "INSERT INTO grading_system.SubTask(id, taskId, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
+                "(\'"+ subTask.getId() + "\', \'"+ taskId + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\', \'" + subTask.getReleaseDate() + "\', \'"+ subTask.getDateDue() +"\', "+ subTask.isGroupProject() +", \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
         System.out.println(sql);
         sqlExecute(sql);
         return subTask.getId();
@@ -380,32 +380,6 @@ public class DBManager {
         return list;
     }
 
-
-
-    // To get course section of the course and to get students
-
-
-
-//    public ArrayList<CourseTemplate> readAllCourseTemplates(){
-//        ArrayList<CourseTemplate> list = new ArrayList<>();
-//        try {
-//            Statement stmt=con.createStatement();
-//            String sql = "select * from Task TemplateCourse";
-//            System.out.println(sql);
-//            ResultSet rs=stmt.executeQuery(sql);
-//            CourseTemplate temp = null;
-//            while(rs.next()) {
-//                Course course = readCourseByCourseTemplateId(rs.getInt("id"));
-//                ArrayList<Student> students = course.getAllStudents();
-//                ArrayList<Task> tasks = readTasksByTemplateCourseId(rs.getInt("id"), students);
-//                temp = new CourseTemplate(rs.getInt("id"), rs.getString("name"), rs.getString("semester"), rs.getString("year"), tasks);
-//                list.add(temp);
-//            }
-//        }
-//        catch(Exception e){ System.out.println(e);}
-//        return list;
-//    }
-
     public static boolean readGradingSystem(String email, String pswd){
         Professor professor = null;
         boolean isLoggedIn = false;
@@ -545,7 +519,7 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
             SubTask temp = null;
             while(rs.next()) {
-                temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), rs.getTimestamp("releasedDate").toLocalDateTime(), rs.getDate("dueDate").toString(), rs.getFloat("totalPointsAvailable"), (float)rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
+                temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), rs.getTimestamp("releasedDate").toLocalDateTime(), rs.getString("dueDate"), rs.getFloat("totalPointsAvailable"), (float)rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
                 list.add(temp);
             }
         }
