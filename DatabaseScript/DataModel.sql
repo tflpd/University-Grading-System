@@ -35,12 +35,9 @@ CREATE TABLE `Enrollment` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
                               `studentId` int,
                               `courseSectionId` int,
-<<<<<<< HEAD
-                              `isDeleted` boolean not null default 0
-=======
+                              `isDeleted` boolean not null default 0,
                               `courseId` int
 
->>>>>>> master
 );
 
 
