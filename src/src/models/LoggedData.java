@@ -16,6 +16,7 @@ public class LoggedData {
 	private static SubTask selectedSubTask; 
 	private static GradingSystem GS;
 	private static ArrayList<CourseTemplate> cTList;
+	private static ArrayList<CourseSection> courseSectionList;
 
 	public static int subTaskID = 1;
     private static DBManager dbManager;
@@ -25,6 +26,8 @@ public class LoggedData {
 		dbManager = new DBManager();
 		dbManager.connect();
 
+		courseSectionList = new ArrayList<>();
+		courseSectionList = dbManager.readALLSections();
 
 		//profList = new ArrayList<Professor>(dbManager.readAllProfessors());
 		//System.out.println(profList.size() +" "+ profList.get(0).getEmail() +" "+ profList.get(0).getPassword());
@@ -119,7 +122,7 @@ public class LoggedData {
 
 
 	public static Course getSelectedCourse() {
-		return selectedCourse;
+		return LoggedData.selectedCourse;
 	}
 
 	public static void setSelectedCourse(Course selectedCourse) {
@@ -152,5 +155,9 @@ public class LoggedData {
 
 	public static DBManager getDbManager() {
 		return dbManager;
+	}
+
+	public static ArrayList<CourseSection> getCourseSectionList() {
+		return courseSectionList;
 	}
 }

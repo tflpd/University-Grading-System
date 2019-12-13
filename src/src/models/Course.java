@@ -74,6 +74,14 @@ public class Course {
         this.id = id;
     }
 
+    public void addSection(CourseSection c){
+        if (courseSections == null)
+        {
+            courseSections = new ArrayList<>();
+        }
+        courseSections.add(c);
+    }
+
     public void addNewTask(String name, Float weightInFinalGrade){
         courseTemplate.addNewTask(name, weightInFinalGrade);
     }

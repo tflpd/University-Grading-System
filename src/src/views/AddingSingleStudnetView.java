@@ -16,7 +16,7 @@ public class AddingSingleStudnetView extends JPanel {
     private JComboBox sectionCombo;
 
     public AddingSingleStudnetView() {
-        JLabel welcomeLabel = new JLabel("Studnet Adding", SwingConstants.CENTER);
+        JLabel welcomeLabel = new JLabel("Add a Student", SwingConstants.CENTER);
         addButton = new JButton("Add Student");
         backButton = new JButton("Back");
         homeButton = new JButton("Home");

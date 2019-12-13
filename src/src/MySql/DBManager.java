@@ -371,7 +371,7 @@ public class DBManager {
             CourseSection cC = null;
             ResultSet rs=stmt.executeQuery(sql);
             while(rs.next()) {
-                int studentId = rs.getInt("studentId");
+                //int studentId = rs.getInt("studentId");
                 cC = new CourseSection(rs.getInt("id"), rs.getString("name"));
                 list.add(cC);
             }
@@ -379,6 +379,8 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return list;
     }
+
+
 
 
 
@@ -616,6 +618,14 @@ public class DBManager {
         sqlExecute(sql);
     }
 
+    public void deleteTasks(List<Task> tasks){
+        for (var t : tasks)
+        {
+            deleteTask(t);
+        }
+
+
+    }
 
     public void deleteTask(Task task){
         if (task.getSubTasks() != null)
@@ -652,6 +662,41 @@ public class DBManager {
         System.out.println(sql);
         sqlExecute(sql);
     }
+
+    public void deleteCourse(Course course)
+    {
+        if (course.getTasks() != null)
+        {
+            deleteTasks(course.getTasks());
+        }
+        if (course.getAllStudents() != null)
+        {
+            for (var s : course.getAllStudents())
+            {
+                deleteEnrollment(course.getId(), s.getId());
+            }
+        }
+        //if (course.getCourseSections().get(i).getStudents().gra)
+
+        String sql = "DELETE FROM grading_system.Course where id = \'"+course.getId()+"\'";
+        sqlExecute(sql);
+    }
+
+    public void deleteGradeS(List<Grade> grades)
+    {
+      for (var g : grades)
+      {
+          deleteGrade(g);
+      }
+    }
+
+    public void deleteGrade(Grade grade)
+    {
+        String sql = "DELETE FROM grading_system.Grade where id = \'"+grade.getId()+"\'";
+        sqlExecute(sql);
+    }
+
+
 
 
 }

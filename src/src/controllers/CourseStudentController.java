@@ -8,10 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import models.CourseSection;
-import models.LoggedData;
-import models.Name;
-import models.Student;
+import models.*;
 import views.ButtonColumn;
 import views.CourseStudentView;
 import views.MainPanelView;
@@ -21,6 +18,7 @@ public class CourseStudentController   {
 	private JPanel parentPanel;
 	private CourseStudentView courseStudentView;
 	public TableModel tableModel;
+	Course data = null;
 	public CourseStudentController()
 	{
 		courseStudentView = new CourseStudentView();
@@ -61,10 +59,10 @@ public class CourseStudentController   {
 		String header = LoggedData.getSelectedCourse().getName();
 		courseStudentView.setCourseLabel(header + "'s Students List");
 
-		var taskList = LoggedData.getSelectedCourse().getTasks();
+		data = LoggedData.getSelectedCourse();
 
+		var taskList = data.getTasks();
 		int columSize = taskList.size() + 6;
-
 		String col[] = new String[columSize];
 		col[0] = "Id";
 		col[1] = "Student's Name";
@@ -80,12 +78,13 @@ public class CourseStudentController   {
 		AbstractTableModel tableModel = new DefaultTableModel(col, 0) {
 			@Override
 			public Class getColumnClass(int columnIndex) {
-				return columnIndex == 4 ? Boolean.class : super.getColumnClass(columnIndex);
+				System.out.println("Inside getColumnClass("+ columnIndex +" of "+columSize+")");
+				return columnIndex == (columSize -2) ? Boolean.class : super.getColumnClass(columnIndex);
 			}
 		};
 		//DefaultTableModel model = new DefaultTableModel()
 
-		for (var cSc : LoggedData.getSelectedCourse().getCourseSections())
+		for (var cSc : data.getCourseSections())
 		{
 			var studentList = cSc.getStudents();
 			studentCount= studentCount+ studentList.size();
@@ -134,8 +133,10 @@ public class CourseStudentController   {
 				{
 					if (s.getId() == studentId);
 					{
-						LoggedData.getDbManager().deleteEnrollment(LoggedData.getSelectedCourse().getId(), s.getId());
-						LoggedData.getSelectedCourse().getAllStudents().remove(s);
+						LoggedData.getDbManager().deleteEnrollment(data.getId(), studentId);
+						data.deleteStudent(s);
+						LoggedData.setSelectedCourse(data);
+						var r = data;
 						break;
 					}
 				}
@@ -167,7 +168,7 @@ public class CourseStudentController   {
 				}
 				Name name1 = new Name(firstName, LastName);
 				int id = (int)model.getValueAt(i, 0);
-				for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+				for (var cSc : data.getCourseSections()) {
 					if(cSc.getSingleStudent(id) != null){
 						cSc.getSingleStudent(id).setName(name1);
 					}
@@ -181,7 +182,7 @@ public class CourseStudentController   {
 
 			int id = (int)model.getValueAt(i, 0);
 			Student student = null;
-			for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+			for (var cSc : data.getCourseSections()) {
 				if(cSc.getSingleStudent(id) != null){
 					student = cSc.getSingleStudent(id);
 				}
@@ -203,7 +204,7 @@ public class CourseStudentController   {
 
 			int id = (int)model.getValueAt(i, 0);
 			Student student = null;
-			for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+			for (var cSc : data.getCourseSections()) {
 				if(cSc.getSingleStudent(id) != null){
 					student = cSc.getSingleStudent(id);
 				}
@@ -222,7 +223,7 @@ public class CourseStudentController   {
 			int id = (int)model.getValueAt(i, 0);
 			Student student = null;
 			CourseSection originalSection = null;
-			for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+			for (var cSc : data.getCourseSections()) {
 				if(cSc.getSingleStudent(id) != null){
 					originalSection = cSc;
 					student = cSc.getSingleStudent(id);
@@ -231,7 +232,7 @@ public class CourseStudentController   {
 			//System.out.println(student.getName());
 
 			String section = (String) model.getValueAt(i, 2);
-			for (var cSc1 : LoggedData.getSelectedCourse().getCourseSections()) {
+			for (var cSc1 : data.getCourseSections()) {
 				if (cSc1.getName().equals(section)) {
 					originalSection.deleteStudent(student);
 					cSc1.addStudent(student);
@@ -240,10 +241,12 @@ public class CourseStudentController   {
 		}
 
 
-		for(var s : LoggedData.getSelectedCourse().getAllStudents())
+		for(var s : data.getAllStudents())
 		{
 			LoggedData.getDbManager().UpdateStudent(s);
 		}
+
+		LoggedData.setSelectedCourse(data);
 	}
 
 	// Save to DataBase;

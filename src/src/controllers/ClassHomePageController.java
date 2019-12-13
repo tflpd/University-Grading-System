@@ -106,6 +106,8 @@ public class ClassHomePageController {
 	}
 
 	private void DeleteCourse(){
+
+		LoggedData.getDbManager().deleteCourse(LoggedData.getSelectedCourse());
 		LoggedData.getGradingSystem().deleteCourse(LoggedData.getSelectedCourse());
 		backHome();
 	}
