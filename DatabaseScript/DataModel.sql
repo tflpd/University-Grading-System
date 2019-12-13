@@ -35,7 +35,12 @@ CREATE TABLE `Enrollment` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
                               `studentId` int,
                               `courseSectionId` int,
+<<<<<<< HEAD
                               `isDeleted` boolean not null default 0
+=======
+                              `courseId` int
+
+>>>>>>> master
 );
 
 
@@ -69,9 +74,14 @@ CREATE TABLE `Course` (
 );
 CREATE TABLE `CourseSection` (
                                  `id` int PRIMARY KEY AUTO_INCREMENT,
+<<<<<<< HEAD
                                  `name` varchar(255),
                                  `courseId` int,
                                  `isDeleted` boolean not null default 0
+=======
+                                 `name` varchar(255)
+
+>>>>>>> master
 );
 
 CREATE TABLE `Task` (

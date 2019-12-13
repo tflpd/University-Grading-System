@@ -104,6 +104,11 @@ public class LoggedData {
 
 	}
 
+	public static void  RefreshGradingSystem()
+	{
+		dbManager.LoadGradingSystem( prof);
+	}
+
 	public static Professor getProf() {
 		return prof;
 	}

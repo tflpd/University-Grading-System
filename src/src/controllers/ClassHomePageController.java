@@ -161,6 +161,7 @@ public class ClassHomePageController {
 	}
 	private void backHome()
 	{
+		LoggedData.RefreshGradingSystem();
 		CourseListController cLc = new CourseListController();
 	}
 

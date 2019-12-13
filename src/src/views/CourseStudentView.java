@@ -55,7 +55,7 @@ public class CourseStudentView extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(table);
 		Dimension d = table.getPreferredSize();
 		scrollPane.setPreferredSize(
-				new Dimension(800,100));
+				new Dimension(1000,250));
 		gc = new GridBagConstraints();
 		gc.gridx = 0;
 		gc.gridy = 2;
@@ -93,12 +93,15 @@ public class CourseStudentView extends JPanel{
 	}
 
 	public void setTable(TableModel dataModel) {
-		
+
+
+
 		table.setModel(dataModel);
 		if (table.getColumn("Id") != null)
 		{
 			table.removeColumn(table.getColumn("Id"));
 		}
+
 	}
 
 	public JButton getBackButton() {
