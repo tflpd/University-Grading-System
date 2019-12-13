@@ -28,12 +28,13 @@ public class ClassHomePageController {
 		parentPanel.repaint();
 		parentPanel.add(classHomePage, BorderLayout.CENTER);
 
+		initController();
 		if (LoggedData.getSelectedCourse().getTasks().size() > 0) {
 			LoggedData.setSelectedTask(LoggedData.getSelectedCourse().getTasks().get(0));
 			UpdateSubTaskTable(LoggedData.getSelectedTask());
 		}
 
-		initController();
+
 	}
 
 	private void initController()
@@ -54,6 +55,9 @@ public class ClassHomePageController {
 						if (t.getId() == id)
 						{
 							LoggedData.setSelectedTask(t);
+							System.out.println("Task ID" + t.getId());
+							System.out.println("SubTask Size" + t.getSubTasks().size());
+							UpdateSubTaskTable(t);
 							break;
 						}
 					}
@@ -126,7 +130,10 @@ public class ClassHomePageController {
 				Object[] objs = {taskList.get(i).getId(), taskList.get(i).getName(), taskList.get(i).getWeightInFinalGrade(),
 				"edit"};
 				((DefaultTableModel) tableModel).addRow(objs);
-			}			
+
+			}
+			UpdateSubTaskTable(taskList.get(0));
+
 		}
 		
 		classHomePage.setTaskTable(tableModel);
