@@ -2,11 +2,7 @@
 CREATE DATABASE IF NOT EXISTS grading_system;
 USE grading_system;
 DROP TABLE IF EXISTS `Grade`;
-DROP TABLE IF EXISTS `Credential`;
-
-DROP TABLE IF EXISTS `Grade`;
 DROP TABLE IF EXISTS `Enrollment`;
-
 DROP TABLE IF EXISTS `CourseSection`;
 DROP TABLE IF EXISTS `SubTask`;
 DROP TABLE IF EXISTS `Task`;
@@ -14,6 +10,7 @@ DROP TABLE IF EXISTS `Student`;
 DROP TABLE IF EXISTS `Course`;
 DROP TABLE IF EXISTS `TemplateCourse`;
 DROP TABLE IF EXISTS `Professor`;
+DROP TABLE IF EXISTS `Credential`;
 
 -- done
 
