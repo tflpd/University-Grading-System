@@ -22,7 +22,7 @@ public class CourseListView extends JPanel{
         
         dlm = new DefaultListModel<String>();
         courseList = new JList<String>(dlm);
-        courseList.setPreferredSize(new Dimension(450, 200));
+        courseList.setPreferredSize(new Dimension(1000, 300));
 
         createButton = new JButton("Create Course");
         logoutButton = new JButton("Log Out");

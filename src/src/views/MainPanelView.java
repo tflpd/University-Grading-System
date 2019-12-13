@@ -1,10 +1,7 @@
 package views;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,16 +18,19 @@ public class MainPanelView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		parentPanel = new JPanel(new GridLayout());
-		headerPanel = new JPanel();	
+		Dimension headerDimension = new Dimension(1050, 25 );
+		headerPanel = new JPanel();
+		headerPanel.setPreferredSize(headerDimension);
+
 		
-		headerPanel.setBackground(Color.GREEN);
+		headerPanel.setBackground(Color.lightGray);
 		frame.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		
 		JLabel lblNewLabel = new JLabel("Welcome to Fancy Grading System ");
 		headerPanel.add(lblNewLabel);
-		FlowLayout flowLayouthead = (FlowLayout) headerPanel.getLayout();
-		flowLayouthead.setVgap(50);
-		flowLayouthead.setHgap(50);		
+		//FlowLayout flowLayouthead = (FlowLayout) headerPanel.getLayout();
+		//flowLayouthead.setVgap(50);
+		//flowLayouthead.setHgap(50);
 		frame.getContentPane().add(parentPanel, BorderLayout.CENTER);		
 				
 	}
