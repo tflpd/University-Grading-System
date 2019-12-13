@@ -211,7 +211,7 @@ public class CourseStudentController   {
 			}
 			//System.out.println(student.getName());
 
-			boolean withDraw = (boolean) model.getValueAt(i, 4);
+			boolean withDraw = (boolean) model.getValueAt(i, taskList.size()+4);
 			student.setWithdrawn(withDraw);
 			System.out.println("Student Status " + student.isWithdrawn());
 
