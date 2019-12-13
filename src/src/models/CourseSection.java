@@ -17,6 +17,12 @@ public class CourseSection {
         this.students = students;
     }
 
+    public CourseSection(int id, String name) {
+        this.id = id;
+        this.name = name;
+        this.students = null;
+    }
+
     public ArrayList<Student> getStudents() {
         return students;
     }

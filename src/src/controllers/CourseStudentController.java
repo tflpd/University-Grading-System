@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -15,11 +16,11 @@ import views.ButtonColumn;
 import views.CourseStudentView;
 import views.MainPanelView;
 
-public class CourseStudentController {
+public class CourseStudentController   {
 
 	private JPanel parentPanel;
 	private CourseStudentView courseStudentView;
-	TableModel tableModel;
+	public TableModel tableModel;
 	public CourseStudentController()
 	{
 		courseStudentView = new CourseStudentView();
@@ -52,33 +53,38 @@ public class CourseStudentController {
 	}
 	private void back()
 	{
-		ClassHomePageController cHP = new ClassHomePageController("");
+		ClassHomePageController cHP = new ClassHomePageController(LoggedData.getSelectedCourse().toString());
 	}
 
 
-	public void fillStudentData()
-	{
+	public void fillStudentData() {
 		String header = LoggedData.getSelectedCourse().getName();
-		courseStudentView.setCourseLabel(header+"'s Students List");
-	
+		courseStudentView.setCourseLabel(header + "'s Students List");
+
 		var taskList = LoggedData.getSelectedCourse().getTasks();
 
-		int columSize = taskList.size()+6;
+		int columSize = taskList.size() + 6;
 
 		String col[] = new String[columSize];
 		col[0] = "Id";
 		col[1] = "Student's Name";
 		col[2] = "Section";
-		for (int i=0; i < taskList.size(); i++)
-		{
-			col[i+3] = taskList.get(i).getName() +" ("+taskList.get(i).getWeightInFinalGrade()+"%)";
+		for (int i = 0; i < taskList.size(); i++) {
+			col[i + 3] = taskList.get(i).getName() + " (" + taskList.get(i).getWeightInFinalGrade() + "%)";
 		}
-		col[columSize-3] = "Final Grade";
-		col[columSize-2] = "Has Withdrawn";
-		col[columSize-1] = "Action";
+		col[columSize - 3] = "Final Grade";
+		col[columSize - 2] = "Has Withdrawn";
+		col[columSize - 1] = "Action";
 
 		int studentCount = 0;
-		tableModel = new DefaultTableModel(col, 0);
+		AbstractTableModel tableModel = new DefaultTableModel(col, 0) {
+			@Override
+			public Class getColumnClass(int columnIndex) {
+				return columnIndex == 4 ? Boolean.class : super.getColumnClass(columnIndex);
+			}
+		};
+		//DefaultTableModel model = new DefaultTableModel()
+
 		for (var cSc : LoggedData.getSelectedCourse().getCourseSections())
 		{
 			var studentList = cSc.getStudents();
@@ -97,7 +103,7 @@ public class CourseStudentController {
 					}
 
 					objs[columSize-3] = LoggedData.getSelectedCourse().getStudentsFinalLetterGrade(s);
-					objs[columSize-2] = String.valueOf(s.isWithdrawn());
+					objs[columSize-2] = s.isWithdrawn();
 					objs[columSize-1] = "Delete";
 
 					((DefaultTableModel) tableModel).addRow(objs);
@@ -118,13 +124,29 @@ public class CourseStudentController {
 			{
 				JTable table = (JTable)e.getSource();
 				int modelRow = Integer.valueOf( e.getActionCommand() );
+				Object oj = ((DefaultTableModel)table.getModel()).getValueAt(modelRow, 0);
+				int studentId = (Integer) oj;
+				System.out.println("To be deleted Student ="+studentId);
 				((DefaultTableModel)table.getModel()).removeRow(modelRow);
+
+				Student tobeRemoved = null;
+				for (var s: LoggedData.getSelectedCourse().getAllStudents())
+				{
+					if (s.getId() == studentId);
+					{
+						LoggedData.getDbManager().deleteEnrollment(LoggedData.getSelectedCourse().getId(), s.getId());
+						LoggedData.getSelectedCourse().getAllStudents().remove(s);
+						break;
+					}
+				}
+				//LoggedData.getSelectedCourse().getAllStudents().re
 			}
 		};
 
 
 		ButtonColumn buttonColumn = new ButtonColumn(courseStudentView.getTable(), delete, columSize-2);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
+
 	}
 
 	private void save() {
@@ -188,13 +210,9 @@ public class CourseStudentController {
 			}
 			//System.out.println(student.getName());
 
-			String withDraw = (String) model.getValueAt(i, 6);
-			boolean withDrawB;
-			if (withDraw.equals("True") || withDraw.equals("true")) {
-				student.setWithdrawn(true);
-			} else {
-				student.setWithdrawn(false);
-			}
+			boolean withDraw = (boolean) model.getValueAt(i, 4);
+			student.setWithdrawn(withDraw);
+			System.out.println("Student Status " + student.isWithdrawn());
 
 		}
 
@@ -219,12 +237,17 @@ public class CourseStudentController {
 					cSc1.addStudent(student);
 				}
 			}
-
-
 		}
 
 
+		for(var s : LoggedData.getSelectedCourse().getAllStudents())
+		{
+			LoggedData.getDbManager().UpdateStudent(s);
+		}
 	}
+
+	// Save to DataBase;
+
 
 
 }
