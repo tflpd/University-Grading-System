@@ -37,7 +37,8 @@ CREATE TABLE `Professor` (
 CREATE TABLE `Enrollment` (
                               `id` int PRIMARY KEY AUTO_INCREMENT,
                               `studentId` int,
-                              `courseSectionId` int
+                              `courseSectionId` int,
+                              `isDeleted` boolean not null default 0
 );
 
 
@@ -48,14 +49,16 @@ CREATE TABLE `Student` (
                            `last_name` varchar(255),
                            `email` varchar(255),
                            `buid` varchar(255),
-                           `isWithdrawn` boolean
+                           `isWithdrawn` boolean,
+                           `isDeleted` boolean not null default 0
 );
 
 CREATE TABLE `TemplateCourse` (
                                   `id` int PRIMARY KEY AUTO_INCREMENT,
                                   `name` varchar(255),
                                   `year` varchar(255),
-                                  `semester` varchar(255)
+                                  `semester` varchar(255),
+                                  `isDeleted` boolean not null default 0
 );
 
 CREATE TABLE `Course` (
@@ -64,19 +67,22 @@ CREATE TABLE `Course` (
                           `year` varchar(255),
                           `semester` varchar(255),
                           `name` varchar(255),
-                          `professorId` int
+                          `professorId` int,
+                          `isDeleted` boolean not null default 0
 );
 CREATE TABLE `CourseSection` (
                                  `id` int PRIMARY KEY AUTO_INCREMENT,
                                  `name` varchar(255),
-                                 `courseId` int
+                                 `courseId` int,
+                                 `isDeleted` boolean not null default 0
 );
 
 CREATE TABLE `Task` (
                         `id` int PRIMARY KEY AUTO_INCREMENT,
                         `name` varchar(255),
                         `templateCourseId` int,
-                        `weight` double
+                        `weight` double,
+                        `isDeleted` boolean not null default 0
 );
 
 CREATE TABLE `SubTask` (
@@ -89,7 +95,8 @@ CREATE TABLE `SubTask` (
                            `dueDate` datetime,
                            `groupProject` bit,
                            `comment` VARCHAR(255),
-                           `maxAvailableBonusPoints` float
+                           `maxAvailableBonusPoints` float,
+                           `isDeleted` boolean not null default 0
 );
 
 CREATE TABLE `Grade` (
@@ -98,7 +105,8 @@ CREATE TABLE `Grade` (
                          `studentId` int,
                          `absolutePointsScored` float ,
                          `bonusPoints` float ,
-                         `comment` varchar(255)
+                         `comment` varchar(255),
+                         `isDeleted` boolean not null default 0
 );
 
 
