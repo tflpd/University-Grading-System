@@ -68,9 +68,10 @@ public class SubTaskDialogController {
 			dialog.setWeightTf(String.valueOf(LoggedData.getSelectedSubTask().getWeightInParentTask()));
 			dialog.setBonusTf(String.valueOf(LoggedData.getSelectedSubTask().getMaxAvailableBonusPoints()));
 			dialog.setGroupCheck(LoggedData.getSelectedSubTask().isGroupProject());
-
 		}
 	}
+
+
 	
 	private void SaveTask()
 	{
@@ -89,7 +90,6 @@ public class SubTaskDialogController {
 					t.setWeightInParentTask(Float.parseFloat(dialog.getWeightTf().getText()));
 					t.setMaxAvailableBonusPoints(Float.parseFloat(dialog.getBonusTf().getText()));
 					t.setGroupProject(dialog.getGroupCheck().isSelected());
-
 					break;
 				}
 			}
@@ -101,9 +101,15 @@ public class SubTaskDialogController {
 			SubTask subTask = new SubTask(LoggedData.subTaskID++, LoggedData.getSelectedCourse().getAllStudents(), dialog.getNameTf().getText(), LocalDateTime.now(), dialog.getDateDueTf().getText(), Float.parseFloat(dialog.getMaxScoreTf().getText()), Float.parseFloat(dialog.getWeightTf().getText()), Float.parseFloat(dialog.getBonusTf().getText()), null, dialog.getGroupCheck().isSelected() );
 
 			//LoggedData.getDbManager().addSubtask()
-
 			LoggedData.getSelectedTask().addNewSubTask(subTask);
 			LoggedData.setSelectedSubTask(subTask);
+
+			int subTaskId = LoggedData.getDbManager().addSubtask(subTask, LoggedData.getSelectedTask().getId());
+			System.out.println("SubTask id"+ subTaskId);
+			LoggedData.getSelectedSubTask().setId(subTaskId);
+
+
+
 		}
 		UpdateTaskTable(LoggedData.getSelectedTask());
 		Close();
