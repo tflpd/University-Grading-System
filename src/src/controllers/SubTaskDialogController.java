@@ -99,6 +99,9 @@ public class SubTaskDialogController {
 		{
 			//public SubTask(int id, ArrayList<Student > students, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject)
 			SubTask subTask = new SubTask(LoggedData.subTaskID++, LoggedData.getSelectedCourse().getAllStudents(), dialog.getNameTf().getText(), LocalDateTime.now(), dialog.getDateDueTf().getText(), Float.parseFloat(dialog.getMaxScoreTf().getText()), Float.parseFloat(dialog.getWeightTf().getText()), Float.parseFloat(dialog.getBonusTf().getText()), null, dialog.getGroupCheck().isSelected() );
+
+			//LoggedData.getDbManager().addSubtask()
+
 			LoggedData.getSelectedTask().addNewSubTask(subTask);
 			LoggedData.setSelectedSubTask(subTask);
 		}
