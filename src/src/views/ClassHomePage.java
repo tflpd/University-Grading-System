@@ -64,7 +64,8 @@ public class ClassHomePage extends JPanel {
 		topPanel.setLayout(bl);
 		topPanel.add(homeButton, bl.WEST);
 
-
+		deleteButton = new JButton("Delete this Class");
+		topPanel.add(deleteButton, bl.EAST);
 		//frame = new JFrame("Course Home Page");
 		//frame.setSize(1000, 1000);
 
@@ -77,6 +78,8 @@ public class ClassHomePage extends JPanel {
 
 		leftPanel = new JPanel();
 		JPanel rightPanel = new JPanel();
+		studentListButton = new JButton("Student List");
+		topPanel.add(studentListButton, bl.SOUTH);
 
 		//frame.setLayout(new FlowLayout(FlowLayout.LEFT));
 		//frame.setLayout(new BorderLayout());
@@ -87,12 +90,12 @@ public class ClassHomePage extends JPanel {
 
 
 
-		studentListButton = new JButton("Student List");
+
 		JLabel taskLabel = new JLabel("Tasks");
 		//JLabel tipLabel = new JLabel("Please either choose one of the existing tasks to inspect it or create a new one");
-		String text = "Please either choose one of the existing tasks to inspect it or create a new one";
+		//String text = "Please either choose one of the existing tasks to inspect it or create a new one";
 
-
+/*
 		JTextArea textArea = new JTextArea(5, 40);
 		textArea.setText(text);
 		textArea.setWrapStyleWord(true);
@@ -103,7 +106,7 @@ public class ClassHomePage extends JPanel {
 		textArea.setBackground(UIManager.getColor("Label.background"));
 		textArea.setFont(UIManager.getFont("Label.font"));
 		textArea.setBorder(UIManager.getBorder("Label.border"));
-
+*/
 		creatButton = new JButton("Create new Task");
 
 
@@ -117,12 +120,12 @@ public class ClassHomePage extends JPanel {
 		gc.fill = GridBagConstraints.NONE;
 
 
-		leftPanel.add(studentListButton, gc);
+		//leftPanel.add(studentListButton, gc);
 		gc.gridy = 1;
 		leftPanel.add(taskLabel, gc);
 		gc.gridy = 2;
-		leftPanel.add(textArea, gc);
-		gc.gridy = 3;
+		//leftPanel.add(textArea, gc);
+		//gc.gridy = 3;
 
 		String col[] = {"Task"};
 		taskTableModel = new DefaultTableModel(col, 2);
@@ -145,7 +148,7 @@ public class ClassHomePage extends JPanel {
 
 		JScrollPane tableSP = new JScrollPane(TaskTable);
 		//Dimension preferredSize = new Dimension(400, 600);
-		tableSP.setPreferredSize(new Dimension(400,100 ));
+		tableSP.setPreferredSize(new Dimension(400,250 ));
 		tableSP.revalidate();
 		leftPanel.add(tableSP, gc);
 
@@ -156,8 +159,10 @@ public class ClassHomePage extends JPanel {
 		this.add(leftPanel, BorderLayout.WEST);
 		// right
 
-		deleteButton = new JButton("Delete this Class");
+
 		JLabel subtaskLabel = new JLabel("Sub Tasks");
+
+		/*
 		String text1 = "Please either choose one of the existing subtasks of the selected task or create a new one";
 
 		JTextArea textArea1 = new JTextArea(5, 40);
@@ -171,6 +176,8 @@ public class ClassHomePage extends JPanel {
 		textArea1.setFont(UIManager.getFont("Label.font"));
 		textArea1.setBorder(UIManager.getBorder("Label.border"));
 
+
+		 */
 		creatSubButton = new JButton("Create new SubTask");
 
 		rightPanel.setLayout(new GridBagLayout());
@@ -183,12 +190,12 @@ public class ClassHomePage extends JPanel {
 		gcr.fill = GridBagConstraints.NONE;
 
 
-		rightPanel.add(deleteButton, gcr);
+		//rightPanel.add(deleteButton, gcr);
 		gcr.gridy = 1;
 		rightPanel.add(subtaskLabel, gcr);
 		gcr.gridy = 2;
-		rightPanel.add(textArea1, gcr);
-		gcr.gridy = 3;
+		//rightPanel.add(textArea1, gcr);
+		//gcr.gridy = 3;
 
 		String colr[] = {"Subtask"};
 		subtaskTableModel = new DefaultTableModel(colr, 2);
@@ -211,7 +218,7 @@ public class ClassHomePage extends JPanel {
 
 		JScrollPane tableSP1 = new JScrollPane(subtaskTable);
 		//Dimension preferredSize = new Dimension(400, 600);
-		tableSP1.setPreferredSize(new Dimension(400,100 ));
+		tableSP1.setPreferredSize(new Dimension(400,250 ));
 		tableSP1.revalidate();
 		rightPanel.add(tableSP1, gcr);
 

@@ -42,6 +42,10 @@ public class CourseSection {
     }
 
     public void addStudent(Student student) {
+        if (students == null)
+        {
+            students = new ArrayList<>();
+        }
         students.add(student);
     }
 
@@ -52,5 +56,10 @@ public class CourseSection {
             }
         }
         return null;
+    }
+
+    public String toString()
+    {
+        return getName();
     }
 }

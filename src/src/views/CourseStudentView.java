@@ -1,5 +1,7 @@
 package views;
 
+import models.LoggedData;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -34,6 +36,10 @@ public class CourseStudentView extends JPanel{
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(backButton);
 		topPanel.add(homeButton);
+		JLabel courseNameLabel = new JLabel(LoggedData.getSelectedCourse().toString(), JLabel.CENTER);
+		courseNameLabel.setFont(new Font("", Font.PLAIN, 25));
+		BorderLayout bl = new BorderLayout();
+		topPanel.add(courseNameLabel, bl.EAST);
 		this.add(topPanel, BorderLayout.NORTH);
 
 		centerPanel = new JPanel();
