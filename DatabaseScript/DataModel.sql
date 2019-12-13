@@ -91,8 +91,8 @@ CREATE TABLE `SubTask` (
                            `name` varchar(255),
                            `totalPointsAvailable` float,
                            `releasedDate` datetime,
-                           `dueDate` datetime,
-                           `groupProject` bit,
+                           `dueDate` varchar(255),
+                           `groupProject` boolean,
                            `comment` VARCHAR(255),
                            `maxAvailableBonusPoints` float,
                            `isDeleted` boolean not null default 0

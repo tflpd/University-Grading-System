@@ -17,6 +17,9 @@ public class SubTask {
     private String otherComments;
     private boolean groupProject;
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public SubTask(int id, ArrayList<Student> students, String name, LocalDateTime releaseDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject) {
         this.id = id;
