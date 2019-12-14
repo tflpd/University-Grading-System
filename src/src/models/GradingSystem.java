@@ -31,7 +31,9 @@ public class GradingSystem extends ProfessorsTool{
 
     // Creates a new course NOT based in any previous one
     public Course addNewCourse(String name, String semester, String year, ArrayList<Student> students){
-        CourseSection courseSection = new CourseSection(0,"First section", students);
+        var defaultSection = LoggedData.getCourseSectionList().get(0);
+        CourseSection courseSection = new CourseSection(defaultSection.getId(), defaultSection.getName(), students);
+        //CourseSection courseSection = new CourseSection(0,"First section", students);
         ArrayList<CourseSection> courseSections = new ArrayList<CourseSection>();
         courseSections.add(courseSection);
         CourseTemplate newCourseTemplate = new CourseTemplate(0, name, semester, year);
@@ -45,7 +47,9 @@ public class GradingSystem extends ProfessorsTool{
 
     // Creates a new course based on the template courseTemplate
     public Course addNewCourse(String name, String semester, String year, ArrayList<Student> students, CourseTemplate courseTemplate){
-        CourseSection courseSection = new CourseSection(0,"First section", students);
+        //CourseSection courseSection = new CourseSection(0,"First section", students);
+        var defaultSection = LoggedData.getCourseSectionList().get(0);
+        CourseSection courseSection = new CourseSection(defaultSection.getId(), defaultSection.getName(), students);
         ArrayList<CourseSection> courseSections = new ArrayList<CourseSection>();
         courseSections.add(courseSection);
         CourseTemplate newCourseTemplate = new CourseTemplate(0, name, semester, year, courseTemplate);

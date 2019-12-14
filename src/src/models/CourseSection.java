@@ -33,7 +33,7 @@ public class CourseSection {
 
     public boolean deleteStudent(Student studentToDelete){
         for (Student student:students) {
-            if (student.getBuID().equals(studentToDelete.getBuID())){
+            if (student.getId() == studentToDelete.getId()){
                 students.remove(student);
                 return true;
             }
