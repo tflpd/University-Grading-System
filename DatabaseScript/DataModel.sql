@@ -1,5 +1,5 @@
 
-CREATE DATABASE IF NOT EXISTS grading_system;
+CREATE DATABASE IF NOT EXISTS grading_system_1;
 USE grading_system;
 DROP TABLE IF EXISTS `Grade`;
 DROP TABLE IF EXISTS `Enrollment`;
@@ -48,16 +48,15 @@ CREATE TABLE `Student` (
                            `last_name` varchar(255),
                            `email` varchar(255),
                            `buid` varchar(255),
-                           `isWithdrawn` boolean,
-                           `isDeleted` boolean not null default 0
+                           `isWithdrawn` boolean
 );
 
 CREATE TABLE `TemplateCourse` (
                                   `id` int PRIMARY KEY AUTO_INCREMENT,
                                   `name` varchar(255),
                                   `year` varchar(255),
-                                  `semester` varchar(255),
-                                  `isDeleted` boolean not null default 0
+                                  `semester` varchar(255)
+
 );
 
 CREATE TABLE `Course` (
@@ -66,22 +65,19 @@ CREATE TABLE `Course` (
                           `year` varchar(255),
                           `semester` varchar(255),
                           `name` varchar(255),
-                          `professorId` int,
-                          `isDeleted` boolean not null default 0
+                          `professorId` int
 );
 CREATE TABLE `CourseSection` (
                                  `id` int PRIMARY KEY AUTO_INCREMENT,
-                                 `name` varchar(255),
-                                 `courseId` int,
-                                 `isDeleted` boolean not null default 0
+                                 `name` varchar(255)
+
 );
 
 CREATE TABLE `Task` (
                         `id` int PRIMARY KEY AUTO_INCREMENT,
                         `name` varchar(255),
                         `templateCourseId` int,
-                        `weight` double,
-                        `isDeleted` boolean not null default 0
+                        `weight` double
 );
 
 CREATE TABLE `SubTask` (
@@ -94,8 +90,7 @@ CREATE TABLE `SubTask` (
                            `dueDate` varchar(255),
                            `groupProject` boolean,
                            `comment` VARCHAR(255),
-                           `maxAvailableBonusPoints` float,
-                           `isDeleted` boolean not null default 0
+                           `maxAvailableBonusPoints` float
 );
 
 CREATE TABLE `Grade` (
@@ -104,8 +99,7 @@ CREATE TABLE `Grade` (
                          `studentId` int,
                          `absolutePointsScored` float ,
                          `bonusPoints` float ,
-                         `comment` varchar(255),
-                         `isDeleted` boolean not null default 0
+                         `comment` varchar(255)
 );
 
 
@@ -128,7 +122,5 @@ ALTER TABLE `Professor` ADD FOREIGN KEY (`credentialId`) REFERENCES `Credential`
 ALTER TABLE `Course` ADD FOREIGN KEY (`professorId`) REFERENCES `Professor` (`id`);
 
 ALTER TABLE `Course` ADD FOREIGN KEY (`templateCourseId`) REFERENCES `TemplateCourse` (`id`);
-
-ALTER TABLE `CourseSection` ADD FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`);
 
 ALTER TABLE `Enrollment` ADD FOREIGN KEY (`courseSectionId`) REFERENCES `CourseSection` (`id`);
