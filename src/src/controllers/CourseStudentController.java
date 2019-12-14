@@ -78,7 +78,7 @@ public class CourseStudentController   {
 		AbstractTableModel tableModel = new DefaultTableModel(col, 0) {
 			@Override
 			public Class getColumnClass(int columnIndex) {
-				System.out.println("Inside getColumnClass("+ columnIndex +" of "+columSize+")");
+				//System.out.println("Inside getColumnClass("+ columnIndex +" of "+columSize+")");
 				return columnIndex == (columSize -2) ? Boolean.class : super.getColumnClass(columnIndex);
 			}
 		};
@@ -127,11 +127,10 @@ public class CourseStudentController   {
 				int studentId = (Integer) oj;
 				System.out.println("To be deleted Student ="+studentId);
 				((DefaultTableModel)table.getModel()).removeRow(modelRow);
-
 				Student tobeRemoved = null;
 				for (var s: LoggedData.getSelectedCourse().getAllStudents())
 				{
-					if (s.getId() == studentId);
+					if (s.getId() == studentId)
 					{
 						LoggedData.getDbManager().deleteEnrollment(data.getId(), studentId);
 						data.deleteStudent(s);
@@ -140,6 +139,7 @@ public class CourseStudentController   {
 						break;
 					}
 				}
+				var data1 = data;
 				//LoggedData.getSelectedCourse().getAllStudents().re
 			}
 		};
@@ -218,27 +218,27 @@ public class CourseStudentController   {
 		}
 
 		//section
-		for (int i = 0; i < model.getRowCount(); i++) {
-
-			int id = (int)model.getValueAt(i, 0);
-			Student student = null;
-			CourseSection originalSection = null;
-			for (var cSc : data.getCourseSections()) {
-				if(cSc.getSingleStudent(id) != null){
-					originalSection = cSc;
-					student = cSc.getSingleStudent(id);
-				}
-			}
-			//System.out.println(student.getName());
-
-			String section = (String) model.getValueAt(i, 2);
-			for (var cSc1 : data.getCourseSections()) {
-				if (cSc1.getName().equals(section)) {
-					originalSection.deleteStudent(student);
-					cSc1.addStudent(student);
-				}
-			}
-		}
+//		for (int i = 0; i < model.getRowCount(); i++) {
+//
+//			int id = (int)model.getValueAt(i, 0);
+//			Student student = null;
+//			CourseSection originalSection = null;
+//			for (var cSc : data.getCourseSections()) {
+//				if(cSc.getSingleStudent(id) != null){
+//					originalSection = cSc;
+//					student = cSc.getSingleStudent(id);
+//				}
+//			}
+//			//System.out.println(student.getName());
+//
+//			String section = (String) model.getValueAt(i, 2);
+//			for (var cSc1 : data.getCourseSections()) {
+//				if (cSc1.getName().equals(section)) {
+//					originalSection.deleteStudent(student);
+//					cSc1.addStudent(student);
+//				}
+//			}
+//		}
 
 
 		for(var s : data.getAllStudents())
