@@ -123,7 +123,7 @@ public class ClassHomePageController {
 
 		String col[] = {"Id","Task Name", "Weight (%)"," ",};
 		tableModel = new DefaultTableModel(col, 0);
-		if (taskList != null)
+		if (taskList != null && taskList.size() > 0)
 		{
 			for (int i = 0; i < taskList.size(); i++)
 			{
