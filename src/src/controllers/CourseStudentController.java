@@ -196,6 +196,13 @@ public class CourseStudentController   {
 				//System.out.println(Float.parseFloat(grade));
 				taskList.get(ii).setStudentGrade(student, Float.parseFloat(grade));
 
+				taskList.get(ii).getStudentsGrade(student);
+
+
+//				int subTaskId = LoggedData.getDbManager().addSubtask(subTask, LoggedData.getSelectedTask().getId());
+//				System.out.println("SubTask id"+ subTaskId);
+//				LoggedData.getSelectedSubTask().setId(subTaskId);
+
 			}
 		}
 
