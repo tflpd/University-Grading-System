@@ -121,12 +121,11 @@ public class DBManager {
         return subTask.getId();
     }
 
-    public static int addGrade(Grade grade, int subTaskId, int studentId){
+    public int addGrade(float score, int subTaskId, int studentId){
 
-        String sql = "INSERT INTO grading_system.Grade(id, subTaskId, studentId, absolutePointsScored) VALUES (\'"+ grade.getId() + "\', \'"+ subTaskId +"\', \'"+ studentId +"\', \'" + grade.getAbsolutePointsScored() + "\')";
+        String sql = "INSERT INTO grading_system.Grade(subTaskId, studentId, absolutePointsScored) VALUES (\'"+ subTaskId +"\', \'"+ studentId +"\', \'" + score + "\')";
         System.out.println(sql);
-        sqlExecute(sql);
-        return grade.getId();
+        return AddExecute(sql);
     }
 
     public static int addCourseSection(CourseSection courseSection, int courseId){
@@ -528,9 +527,26 @@ public class DBManager {
         return list;
     }
 
+    public ArrayList<Grade> readGradeBySubTaskId(int SubTaskId){
+        ArrayList<Grade> list = new ArrayList<>();
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Grade WHERE subTaskId = \'"+ SubTaskId +"\'";
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            Grade temp = null;
+            while(rs.next()) {
+                Student student = readStudentById(rs.getInt("studentId"));
+                temp = new Grade(rs.getInt("Id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                list.add(temp);
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return list;
+    }
 
 
-    public static Grade readGradeById(int id){
+    public Grade readGradeById(int id){
         Grade temp = null;
         //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
         try {
@@ -559,6 +575,12 @@ public class DBManager {
     public static void UpdateStudent(Student student)
     {
         String sql =   "UPDATE Student SET isWithdrawn = "+student.isWithdrawn()+" WHERE id = "+student.getId();
+        sqlExecute(sql);
+    }
+
+    public static void UpdateGrade(int id, float score)
+    {
+        String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE id = "+id;
         sqlExecute(sql);
     }
 

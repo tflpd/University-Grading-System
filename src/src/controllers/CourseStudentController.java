@@ -56,6 +56,7 @@ public class CourseStudentController   {
 
 
 	public void fillStudentData() {
+
 		String header = LoggedData.getSelectedCourse().getName();
 		courseStudentView.setCourseLabel(header + "'s Students List");
 
