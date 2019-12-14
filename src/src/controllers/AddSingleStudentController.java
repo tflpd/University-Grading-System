@@ -87,13 +87,20 @@ public class AddSingleStudentController {
             LoggedData.getSelectedCourse().addSection(section);
         }else
         {
+            boolean isSectionExist = false;
             for (var s : LoggedData.getSelectedCourse().getCourseSections() )
             {
                 if (s.getId() == section.getId())
                 {
                     s.addStudent(student);
+                    isSectionExist = true;
                     break;
                 }
+            }
+            if (!isSectionExist)
+            {
+                section.addStudent(student);
+                LoggedData.getSelectedCourse().addSection(section);
             }
         }
         //LoggedData.getSelectedCourse().
