@@ -17,7 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/grading_system","admin","admin");
+                    "jdbc:mysql://localhost:3306/grading_system","root","silvertreet74");
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
             //while(rs.next())
