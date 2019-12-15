@@ -14,6 +14,7 @@ public class SubTaskGrade extends JPanel{
     
     private JButton backButton ;
     private JButton homeButton ;
+    private JComboBox sectionCombo;
 
     public SubTaskGrade(String subtaskName, double mean, double median, double standardDeviation) {
         //frame = new JFrame("Course Home Page");
@@ -39,7 +40,7 @@ public class SubTaskGrade extends JPanel{
 
         JLabel subtaskLabel = new JLabel(subtaskName + "'s Grades");
         JLabel sectionLabel = new JLabel("Sections: ");
-        JComboBox sectionCombo = new JComboBox();
+        sectionCombo = new JComboBox();
         sectionLabel.setLabelFor(sectionCombo);
         JLabel statisticLabel = new JLabel("Statistic:   Mean: "+ mean + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation);
         String col[] = {"Students", "Points deducted", "Points scored", "Student status", "Comments", "Group ID", "%Score", "Bonus Points"};
@@ -87,7 +88,11 @@ public class SubTaskGrade extends JPanel{
 		}
 	}
 
-	public JButton getBackButton() {
+    public JComboBox getSectionCombo() {
+        return sectionCombo;
+    }
+
+    public JButton getBackButton() {
 		return backButton;
 	}
 	public JButton getHomeButton() {
