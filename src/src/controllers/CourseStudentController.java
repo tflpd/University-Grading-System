@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -22,6 +24,7 @@ public class CourseStudentController {
 	public TableModel tableModel;
 	Course data = null;
 	HashMap<String, Integer> columnDictionary;
+	int columSize = 0;
 
 	public CourseStudentController() {
 		courseStudentView = new CourseStudentView();
@@ -41,6 +44,74 @@ public class CourseStudentController {
 		courseStudentView.getBackButton().addActionListener(l -> back());
 		courseStudentView.getAddButton().addActionListener(l -> create());
 		courseStudentView.getSaveButton().addActionListener(l -> save());
+		courseStudentView.getTable().getModel().addTableModelListener(new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent tme) {
+				if (tme.getType() == TableModelEvent.UPDATE) {
+					DefaultTableModel model = (DefaultTableModel) courseStudentView.getTable().getModel();
+					int row = tme.getFirstRow();
+					int column = tme.getColumn();
+					//if (column != )
+					System.out.println("row " + row + " col " + column);
+					if (column < columSize - 3 && column > 2) {
+						int studentId = Integer.valueOf(model.getValueAt(row, 0).toString());
+						Float up = Float.valueOf(model.getValueAt(row, column).toString());
+
+
+						String colName = model.getColumnName(column);
+						int subtaskId = columnDictionary.get(colName);
+						float maxPoint = 0;
+						for (var ta : data.getTasks()) {
+							if (ta.getSubTasks() != null) {
+								for (var st : ta.getSubTasks()) {
+									if (st.getId() == subtaskId) {
+										maxPoint = st.getTotalPointsAvailable();
+										break;
+									}
+								}
+							}
+						}
+
+						if (up > maxPoint || up < 0) {
+							float down = 0;
+							System.out.println("down " + down + " " + colName);
+							if (colName.contains("(Point Scored -)")) {
+								down = Float.valueOf(model.getValueAt(row, column + 1).toString());
+								up = maxPoint - down;
+								model.setValueAt(up, row, column);
+
+							} else if (colName.contains("(Point Deducted)")) {
+								down = Float.valueOf(model.getValueAt(row, column - 1).toString());
+								System.out.println("down " + down + " new score ");
+								up = maxPoint - down;
+								model.setValueAt(up, row, column);
+							}
+							showErrorMessage("Please put in a corret number");
+						} else {
+
+							float down = maxPoint - up;
+							System.out.println("down " + down + " " + colName);
+							if (colName.contains("(Point Scored -)")) {
+								model.setValueAt(down, row, column + 1);
+							} else if (colName.contains("(Point Deducted)")) {
+								model.setValueAt(down, row, column - 1);
+							}
+						}
+
+					}
+				}
+			}
+		});
+	}
+
+	private void showErrorMessage(String m)
+	{
+		String message = "\" Error\"\n"
+				+ m;
+
+		JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void create() {
@@ -192,6 +263,7 @@ public class CourseStudentController {
 
 	public void fillStudentSubTaskData() {
 
+		System.out.println("Update Table");
 		columnDictionary = new HashMap<String, Integer>();
 		String header = LoggedData.getSelectedCourse().getName();
 		courseStudentView.setCourseLabel(header + "'s Students List");
@@ -215,7 +287,7 @@ public class CourseStudentController {
 			sectionCombox.addItem(c);
 		}
 
-		int columSize = 0;
+		columSize = 0;
 		for (var t: data.getTasks())
 		{
 			columSize = columSize+ t.getSubTasks().size();
@@ -226,8 +298,11 @@ public class CourseStudentController {
 		columSize = columSize + 6;
 		String col[] = new String[columSize];
 		col[0] = "Id";
+		columnDictionary.put(col[0],0);
 		col[1] = "Student's Name";
+		columnDictionary.put(col[1],0);
 		col[2] = "Section";
+		columnDictionary.put(col[2],0);
 		int extra = 3;
 
 		if (taskList != null)
@@ -238,9 +313,12 @@ public class CourseStudentController {
 				{
 					for (var st : t.getSubTasks())
 					{
-						col[extra] = "<html>"+st.getName()+"<br>(Point Scored)</html>"  ;
-						col[extra+1] = st.getName() + " (Point Deducted)";
-						col[extra+2] = st.getName() + " (Bonus)";
+						col[extra] = st.getName()+"(Point Scored)" ;
+						columnDictionary.put(col[extra],st.getId());
+						col[extra+1] = st.getName() + "(Point Deducted)";
+						columnDictionary.put(col[extra+1],st.getId());
+						col[extra+2] = st.getName() + "(Bonus)";
+						columnDictionary.put(col[extra+2],st.getId());
 						extra = extra+3;
 					}
 				}
@@ -250,22 +328,28 @@ public class CourseStudentController {
 
 
 		col[columSize - 3] = "Final Grade";
+		columnDictionary.put(col[columSize - 3] ,columSize - 3 );
 		col[columSize - 2] = "Has Withdrawn";
+		columnDictionary.put(col[columSize - 2] ,columSize - 2 );
 		col[columSize - 1] = "Action";
+		columnDictionary.put(col[columSize - 1] ,columSize - 2 );
 
-		for (int i = 0; i < columSize; i++)
-		{
-			columnDictionary.put(col[i],i);
-		}
+		//for (int i = 0; i < columSize; i++)
+		//{
+		//	columnDictionary.put(col[i],i);
+		//}
 
 		int studentCount = 0;
 		int finalColumSize = columSize;
 		AbstractTableModel tableModel = new DefaultTableModel(col, 0) {
 			@Override
 			public Class getColumnClass(int columnIndex) {
-				//System.out.println("Inside getColumnClass("+ columnIndex +" of "+columSize+")");
+
 				return columnIndex == (finalColumSize - 2) ? Boolean.class : super.getColumnClass(columnIndex);
 			}
+
+
+
 		};
 		//DefaultTableModel model = new DefaultTableModel()
 
@@ -317,9 +401,7 @@ public class CourseStudentController {
 
 
 		courseStudentView.setTable(tableModel);
-
 		courseStudentView.getTable().getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(sectionCombox));
-
 		String stat = "Statistic:   Mean: " + data.getMeanGrade() + "   Median: "
 				+ data.getMedianPercentage() + "   " + "Standard Deviation: " + data.getStandardDeviation();
 		courseStudentView.setStatisticLabel(stat);
@@ -344,28 +426,27 @@ public class CourseStudentController {
 			}
 		};
 
-
 		ButtonColumn buttonColumn = new ButtonColumn(courseStudentView.getTable(), delete, columSize - 2);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 
-		courseStudentView.getTable().setTableHeader(new JTableHeader(courseStudentView.getTable().getColumnModel()) {
-			@Override public Dimension getPreferredSize() {
-				Dimension d = super.getPreferredSize();
-				d.height = 50;
-				d.width = 50;
-				return d;
-			}
-		});
+//		courseStudentView.getTable().setTableHeader(new JTableHeader(courseStudentView.getTable().getColumnModel()) {
+//			@Override public Dimension getPreferredSize() {
+//				Dimension d = super.getPreferredSize();
+//				d.height = 50;
+//				d.width = 50;
+//				return d;
+//			}
+//		});
 
 	}
 
 	private void save() {
 		DefaultTableModel model = (DefaultTableModel) courseStudentView.getTable().getModel();
 
-		String n = data.getTasks().get(0).getName() + " (" + data.getTasks().get(0).getWeightInFinalGrade() + "%)";
-		int aa = columnDictionary.get(n);
-		String res = model.getValueAt(0,aa).toString();
-		System.out.println("get Model pakei nama "+res);
+		//String n = data.getTasks().get(0).getName() + " (" + data.getTasks().get(0).getWeightInFinalGrade() + "%)";
+		//int aa = columnDictionary.get(n);
+		//String res = model.getValueAt(0,aa).toString();
+		//System.out.println("get Model pakei nama "+res);
 
 		var taskList = LoggedData.getSelectedCourse().getTasks();
 		//name
@@ -390,6 +471,7 @@ public class CourseStudentController {
 			}
 
 		}
+
 
 		//grade
 		for (int i = 0; i < model.getRowCount(); i++) {
@@ -444,7 +526,7 @@ public class CourseStudentController {
 				}
 			}
 
-			boolean withDraw = (boolean) model.getValueAt(i, taskList.size() + 4);
+			boolean withDraw = (boolean) model.getValueAt(i, columSize -2);
 			student.setWithdrawn(withDraw);
 			System.out.println("Student Status " + student.isWithdrawn());
 
@@ -472,7 +554,31 @@ public class CourseStudentController {
 					break;
 				}
 			}
+
+			// Save Grade
+
+			for (int k = 3; k < columSize -3; k++)
+			{
+				String colName = model.getColumnName(k);
+				int subtaskId = columnDictionary.get(colName);
+
+				if (colName.contains("(Point Scored)"))
+				{
+					float score  = Float.valueOf(model.getValueAt(i, k).toString());
+					LoggedData.getDbManager().UpdateGrade(subtaskId, score, student.getId());
+				}else if (colName.contains("(Bonus)"))
+				{
+					float score  = Float.valueOf(model.getValueAt(i, k).toString());
+					LoggedData.getDbManager().UpdateGradeBonus(subtaskId, score, student.getId());
+				}
+
+
+			}
 		}
+
+
+
+
 
 		// saving to database
 		for (var c : data.getCourseSections()) {

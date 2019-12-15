@@ -623,6 +623,20 @@ public class DBManager {
         sqlExecute(sql);
     }
 
+    public static void UpdateGrade(int subTaskId, float score, int studentId)
+    {
+        String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE subTaskId = \'"+subTaskId+
+                "\' and studentId =\'"+studentId+"\'" ;
+        sqlExecute(sql);
+    }
+
+    public static void UpdateGradeBonus(int subTaskId, float bonus, int studentId)
+    {
+        String sql =   "UPDATE Grade SET bonusPoints = "+bonus+" WHERE subTaskId = \'"+subTaskId+
+                "\' and studentId =\'"+studentId+"\'" ;
+        sqlExecute(sql);
+    }
+
     /*
      * DELETE
      * */
