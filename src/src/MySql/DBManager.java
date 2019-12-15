@@ -17,7 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/grading_system","admin","admin");
+                    "jdbc:mysql://localhost:3306/grading_system","root","silvertreet74");
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
             //while(rs.next())
@@ -92,13 +92,31 @@ public class DBManager {
         String sql = "INSERT INTO grading_system.Task(name, templateCourseId, weight) VALUES (\'"+ ta.getName() +"\', \'"+ courseTemplateId +"\', \'" + ta.getWeightInFinalGrade() + "\')";
         //System.out.println(sql);
         //sqlExecute(sql);
-        return AddExecute(sql);
+        int taskId =  AddExecute(sql);
+
+        if (ta.getSubTasks().size() > 0)
+        {
+            for(var sT : ta.getSubTasks()) {
+                addSubtask(sT, taskId);
+            }
+        }
+
+        return taskId;
     }
 
 
 
 //);
     public static int addCourse(Course course, int templateCourseId, int professorId){
+
+        if (course.getTasks().size() > 0)
+        {
+            for (var t : course.getTasks())
+            {
+                addTask(t, templateCourseId);
+            }
+        }
+
         String sql = "INSERT INTO grading_system.Course(id, `templateCourseId`, year, semester, name, professorId) VALUES " +
                 "(\'"+ course.getId() + "\', \'"+ templateCourseId +"\', \'"+ course.getYear() +"\', \'" + course.getSemester() + "\', \'" + course.getName() + "\', \'"+ professorId +"\')";
         System.out.println(sql);
@@ -114,11 +132,19 @@ public class DBManager {
     }
 
     public static int addSubtask(SubTask subTask, int taskId){
-        String sql = "INSERT INTO grading_system.SubTask(id, taskId, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
-                "(\'"+ subTask.getId() + "\', \'"+ taskId + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\', \'" + subTask.getReleaseDate() + "\', \'"+ subTask.getDateDue() +"\', "+ subTask.isGroupProject() +", \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
+        String sql = "INSERT INTO grading_system.SubTask(taskId, `weight`, name, totalPointsAvailable, releasedDate, dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
+                "(\'"+ taskId + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\', \'" + subTask.getReleaseDate() + "\', \'"+ subTask.getDateDue() +"\', "+ subTask.isGroupProject() +", \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
+
+        if (subTask.getReleaseDate() == null)
+        {
+             sql = "INSERT INTO grading_system.SubTask(taskId, `weight`, name, totalPointsAvailable,  dueDate, groupProject, maxAvailableBonusPoints) VALUES " +
+                    "(\'"+ taskId + "\', \'"+ subTask.getWeightInParentTask() +"\', \'"+ subTask.getName() +"\', \'" + subTask.getTotalPointsAvailable() + "\',  \'"+ subTask.getDateDue() +"\', "+ subTask.isGroupProject() +", \'"+ subTask.getMaxAvailableBonusPoints() +"\')";
+
+        }
+
         System.out.println(sql);
-        sqlExecute(sql);
-        return subTask.getId();
+        return AddExecute(sql);
+        //return subTask.getId();
     }
 
     public int addGrade(float score, int subTaskId, int studentId){
@@ -519,7 +545,14 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
             SubTask temp = null;
             while(rs.next()) {
-                temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), rs.getTimestamp("releasedDate").toLocalDateTime(), rs.getString("dueDate"), rs.getFloat("totalPointsAvailable"), (float)rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
+                if (rs.getTimestamp("releasedDate") == null)
+                {
+                    temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), null, rs.getString("dueDate"), rs.getFloat("totalPointsAvailable"), (float) rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
+
+                }
+                else {
+                    temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), rs.getTimestamp("releasedDate").toLocalDateTime(), rs.getString("dueDate"), rs.getFloat("totalPointsAvailable"), (float) rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
+                }
                 list.add(temp);
             }
         }
@@ -660,10 +693,6 @@ public class DBManager {
 
     public void deleteCourse(Course course)
     {
-        if (course.getTasks() != null)
-        {
-            deleteTasks(course.getTasks());
-        }
         if (course.getAllStudents() != null)
         {
             for (var s : course.getAllStudents())

@@ -62,6 +62,13 @@ public class CourseStudentController   {
 
 		data = LoggedData.getSelectedCourse();
 
+		JComboBox sectionCombox = new JComboBox();
+		for (var c: LoggedData.getCourseSectionList())
+		{
+			sectionCombox.addItem(c);
+		}
+
+
 		var taskList = data.getTasks();
 		int columSize = taskList.size() + 6;
 		String col[] = new String[columSize];
@@ -113,10 +120,11 @@ public class CourseStudentController   {
 
 		
 		courseStudentView.setTable(tableModel);
-		//double mean = DoubleSummaryStatistics.
+
+		courseStudentView.getTable().getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(sectionCombox));
 		
-		//String stat = "Statistic:   Mean: "+ LoggedData.getSelectedCourse(). + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
-	    courseStudentView.setStatisticLabel("");
+		//String stat = "Statistic:   Mean: "+ LoggedData.getSelectedCourse().getMeanGrade() + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation
+	    courseStudentView.setStatisticLabel("Statistics of the class: TO BE DONE");
 
 		Action delete = new AbstractAction()
 		{

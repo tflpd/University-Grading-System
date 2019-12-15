@@ -282,7 +282,9 @@ public class SubTaskDialog extends JDialog {
 	}
 
 	public void setDocTf(LocalDateTime l) {
-		docTf.setText(l.toString());
+		if (l != null) {
+			docTf.setText(l.toString());
+		}
 	}
 
 	public void setGroupCheck(Boolean b) {
