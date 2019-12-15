@@ -571,6 +571,7 @@ public class DBManager {
             while(rs.next()) {
                 Student student = readStudentById(rs.getInt("studentId"));
                 temp = new Grade(rs.getInt("Id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                temp.setBonusPoints(rs.getFloat("bonusPoints"));
                 list.add(temp);
             }
         }
@@ -608,12 +609,31 @@ public class DBManager {
     public static void UpdateStudent(Student student)
     {
         String sql =   "UPDATE Student SET isWithdrawn = "+student.isWithdrawn()+" WHERE id = "+student.getId();
+        System.out.println(sql);
         sqlExecute(sql);
     }
-
+    public static void UpdateEnrollment(int studentId, int sectionId, int courseId)
+    {
+        String sql =   "UPDATE Enrollment SET courseSectionId = \'"+sectionId+"\' WHERE courseId = \'"+courseId+"\' and studentId = \'"+studentId+"\'";
+        sqlExecute(sql);
+    }
     public static void UpdateGrade(int id, float score)
     {
         String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE id = "+id;
+        sqlExecute(sql);
+    }
+
+    public static void UpdateGrade(int subTaskId, float score, int studentId)
+    {
+        String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE subTaskId = \'"+subTaskId+
+                "\' and studentId =\'"+studentId+"\'" ;
+        sqlExecute(sql);
+    }
+
+    public static void UpdateGradeBonus(int subTaskId, float bonus, int studentId)
+    {
+        String sql =   "UPDATE Grade SET bonusPoints = "+bonus+" WHERE subTaskId = \'"+subTaskId+
+                "\' and studentId =\'"+studentId+"\'" ;
         sqlExecute(sql);
     }
 
