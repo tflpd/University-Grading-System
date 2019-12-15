@@ -78,10 +78,16 @@ public class Task {
     public Float getStudentsGrade(Student student){
         Float taskAggregateGrade = 0f;
         for (SubTask subTask:subTasks){
-            for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId()))
+
+            for(Grade grade : subTask.getGrades())
                 if(student.getId() == grade.getStudent().getId()) {
                     taskAggregateGrade += grade.getAbsolutePointsScored();
                 }
+
+            //for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId()))
+            //    if(student.getId() == grade.getStudent().getId()) {
+            //        taskAggregateGrade += grade.getAbsolutePointsScored();
+            //    }
         }
         return taskAggregateGrade;
     }

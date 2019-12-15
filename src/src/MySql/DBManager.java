@@ -571,6 +571,7 @@ public class DBManager {
             while(rs.next()) {
                 Student student = readStudentById(rs.getInt("studentId"));
                 temp = new Grade(rs.getInt("Id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                temp.setBonusPoints(rs.getFloat("bonusPoints"));
                 list.add(temp);
             }
         }

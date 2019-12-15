@@ -40,7 +40,6 @@ public class SubTask {
     }
 
 
-
     public String getName() {
         return name;
     }
@@ -103,7 +102,7 @@ public class SubTask {
 
     public void setStudentsGrade(Student student, Float absolutePointsScored){
         for (Grade grade:grades){
-            if (grade.getStudent().getBuID().equals(student.getBuID())){
+            if (grade.getStudent().getId() == student.getId()){
                 grade.setAbsolutePointsScored(absolutePointsScored);
                 return;
             }
@@ -112,25 +111,38 @@ public class SubTask {
 
     public Float getStudentsGrade(Student student){
         for (Grade grade:grades){
-            if (grade.getStudent().getBuID().equals(student.getBuID())){
+            if (grade.getStudent().getId() == student.getId()){
                 return grade.getAbsolutePointsScored()/totalPointsAvailable;
             }
         }
         return -1f;
     }
 
+    public Grade getGrade(Student student){
+        for (Grade grade:grades){
+            if (grade.getStudent().getId() == student.getId()){
+                return grade;
+            }
+        }
+        return null;
+    }
+
     public void setStudentsComment(Student student, String comment){
         for (Grade grade:grades){
-            if (grade.getStudent().getBuID().equals(student.getBuID())){
+            if (grade.getStudent().getId() == student.getId()){
                 grade.setComment(comment);
                 return;
             }
         }
     }
 
+    public void setGrades(ArrayList<Grade> grades) {
+        this.grades = grades;
+    }
+
     public Float getStudentsBonusGrade(Student student){
         for (Grade grade:grades){
-            if (grade.getStudent().getBuID().equals(student.getBuID())){
+            if (grade.getStudent().getId() == student.getId()){
                 return grade.getBonusPoints();
             }
         }
@@ -139,7 +151,7 @@ public class SubTask {
 
     public void setStudentsBonusGrade(Student student, Float bonus){
         for (Grade grade:grades){
-            if (grade.getStudent().getBuID().equals(student.getBuID())){
+            if (grade.getStudent().getId() == student.getId()){
                 grade.setBonusPoints(bonus);
                 return;
             }
@@ -219,7 +231,7 @@ public class SubTask {
 
     public void deleteStudentFromSubTask(Student student){
         for (Grade grade:grades) {
-            if (grade.getStudent().getBuID().equals(student.getBuID())){
+            if (grade.getStudent().getId() == student.getId()){
                 grades.remove(grade);
             }
         }
