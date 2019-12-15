@@ -608,9 +608,14 @@ public class DBManager {
     public static void UpdateStudent(Student student)
     {
         String sql =   "UPDATE Student SET isWithdrawn = "+student.isWithdrawn()+" WHERE id = "+student.getId();
+        System.out.println(sql);
         sqlExecute(sql);
     }
-
+    public static void UpdateEnrollment(int studentId, int sectionId, int courseId)
+    {
+        String sql =   "UPDATE Enrollment SET courseSectionId = \'"+sectionId+"\' WHERE courseId = \'"+courseId+"\' and studentId = \'"+studentId+"\'";
+        sqlExecute(sql);
+    }
     public static void UpdateGrade(int id, float score)
     {
         String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE id = "+id;

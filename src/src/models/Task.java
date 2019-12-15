@@ -79,7 +79,9 @@ public class Task {
         Float taskAggregateGrade = 0f;
         for (SubTask subTask:subTasks){
             for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId()))
-            taskAggregateGrade += grade.getAbsolutePointsScored();
+                if(student.getId() == grade.getStudent().getId()) {
+                    taskAggregateGrade += grade.getAbsolutePointsScored();
+                }
         }
         return taskAggregateGrade;
     }
