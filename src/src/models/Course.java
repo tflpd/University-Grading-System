@@ -108,7 +108,7 @@ public class Course {
         return finalGrade;
     }
 
-    public Float getMeanGrade(CourseSection courseSection){
+    public Float getCourseSectionMeanGrade(CourseSection courseSection){
         ArrayList<Float> grades = new ArrayList<Float>();
         for (Student student:courseSection.getStudents()) {
             grades.add(getStudentsFinalGrade(student));
@@ -120,14 +120,28 @@ public class Course {
         return aggregatePointsScored/grades.size();
     }
 
+    public Float getMeanGrade(){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (CourseSection courseSection:courseSections) {
+            for (Student student:courseSection.getStudents()) {
+                grades.add(getStudentsFinalGrade(student));
+            }
+        }
+        Float aggregatePointsScored = 0f;
+        for (Float grade:grades){
+            aggregatePointsScored += grade;
+        }
+        return aggregatePointsScored/grades.size();
+    }
 
-    public float getStandardDeviation(CourseSection courseSection){
+
+    public float getCourseSectionStandardDeviation(CourseSection courseSection){
         ArrayList<Float> grades = new ArrayList<Float>();
         for (Student student:courseSection.getStudents()) {
             grades.add(getStudentsFinalGrade(student));
         }
         float standardDeviation = 0f;
-        Float mean =  getMeanGrade(courseSection);
+        Float mean =  getCourseSectionMeanGrade(courseSection);
 
         for(Float grade: grades) {
             standardDeviation += (float)Math.pow(grade - mean, 2);
@@ -138,10 +152,48 @@ public class Course {
         return (float)Math.sqrt(standardDeviation/grades.size());
     }
 
-    public Float getMedianPercentage(CourseSection courseSection){
+    public float getStandardDeviation(){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (CourseSection courseSection:courseSections) {
+            for (Student student:courseSection.getStudents()) {
+                grades.add(getStudentsFinalGrade(student));
+            }
+        }
+        float standardDeviation = 0f;
+        Float mean =  getMeanGrade();
+
+        for(Float grade: grades) {
+            standardDeviation += (float)Math.pow(grade - mean, 2);
+        }
+        if (grades.size() == 0){
+            return 0;
+        }
+        return (float)Math.sqrt(standardDeviation/grades.size());
+    }
+
+    public Float getCourseSectionMedianPercentage(CourseSection courseSection){
         ArrayList<Float> grades = new ArrayList<Float>();
         for (Student student:courseSection.getStudents()) {
             grades.add(getStudentsFinalGrade(student));
+        }
+
+        if (grades.size() == 0){
+            return 0f;
+        }
+        Collections.sort(grades);
+        int listSize = grades.size();
+        if (listSize % 2 == 0)
+            return (grades.get(listSize/2) + grades.get(listSize/2 - 1))/2;
+        else
+            return grades.get(listSize/2);
+    }
+
+    public Float getMedianPercentage(){
+        ArrayList<Float> grades = new ArrayList<Float>();
+        for (CourseSection courseSection:courseSections) {
+            for (Student student:courseSection.getStudents()) {
+                grades.add(getStudentsFinalGrade(student));
+            }
         }
 
         if (grades.size() == 0){
