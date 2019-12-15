@@ -78,8 +78,9 @@ public class Task {
     public Float getStudentsGrade(Student student){
         Float taskAggregateGrade = 0f;
         for (SubTask subTask:subTasks){
-            for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId()))
-            taskAggregateGrade += grade.getAbsolutePointsScored();
+            for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId())) {
+                taskAggregateGrade += grade.getAbsolutePointsScored()/subTask.getTotalPointsAvailable()*subTask.getWeightInParentTask();
+            }
         }
         return taskAggregateGrade;
     }
@@ -93,7 +94,7 @@ public class Task {
                 LoggedData.getDbManager().addGrade(subGrade/subTask.getWeightInParentTask()*subTask.getTotalPointsAvailable(), subTask.getId(), student.getId());
             }
             else{
-                LoggedData.getDbManager().UpdateGrade(subTask.getId(), subGrade/subTask.getWeightInParentTask()*subTask.getTotalPointsAvailable() );
+                LoggedData.getDbManager().UpdateGrade(subTask.getId(), subGrade/subTask.getWeightInParentTask()*subTask.getTotalPointsAvailable());
             }
             subTask.setStudentsGrade(student, subGrade/subTask.getWeightInParentTask()*subTask.getTotalPointsAvailable());
         }
