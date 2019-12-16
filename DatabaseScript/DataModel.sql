@@ -104,6 +104,11 @@ CREATE TABLE `Grade` (
 
 
 
+INSERT INTO `grading_system`.`Credential` (`email`) VALUES ('c@bu.edu');
+INSERT INTO `grading_system`.`Professor` (`first_name`, `last_name`, `email`) VALUES ('Christine', 'Papadakis', 'c@bu.edu');
+
+INSERT INTO `grading_system`.`CourseSection` (`name`) VALUES ('Default Section');
+INSERT INTO `grading_system`.`CourseSection` (`name`) VALUES ('Morning Section');
 
 
 
