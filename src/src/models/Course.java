@@ -237,4 +237,10 @@ public class Course {
     public CourseTemplate getCourseTemplate() {
         return courseTemplate;
     }
+
+    public void addNewGrade(Student student){
+        for (Task task:tasks){
+            task.addNewGrade(student);
+        }
+    }
 }

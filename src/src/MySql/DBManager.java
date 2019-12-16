@@ -17,8 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/grading_system","root","silvertreet74");
-
+                    "jdbc:mysql://localhost:3306/grading_system","admin","admin");
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
             //while(rs.next())
@@ -579,7 +578,6 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return list;
     }
-
 
     public Grade readGradeByStudentAndSubtaskId(int studentId, int subtaskId){
         Grade temp = null;

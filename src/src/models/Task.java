@@ -120,4 +120,10 @@ public class Task {
         }
     }
 
+    public void addNewGrade(Student student){
+        for (SubTask subTask:subTasks) {
+            subTask.addNewGrade(student);
+        }
+    }
+
 }
