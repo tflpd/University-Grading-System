@@ -72,6 +72,8 @@ public class SubTaskGradeController {
 							Float scored1 = Float.parseFloat(update);
 							if (LoggedData.getSelectedSubTask().getGrade(student) == null)
 							{
+
+
 								LoggedData.getSelectedSubTask().setStudentsGrade(student, scored1);
 							}
 							else {
