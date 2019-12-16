@@ -103,6 +103,7 @@ public class CourseStudentView extends JPanel{
 
 
 		table.setModel(dataModel);
+
 		if (table.getColumn("Id") != null)
 		{
 			table.removeColumn(table.getColumn("Id"));

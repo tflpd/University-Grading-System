@@ -17,7 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/grading_system","root","12345678");
+                    "jdbc:mysql://localhost:3306/grading_system","admin","admin");
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
             //while(rs.next())
@@ -590,6 +590,7 @@ public class DBManager {
             while(rs.next()) {
                 Student student = readStudentById(rs.getInt("studentId"));
                 temp = new Grade(rs.getInt("id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                temp.setBonusPoints(rs.getFloat("bonusPoints"));
             }
         }
         catch(Exception e){ System.out.println(e);}
@@ -606,6 +607,7 @@ public class DBManager {
             while(rs.next()) {
                 Student student = readStudentById(rs.getInt("studentId"));
                 temp = new Grade(rs.getInt("id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                temp.setBonusPoints(rs.getFloat("bonusPoints"));
             }
         }
         catch(Exception e){ System.out.println(e);}

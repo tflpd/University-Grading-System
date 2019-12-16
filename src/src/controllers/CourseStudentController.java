@@ -292,7 +292,7 @@ public class CourseStudentController {
 		{
 			columSize = columSize+ t.getSubTasks().size();
 		}
-		columSize = columSize*3;
+		//columSize = columSize*3;
 
 		var taskList = data.getTasks();
 		columSize = columSize + 6;
@@ -315,10 +315,10 @@ public class CourseStudentController {
 					{
 						col[extra] = st.getName()+"(Point Scored)" ;
 						columnDictionary.put(col[extra],st.getId());
-						col[extra+1] = st.getName() + "(Point Deducted)";
-						columnDictionary.put(col[extra+1],st.getId());
-						col[extra+2] = st.getName() + "(Bonus)";
-						columnDictionary.put(col[extra+2],st.getId());
+						//col[extra+1] = st.getName() + "(Point Deducted)";
+						//columnDictionary.put(col[extra+1],st.getId());
+						//col[extra+2] = st.getName() + "(Bonus)";
+						//columnDictionary.put(col[extra+2],st.getId());
 						extra = extra+3;
 					}
 				}
@@ -348,7 +348,14 @@ public class CourseStudentController {
 				return columnIndex == (finalColumSize - 2) ? Boolean.class : super.getColumnClass(columnIndex);
 			}
 
-
+			@Override
+			public boolean isCellEditable(int row, int column)
+			{
+				if(column < this.getColumnCount() - 2 && column != 2) {
+					return false;//This causes all cells to be not editable
+				}
+				return true;
+			}
 
 		};
 		//DefaultTableModel model = new DefaultTableModel()
@@ -401,6 +408,9 @@ public class CourseStudentController {
 
 
 		courseStudentView.setTable(tableModel);
+		//JTableHeader th = courseStudentView.getTable().getTableHeader();
+		//th.setPreferredSize(new Dimension(100, 100));
+
 		courseStudentView.getTable().getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(sectionCombox));
 		String stat = "Statistic:   Mean: " + data.getMeanGrade() + "   Median: "
 				+ data.getMedianPercentage() + "   " + "Standard Deviation: " + data.getStandardDeviation();
@@ -450,6 +460,7 @@ public class CourseStudentController {
 
 		var taskList = LoggedData.getSelectedCourse().getTasks();
 		//name
+		/*
 		for (int i = 0; i < model.getRowCount(); i++) {
 
 			String name = (String) model.getValueAt(i, 1);
@@ -473,11 +484,12 @@ public class CourseStudentController {
 		}
 
 
+		 */
+
 
 
 
 		for (int i = 0; i < model.getRowCount(); i++) {
-
 
 			int id = (int) model.getValueAt(i, 0);
 			Student student = null;
@@ -514,13 +526,13 @@ public class CourseStudentController {
 						cc.addStudent(student);
 						data.addSection(cc);
 					}
-
 					break;
 				}
 			}
 
 			// Save Grade
 
+			/*
 			for (int k = 3; k < columSize - 3; k++) {
 				String colName = model.getColumnName(k);
 				int subtaskId = columnDictionary.get(colName);
@@ -548,11 +560,9 @@ public class CourseStudentController {
 					}
 				}
 			}
+
+			 */
 		}
-
-
-
-
 
 		// saving to database
 		for (var c : data.getCourseSections()) {
@@ -561,7 +571,6 @@ public class CourseStudentController {
 				LoggedData.getDbManager().UpdateEnrollment(s.getId(), c.getId(), data.getId());
 			}
 		}
-
 
 		LoggedData.setSelectedCourse(data);
 	}
