@@ -63,11 +63,19 @@ public class SubTaskGradeController {
 						}
 					}
 					String update = (String)subTaskGrade.getTable().getModel().getValueAt(row, column);
+<<<<<<< HEAD
 
 					Grade DBGrade = LoggedData.getDbManager().readGradeByStudentAndSubtaskId(student.getId(), LoggedData.getSelectedTask().getId());
 					if (DBGrade == null) {
 						LoggedData.getDbManager().addGrade(0, LoggedData.getSelectedCourse().getId(), student.getId());
 					}
+=======
+					if (LoggedData.getSelectedSubTask().getGrade(student) == null)
+					{
+						LoggedData.getSelectedCourse().addNewGrade(student);
+					}
+
+>>>>>>> 828428f96d8fbee606b70ad7ca18fd0b2b2854fa
 					switch (column) {
 						case 2:
 							Float score = LoggedData.getSelectedSubTask().getTotalPointsAvailable()-Float.parseFloat(update);
@@ -78,8 +86,14 @@ public class SubTaskGradeController {
 							Float score1 = Float.parseFloat(update);
 							if (LoggedData.getSelectedSubTask().getGrade(student) == null)
 							{
+<<<<<<< HEAD
 								LoggedData.getSelectedSubTask().setStudentsGrade(student, score1);
 
+=======
+
+
+								LoggedData.getSelectedSubTask().setStudentsGrade(student, scored1);
+>>>>>>> 828428f96d8fbee606b70ad7ca18fd0b2b2854fa
 							}
 							else {
 								LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(score1);

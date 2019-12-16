@@ -319,7 +319,7 @@ public class CourseStudentController {
 						//columnDictionary.put(col[extra+1],st.getId());
 						//col[extra+2] = st.getName() + "(Bonus)";
 						//columnDictionary.put(col[extra+2],st.getId());
-						extra = extra+3;
+						extra = extra+1;
 					}
 				}
 			}
@@ -386,10 +386,10 @@ public class CourseStudentController {
 										System.out.println(st.getId()+" "+g.getStudent().getId() +" "+ st.getGrade(s).getAbsolutePointsScored()+
 														" "+ s.getId());
 										objs[extra] = st.getGrade(s).getAbsolutePointsScored();
-										objs[extra + 1] = st.getTotalPointsAvailable() -
-												st.getGrade(s).getAbsolutePointsScored();
-										objs[extra + 2] = st.getGrade(s).getBonusPoints();
-										extra = extra + 3;
+										//objs[extra + 1] = st.getTotalPointsAvailable() -
+										//		st.getGrade(s).getAbsolutePointsScored();
+										//objs[extra + 2] = st.getGrade(s).getBonusPoints();
+										extra = extra + 1	;
 									}
 								}
 							}

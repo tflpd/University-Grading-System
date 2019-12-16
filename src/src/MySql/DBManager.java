@@ -580,7 +580,6 @@ public class DBManager {
         return list;
     }
 
-
     public Grade readGradeByStudentAndSubtaskId(int studentId, int subtaskId){
         Grade temp = null;
         //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
