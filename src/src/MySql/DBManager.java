@@ -499,7 +499,7 @@ public class DBManager {
         Professor professor = readAllProfessors().get(0);
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from TemplateCourse";
+            String sql = "select * from grading_system.TemplateCourse";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             CourseTemplate tmpCourseTemplate = null;
@@ -521,7 +521,7 @@ public class DBManager {
         ArrayList<Task> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from Task WHERE templateCourseId = \'"+ TemplateCourseId +"\'";
+            String sql = "select * from grading_system.Task WHERE templateCourseId = \'"+ TemplateCourseId +"\'";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             Task temp = null;
@@ -541,7 +541,7 @@ public class DBManager {
         ArrayList<SubTask> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from SubTask WHERE taskId = \'"+ TaskId +"\'";
+            String sql = "select * from grading_system.SubTask WHERE taskId = \'"+ TaskId +"\'";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             SubTask temp = null;
@@ -565,7 +565,7 @@ public class DBManager {
         ArrayList<Grade> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from Grade WHERE subTaskId = \'"+ SubTaskId +"\'";
+            String sql = "select * from grading_system.Grade WHERE subTaskId = \'"+ SubTaskId +"\'";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             Grade temp = null;
@@ -585,7 +585,7 @@ public class DBManager {
         //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from Grade WHERE subTaskId = \'"+subtaskId +"\' and studentId =\'"+studentId+"\'" ;
+            String sql = "select * from grading_system.Grade WHERE subTaskId = \'"+subtaskId +"\' and studentId =\'"+studentId+"\'" ;
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             while(rs.next()) {
@@ -602,7 +602,7 @@ public class DBManager {
         //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
         try {
             Statement stmt=con.createStatement();
-            String sql = "select * from Grade WHERE id = \'"+id +"\'";
+            String sql = "select * from grading_system.Grade WHERE id = \'"+id +"\'";
             System.out.println(sql);
             ResultSet rs=stmt.executeQuery(sql);
             while(rs.next()) {

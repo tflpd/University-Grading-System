@@ -18,6 +18,10 @@ public class Grade {
         this.bonusPoints = 0f;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Grade(int id, Student student) {
         this(id, student, 0f, "");
     }

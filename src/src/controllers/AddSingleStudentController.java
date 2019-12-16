@@ -80,6 +80,8 @@ public class AddSingleStudentController {
         student.setId(studentId);
 
         LoggedData.getDbManager().addEnrollment(studentId, false, section.getId(),LoggedData.getSelectedCourse().getId());
+        LoggedData.getSelectedCourse().addNewGrade(student);
+
 
         if(LoggedData.getSelectedCourse().getCourseSections() == null ||LoggedData.getSelectedCourse().getCourseSections().size() == 0)
         {

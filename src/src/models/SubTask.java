@@ -239,5 +239,6 @@ public class SubTask {
 
     public void addNewGrade(Student student){
         grades.add(new Grade(0, student, 0f, ""));
+        LoggedData.getDbManager().addGrade(0, this.getId(), student.getId());
     }
 }
