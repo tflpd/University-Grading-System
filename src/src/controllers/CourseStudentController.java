@@ -473,43 +473,7 @@ public class CourseStudentController {
 		}
 
 
-		//grade
-		for (int i = 0; i < model.getRowCount(); i++) {
-			int id = (int) model.getValueAt(i, 0);
-			Student student = null;
-			for (var cSc : data.getCourseSections()) {
-				if (cSc.getSingleStudent(id) != null) {
-					student = cSc.getSingleStudent(id);
-				}
-			}
-			System.out.println(student.getName());
-			for (int ii = 0; ii < taskList.size(); ii++) {
-				System.out.println(model.getValueAt(i, ii+3));
 
-				String grade = model.getValueAt(i, ii + 3).toString();
-				//System.out.println(Float.parseFloat(grade));
-				taskList.get(ii).setStudentGrade(student, Float.parseFloat(grade));
-				taskList.get(ii).getStudentsGrade(student);
-
-
-			}
-		}
-
-		//with draw
-//		for (int i = 0; i < model.getRowCount(); i++) {
-//
-//			int id = (int) model.getValueAt(i, 0);
-//			Student student = null;
-//			for (var cSc : data.getCourseSections()) {
-//				if (cSc.getSingleStudent(id) != null) {
-//					student = cSc.getSingleStudent(id);
-//				}
-//			}
-//			//System.out.println(student.getName());
-//
-//
-//
-//		}
 
 
 		for (int i = 0; i < model.getRowCount(); i++) {
@@ -525,7 +489,7 @@ public class CourseStudentController {
 				}
 			}
 
-			boolean withDraw = (boolean) model.getValueAt(i, columSize -2);
+			boolean withDraw = (boolean) model.getValueAt(i, columSize - 2);
 			student.setWithdrawn(withDraw);
 			System.out.println("Student Status " + student.isWithdrawn());
 
@@ -555,32 +519,32 @@ public class CourseStudentController {
 
 			// Save Grade
 
-
-
-			for (int k = 3; k < columSize -3; k++)
-			{
+			for (int k = 3; k < columSize - 3; k++) {
 				String colName = model.getColumnName(k);
 				int subtaskId = columnDictionary.get(colName);
 
-				if (colName.contains("(Point Scored)"))
-				{
-					if (model.getValueAt(i, k) !=null) {
+				if (colName.contains("(Point Scored)")) {
+					if (model.getValueAt(i, k) != null) {
+
 						float score = Float.valueOf(model.getValueAt(i, k).toString());
-						boolean isNew = true;
-						LoggedData.getDbManager().UpdateGrade(subtaskId, score, student.getId());
+						Grade DBGrade = LoggedData.getDbManager().readGradeByStudentAndSubtaskId(student.getId(), subtaskId);
+						if (DBGrade == null) {
+							LoggedData.getDbManager().addGrade(score, subtaskId, student.getId());
+						}
+						LoggedData.getDbManager().UpdateGradeByStudentId(subtaskId, score, student.getId());
+
 					}
-
-				}else if (colName.contains("(Bonus)"))
-				{
-					if (model.getValueAt(i, k) !=null) {
+				} else if (colName.contains("(Bonus)")) {
+					if (model.getValueAt(i, k) != null) {
 						float score = Float.valueOf(model.getValueAt(i, k).toString());
-						LoggedData.getDbManager().UpdateGradeBonus(subtaskId, score, student.getId());
-
+						Grade DBGrade = LoggedData.getDbManager().readGradeByStudentAndSubtaskId(student.getId(), subtaskId);
+						if (DBGrade == null) {
+							LoggedData.getDbManager().addGrade(0, subtaskId, student.getId());
+						}
+						LoggedData.getDbManager().UpdateGradeBonusByStudentAndSubtaskId(subtaskId, score, student.getId());
 
 					}
 				}
-
-
 			}
 		}
 
