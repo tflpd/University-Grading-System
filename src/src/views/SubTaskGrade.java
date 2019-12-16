@@ -15,6 +15,7 @@ public class SubTaskGrade extends JPanel{
     private JButton backButton ;
     private JButton homeButton ;
     private JComboBox sectionCombo;
+    private JButton saveButton;
 
     public SubTaskGrade(String subtaskName, double mean, double median, double standardDeviation) {
         //frame = new JFrame("Course Home Page");
@@ -52,7 +53,7 @@ public class SubTaskGrade extends JPanel{
 		scrollPane.setPreferredSize(
 				new Dimension(800,100));
 
-        JButton saveButton = new JButton("Save Changes");
+        saveButton = new JButton("Save Changes");
 
         centerPanel.add(subtaskLabel, gc);
         gc.gridy = 1;
@@ -99,4 +100,11 @@ public class SubTaskGrade extends JPanel{
 		return homeButton;
 	}
 
+    public JButton getSaveButton() {
+        return saveButton;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
 }
