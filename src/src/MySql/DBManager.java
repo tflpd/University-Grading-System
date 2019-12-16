@@ -17,7 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:8080/grading_system","root","1234");
+                    "jdbc:mysql://localhost:3306/grading_system","admin","admin");
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
             //while(rs.next())
@@ -579,7 +579,22 @@ public class DBManager {
         return list;
     }
 
-
+    public Grade readGradeByStudentAndSubtaskId(int studentId, int subtaskId){
+        Grade temp = null;
+        //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
+        try {
+            Statement stmt=con.createStatement();
+            String sql = "select * from Grade WHERE subTaskId = \'"+subtaskId +"\' and studentId =\'"+studentId+"\'" ;
+            System.out.println(sql);
+            ResultSet rs=stmt.executeQuery(sql);
+            while(rs.next()) {
+                Student student = readStudentById(rs.getInt("studentId"));
+                temp = new Grade(rs.getInt("id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+            }
+        }
+        catch(Exception e){ System.out.println(e);}
+        return temp;
+    }
     public Grade readGradeById(int id){
         Grade temp = null;
         //public Grade(int id, Student student, Float absolutePointsScored, String comment) {
@@ -596,6 +611,7 @@ public class DBManager {
         catch(Exception e){ System.out.println(e);}
         return temp;
     }
+
 
     /*
      * UPDATE
@@ -623,14 +639,14 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-    public static void UpdateGrade(int subTaskId, float score, int studentId)
+    public static void UpdateGradeByStudentId(int subTaskId, float score, int studentId)
     {
         String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE subTaskId = \'"+subTaskId+
                 "\' and studentId =\'"+studentId+"\'" ;
         sqlExecute(sql);
     }
 
-    public static void UpdateGradeBonus(int subTaskId, float bonus, int studentId)
+    public static void UpdateGradeBonusByStudentAndSubtaskId(int subTaskId, float bonus, int studentId)
     {
         String sql =   "UPDATE Grade SET bonusPoints = "+bonus+" WHERE subTaskId = \'"+subTaskId+
                 "\' and studentId =\'"+studentId+"\'" ;
