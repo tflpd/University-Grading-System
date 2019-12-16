@@ -514,7 +514,6 @@ public class CourseStudentController {
 
 		for (int i = 0; i < model.getRowCount(); i++) {
 
-
 			int id = (int) model.getValueAt(i, 0);
 			Student student = null;
 			CourseSection originalSection = null;
@@ -550,12 +549,13 @@ public class CourseStudentController {
 						cc.addStudent(student);
 						data.addSection(cc);
 					}
-
 					break;
 				}
 			}
 
 			// Save Grade
+
+
 
 			for (int k = 3; k < columSize -3; k++)
 			{
@@ -564,21 +564,25 @@ public class CourseStudentController {
 
 				if (colName.contains("(Point Scored)"))
 				{
-					float score  = Float.valueOf(model.getValueAt(i, k).toString());
-					LoggedData.getDbManager().UpdateGrade(subtaskId, score, student.getId());
+					if (model.getValueAt(i, k) !=null) {
+						float score = Float.valueOf(model.getValueAt(i, k).toString());
+						boolean isNew = true;
+						LoggedData.getDbManager().UpdateGrade(subtaskId, score, student.getId());
+					}
+
 				}else if (colName.contains("(Bonus)"))
 				{
-					float score  = Float.valueOf(model.getValueAt(i, k).toString());
-					LoggedData.getDbManager().UpdateGradeBonus(subtaskId, score, student.getId());
+					if (model.getValueAt(i, k) !=null) {
+						float score = Float.valueOf(model.getValueAt(i, k).toString());
+						LoggedData.getDbManager().UpdateGradeBonus(subtaskId, score, student.getId());
+
+
+					}
 				}
 
 
 			}
 		}
-
-
-
-
 
 		// saving to database
 		for (var c : data.getCourseSections()) {
