@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.LoggedData;
+import models.Student;
 import models.SubTask;
 import models.Task;
 import views.ClassHomePage;
@@ -106,6 +107,9 @@ public class SubTaskDialogController {
 
 			int subTaskId = LoggedData.getDbManager().addSubtask(subTask, LoggedData.getSelectedTask().getId());
 			System.out.println("SubTask id"+ subTaskId);
+			for(Student student : LoggedData.getSelectedCourse().getAllStudents()){
+				subTask.addNewGrade(student);
+			}
 			LoggedData.getSelectedSubTask().setId(subTaskId);
 
 
