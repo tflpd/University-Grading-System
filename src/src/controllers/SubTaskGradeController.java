@@ -63,6 +63,11 @@ public class SubTaskGradeController {
 						}
 					}
 					String update = (String)subTaskGrade.getTable().getModel().getValueAt(row, column);
+					if (LoggedData.getSelectedSubTask().getGrade(student) == null)
+					{
+						LoggedData.getSelectedCourse().addNewGrade(student);
+					}
+
 					switch (column) {
 						case 2:
 							Float scored = LoggedData.getSelectedSubTask().getTotalPointsAvailable()-Float.parseFloat(update);
