@@ -6,10 +6,14 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.CourseSection;
+import models.Grade;
 import models.LoggedData;
 import models.Student;
 import org.apache.poi.hpsf.Section;
@@ -19,7 +23,7 @@ import views.SubTaskGrade;
 public class SubTaskGradeController {
 	
 	private SubTaskGrade subTaskGrade;
-	TableModel tableModel;
+	AbstractTableModel tableModel;
 	private JPanel parentPanel;
 	public SubTaskGradeController()
 	{
@@ -38,8 +42,57 @@ public class SubTaskGradeController {
 
 	private void initController()
 	{
+
+
+
 		subTaskGrade.getHomeButton().addActionListener(l -> backHome());
 		subTaskGrade.getBackButton().addActionListener(l -> back());
+		subTaskGrade.getSaveButton().addActionListener(l -> save());
+		subTaskGrade.getTable().getModel().addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				System.out.println("comment");
+				if (e.getType() == TableModelEvent.UPDATE) {
+					int row = e.getFirstRow();
+					int column = e.getColumn();
+					int id = (int) subTaskGrade.getTable().getModel().getValueAt(row, 0);
+					Student student = null;
+					for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
+						if (cSc.getSingleStudent(id) != null) {
+							student = cSc.getSingleStudent(id);
+						}
+					}
+					String update = (String)subTaskGrade.getTable().getModel().getValueAt(row, column);
+					switch (column) {
+						case 2:
+							Float scored = LoggedData.getSelectedSubTask().getTotalPointsAvailable()-Float.parseFloat(update);
+							LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(scored);
+							break;
+						case 3:
+							Float scored1 = Float.parseFloat(update);
+							LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(scored1);
+							break;
+						case 4:
+							String comment = update;
+							System.out.println(comment);
+							LoggedData.getSelectedSubTask().getGrade(student).setComment(comment);
+							break;
+						case 5:
+							Float scored2 = Float.parseFloat(update);
+							LoggedData.getSelectedSubTask().setStudentsGrade(student, scored2);
+							break;
+						case 6:
+							Float bonus = Float.parseFloat(update);
+							LoggedData.getSelectedSubTask().getGrade(student).setBonusPoints(bonus);
+							break;
+					}
+					//subTaskGrade.setTable();
+					//subTaskGrade.getTable().getModel().fire
+
+
+				}
+			}
+		});
 		subTaskGrade.getSectionCombo().addItemListener(event -> {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 				//System.out.println(ItemEvent.SELECTED+" 123");
@@ -47,6 +100,7 @@ public class SubTaskGradeController {
 				//System.out.println(section);
 				for (CourseSection c: LoggedData.getSelectedCourse().getCourseSections())
 				{
+
 				   if (c.getName().equals(section)) {
 
 
@@ -56,15 +110,20 @@ public class SubTaskGradeController {
 					   col[1] = "Student's Name";
 					   col[2] = "Point Deducted";
 					   col[3] = "Point Scored";
-					   col[4] = "Student Status";
-					   col[5] = "Comment";
-					   col[6] = "Group ID";
-					   col[7] = "% Score";
-					   col[8] = "Bonus Point";
+					   //col[4] = "Student Status";
+					   col[4] = "Comment";
+					   //col[5] = "Group ID";
+					   col[5] = "% Score";
+					   col[6] = "Bonus Point";
 
+					   tableModel = new DefaultTableModel(col, 0) {
+						   @Override
+						   public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+							   super.setValueAt(aValue, rowIndex, columnIndex);
+							   fireTableCellUpdated(rowIndex, columnIndex);
+						   }
+					   };
 
-
-					   tableModel = new DefaultTableModel(col, 0);
 
 
 						   ArrayList<Student> studentList =c.getStudents();
@@ -72,12 +131,22 @@ public class SubTaskGradeController {
 						   //studentCount= studentCount+ studentList.size();
 						   if (studentList != null)
 						   {
-							   for (var s : studentList)
+							   for (Student s : studentList)
 							   {
+							   	   Grade g =LoggedData.getSelectedSubTask().getGrade(s);
+							   	   if(g == null) {
+									   System.out.println("null");
+								   }
+
 								   Object[] objs =new Object[columSize];
 								   objs[0] = s.getId();
 								   objs[1] = s.getName();
-								   objs[2] = c.getName();
+								   objs[2] = String.valueOf(LoggedData.getSelectedSubTask().getTotalPointsAvailable()-g.getAbsolutePointsScored());
+								   objs[3] = String.valueOf(g.getAbsolutePointsScored());
+								   objs[4] = g.getComment();
+								   objs[5] = String.valueOf(LoggedData.getSelectedSubTask().getStudentsGrade(s));
+								   objs[6] = String.valueOf(g.getBonusPoints());
+
 								   //objs[3] = subTask.getGrades().get(0).getAbsolutePointsScored();
 
 								   ((DefaultTableModel) tableModel).addRow(objs);
@@ -115,6 +184,12 @@ public class SubTaskGradeController {
 	{
 		CourseListController cLc = new CourseListController();
 	}
+
+	private void save()
+	{
+
+	}
+
 	private void back()
 	{
 		ClassHomePageController cHP = new ClassHomePageController("");
