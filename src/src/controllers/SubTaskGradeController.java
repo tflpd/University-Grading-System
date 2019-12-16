@@ -63,35 +63,55 @@ public class SubTaskGradeController {
 						}
 					}
 					String update = (String)subTaskGrade.getTable().getModel().getValueAt(row, column);
+
+					Grade DBGrade = LoggedData.getDbManager().readGradeByStudentAndSubtaskId(student.getId(), LoggedData.getSelectedTask().getId());
+					if (DBGrade == null) {
+						LoggedData.getDbManager().addGrade(0, LoggedData.getSelectedCourse().getId(), student.getId());
+					}
 					switch (column) {
 						case 2:
-							Float scored = LoggedData.getSelectedSubTask().getTotalPointsAvailable()-Float.parseFloat(update);
-							LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(scored);
+							Float score = LoggedData.getSelectedSubTask().getTotalPointsAvailable()-Float.parseFloat(update);
+							LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(score);
+							LoggedData.getDbManager().UpdateGradeByStudentIdandSubtaskId(LoggedData.getSelectedSubTask().getId(), score, student.getId());
 							break;
 						case 3:
-							Float scored1 = Float.parseFloat(update);
+							Float score1 = Float.parseFloat(update);
 							if (LoggedData.getSelectedSubTask().getGrade(student) == null)
 							{
-								LoggedData.getSelectedSubTask().setStudentsGrade(student, scored1);
+								LoggedData.getSelectedSubTask().setStudentsGrade(student, score1);
+
 							}
 							else {
-								LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(scored1);
+								LoggedData.getSelectedSubTask().getGrade(student).setAbsolutePointsScored(score1);
+
 							}
+							LoggedData.getDbManager().UpdateGradeByStudentIdandSubtaskId(LoggedData.getSelectedSubTask().getId(), score1, student.getId());
 							break;
 						case 4:
 							String comment = update;
 							System.out.println(comment);
 							LoggedData.getSelectedSubTask().getGrade(student).setComment(comment);
+							LoggedData.getDbManager().UpdateGradeCommentByStudentAndSubtaskId(LoggedData.getSelectedSubTask().getId(), comment, student.getId());
 							break;
 						case 5:
 							Float scored2 = Float.parseFloat(update);
 							LoggedData.getSelectedSubTask().setStudentsGrade(student, scored2);
+							float actualScore = scored2 * LoggedData.getSelectedSubTask().getTotalPointsAvailable();
+							LoggedData.getDbManager().UpdateGradeByStudentIdandSubtaskId(LoggedData.getSelectedSubTask().getId(), actualScore, student.getId());
 							break;
 						case 6:
 							Float bonus = Float.parseFloat(update);
 							LoggedData.getSelectedSubTask().getGrade(student).setBonusPoints(bonus);
+							LoggedData.getDbManager().UpdateGradeBonusByStudentAndSubtaskId(LoggedData.getSelectedSubTask().getId(), bonus, student.getId());
 							break;
+
 					}
+
+
+
+
+
+
 					//subTaskGrade.setTable();
 					//subTaskGrade.getTable().getModel().fire
 

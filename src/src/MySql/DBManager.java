@@ -17,7 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/grading_system","root","silvertreet74");
+                    "jdbc:mysql://localhost:3306/grading_system","admin","admin");
 
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
@@ -643,7 +643,7 @@ public class DBManager {
         sqlExecute(sql);
     }
 
-    public static void UpdateGradeByStudentId(int subTaskId, float score, int studentId)
+    public static void UpdateGradeByStudentIdandSubtaskId(int subTaskId, float score, int studentId)
     {
         String sql =   "UPDATE Grade SET absolutePointsScored = "+score+" WHERE subTaskId = \'"+subTaskId+
                 "\' and studentId =\'"+studentId+"\'" ;
@@ -653,6 +653,12 @@ public class DBManager {
     public static void UpdateGradeBonusByStudentAndSubtaskId(int subTaskId, float bonus, int studentId)
     {
         String sql =   "UPDATE Grade SET bonusPoints = "+bonus+" WHERE subTaskId = \'"+subTaskId+
+                "\' and studentId =\'"+studentId+"\'" ;
+        sqlExecute(sql);
+    }
+    public static void UpdateGradeCommentByStudentAndSubtaskId(int subTaskId, String comment, int studentId)
+    {
+        String sql =   "UPDATE Grade SET comment = "+comment+" WHERE subTaskId = \'"+subTaskId+
                 "\' and studentId =\'"+studentId+"\'" ;
         sqlExecute(sql);
     }
