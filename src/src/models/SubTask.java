@@ -236,4 +236,8 @@ public class SubTask {
             }
         }
     }
+
+    public void addNewGrade(Student student){
+        grades.add(new Grade(0, student, 0f, ""));
+    }
 }
