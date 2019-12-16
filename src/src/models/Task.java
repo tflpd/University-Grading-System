@@ -82,7 +82,7 @@ public class Task {
 
             for(Grade grade : subTask.getGrades())
                 if(student.getId() == grade.getStudent().getId()) {
-                    taskAggregateGrade += grade.getAbsolutePointsScored();
+                    taskAggregateGrade += grade.getAbsolutePointsScored()/subTask.getTotalPointsAvailable()*subTask.getWeightInParentTask();
                 }
 
             //for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId()))
@@ -90,9 +90,9 @@ public class Task {
             //        taskAggregateGrade += grade.getAbsolutePointsScored();
             //    }
 
-            for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId())) {
-                taskAggregateGrade += grade.getAbsolutePointsScored()/subTask.getTotalPointsAvailable()*subTask.getWeightInParentTask();
-            }
+//            for(Grade grade : LoggedData.getDbManager().readGradeBySubTaskId(subTask.getId())) {
+//                taskAggregateGrade += grade.getAbsolutePointsScored()/subTask.getTotalPointsAvailable()*subTask.getWeightInParentTask();
+//            }
 
         }
         return taskAggregateGrade;
