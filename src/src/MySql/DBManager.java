@@ -592,6 +592,7 @@ public class DBManager {
             while(rs.next()) {
                 Student student = readStudentById(rs.getInt("studentId"));
                 temp = new Grade(rs.getInt("id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                temp.setBonusPoints(rs.getFloat("bonusPoints"));
             }
         }
         catch(Exception e){ System.out.println(e);}
@@ -608,6 +609,7 @@ public class DBManager {
             while(rs.next()) {
                 Student student = readStudentById(rs.getInt("studentId"));
                 temp = new Grade(rs.getInt("id"), student, rs.getFloat("absolutePointsScored"), rs.getString("comment"));
+                temp.setBonusPoints(rs.getFloat("bonusPoints"));
             }
         }
         catch(Exception e){ System.out.println(e);}
