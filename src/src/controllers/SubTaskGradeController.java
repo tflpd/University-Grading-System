@@ -69,7 +69,6 @@ public class SubTaskGradeController {
 					}
 
 					String update = (String)subTaskGrade.getTable().getModel().getValueAt(row, column);
-
 					Grade DBGrade = LoggedData.getDbManager().readGradeByStudentAndSubtaskId(student.getId(), LoggedData.getSelectedSubTask().getId());
 					if (DBGrade == null) {
 						LoggedData.getDbManager().addGrade(0, LoggedData.getSelectedCourse().getId(), student.getId());

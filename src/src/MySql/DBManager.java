@@ -219,7 +219,7 @@ public class DBManager {
         return listTemplate;
     }
 
-    public static CourseTemplate readCourseTemplateById(int id){
+    public CourseTemplate readCourseTemplateById(int id){
         CourseTemplate temp = null;
         try {
             Statement stmt=con.createStatement();
@@ -253,7 +253,7 @@ public class DBManager {
         return temp;
     }
 
-    public static Course readCourseByCourseTemplateId(int courseTemplateId){
+    public Course readCourseByCourseTemplateId(int courseTemplateId){
 
         Course course = null;
         try {
@@ -273,7 +273,7 @@ public class DBManager {
         return null;
     }
 
-    public static List<Course> readCourseByCourseProfId(int profId){
+    public List<Course> readCourseByCourseProfId(int profId){
         ArrayList<CourseSection> courseSections = new ArrayList<>();
         List<Course> courseList = new ArrayList<Course>();
         courseSections =readALLSections();
@@ -295,7 +295,7 @@ public class DBManager {
         return courseList;
     }
 
-    public static ArrayList<Course> readAllCourses(){
+    public ArrayList<Course> readAllCourses(){
 
         ArrayList<Course> list = new ArrayList<>();
         try {
@@ -407,7 +407,7 @@ public class DBManager {
     }
 
 
-    public static boolean readGradingSystem(String email, String pswd){
+    public boolean readGradingSystem(String email, String pswd){
         Professor professor = null;
         boolean isLoggedIn = false;
         var profList = readAllProfessors();
@@ -426,7 +426,7 @@ public class DBManager {
         return isLoggedIn;
     }
 
-    public static void LoadGradingSystem(Professor professor)
+    public void LoadGradingSystem(Professor professor)
     {
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<Course>();
@@ -454,7 +454,7 @@ public class DBManager {
         LoggedData.setProf(professor);
     }
 
-    public static ArrayList<CourseSection> readCourseSectionsByCourseId(int courseId){
+    public ArrayList<CourseSection> readCourseSectionsByCourseId(int courseId){
         ArrayList<CourseSection> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -476,7 +476,7 @@ public class DBManager {
         return list;
     }
 
-    public static ArrayList<Student> readEnrollmentsByCourseId(int courseSectionId, int courseId){
+    public ArrayList<Student> readEnrollmentsByCourseId(int courseSectionId, int courseId){
         ArrayList<Student> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -493,7 +493,7 @@ public class DBManager {
         return list;
     }
 
-    public static GradingSystem readGradingSystem(){
+    public GradingSystem readGradingSystem(){
         ArrayList<CourseTemplate> templatesList = new ArrayList<>();
         ArrayList<Course> courses = new ArrayList<Course>();
         Professor professor = readAllProfessors().get(0);
@@ -517,7 +517,7 @@ public class DBManager {
         return new GradingSystem(0, professor, courses, templatesList);
     }
 
-    public static ArrayList<Task> readTasksByTemplateCourseId(int TemplateCourseId, ArrayList<Student> students){
+    public ArrayList<Task> readTasksByTemplateCourseId(int TemplateCourseId, ArrayList<Student> students){
         ArrayList<Task> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -537,7 +537,7 @@ public class DBManager {
     }
 
 
-    public static ArrayList<SubTask> readSubTasksByTaskId(int TaskId, ArrayList<Student> students){
+    public  ArrayList<SubTask> readSubTasksByTaskId(int TaskId, ArrayList<Student> students){
         ArrayList<SubTask> list = new ArrayList<>();
         try {
             Statement stmt=con.createStatement();
@@ -546,6 +546,7 @@ public class DBManager {
             ResultSet rs=stmt.executeQuery(sql);
             SubTask temp = null;
             while(rs.next()) {
+                List<Grade> gradeList = readGradeBySubTaskId(rs.getInt("id"));
                 if (rs.getTimestamp("releasedDate") == null)
                 {
                     temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), null, rs.getString("dueDate"), rs.getFloat("totalPointsAvailable"), (float) rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
@@ -554,6 +555,7 @@ public class DBManager {
                 else {
                     temp = new SubTask(rs.getInt("id"), students, rs.getString("name"), rs.getTimestamp("releasedDate").toLocalDateTime(), rs.getString("dueDate"), rs.getFloat("totalPointsAvailable"), (float) rs.getDouble("weight"), rs.getFloat("maxAvailableBonusPoints"), rs.getString("comment"), rs.getBoolean("groupProject"));
                 }
+                temp.setGrades(new ArrayList<Grade>(gradeList));
                 list.add(temp);
             }
         }
@@ -657,8 +659,9 @@ public class DBManager {
     }
     public static void UpdateGradeCommentByStudentAndSubtaskId(int subTaskId, String comment, int studentId)
     {
-        String sql =   "UPDATE Grade SET comment = "+comment+" WHERE subTaskId = \'"+subTaskId+
+        String sql =   "UPDATE Grade SET comment = \'"+comment+"\' WHERE subTaskId = \'"+subTaskId+
                 "\' and studentId =\'"+studentId+"\'" ;
+        System.out.println(sql);
         sqlExecute(sql);
     }
 
