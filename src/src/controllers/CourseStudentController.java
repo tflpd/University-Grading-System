@@ -412,8 +412,9 @@ public class CourseStudentController {
 		//th.setPreferredSize(new Dimension(100, 100));
 
 		courseStudentView.getTable().getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(sectionCombox));
-		String stat = "Statistic:   Mean: " + data.getMeanGrade() + "   Median: "
-				+ data.getMedianPercentage() + "   " + "Standard Deviation: " + data.getStandardDeviation();
+		String stat = "Statistic:   Mean: " +  String.format("%.2f", data.getMeanGrade())
+				+ "   Median: " + String.format("%.2f", data.getMedianPercentage()) + "   "
+				+ "Standard Deviation: " + String.format("%.2f", data.getStandardDeviation());
 		courseStudentView.setStatisticLabel(stat);
 
 		Action delete = new AbstractAction() {

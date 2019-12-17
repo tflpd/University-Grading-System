@@ -1,7 +1,13 @@
 package controllers;
 
 import java.awt.Dialog.ModalityType;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -59,10 +65,12 @@ public class SubTaskDialogController {
 
 	private void BindData()
 	{
-		System.out.println("Bind Data" + subTaskID);
+
+		System.out.println("Bind Data" + LoggedData.getSelectedSubTask().getDateDue());
 		if (subTaskID != 0)
 		{
 			dialog.setNameTf(LoggedData.getSelectedSubTask().getName());
+			//String formattedDateTime = currentDateTime.format(formatter);
 			dialog.setDocTf(LoggedData.getSelectedSubTask().getReleaseDate());
 			dialog.setDueTf(LoggedData.getSelectedSubTask().getDateDue());
 			dialog.setMaxScoreTf(String.valueOf(LoggedData.getSelectedSubTask().getTotalPointsAvailable()));
@@ -74,8 +82,7 @@ public class SubTaskDialogController {
 
 
 	
-	private void SaveTask()
-	{
+	private void SaveTask() {
 		if (subTaskID != 0)  // modify
 		{
 			var taskList = LoggedData.getSelectedTask().getSubTasks();
@@ -85,12 +92,18 @@ public class SubTaskDialogController {
 			{
 				if (t.getId() == subTaskID)
 				{
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
+					LocalDate ld = LocalDate.parse(dialog.getDocTf().getText(), formatter);
+
+					System.out.println(dialog.getDocTf().getText());
+					t.setReleaseDate(ld.atTime(00,00));
 					t.setName(dialog.getNameTf().getText());
 					t.setDateDue(dialog.getDateDueTf().getText());
 					t.setTotalPointsAvailable(Float.parseFloat(dialog.getMaxScoreTf().getText()));
 					t.setWeightInParentTask(Float.parseFloat(dialog.getWeightTf().getText()));
 					t.setMaxAvailableBonusPoints(Float.parseFloat(dialog.getBonusTf().getText()));
 					t.setGroupProject(dialog.getGroupCheck().isSelected());
+					LoggedData.getDbManager().UpdateSubTask(t);
 					break;
 				}
 			}

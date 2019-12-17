@@ -33,7 +33,7 @@ public class TaskDialog extends JDialog {
         nameTf = new JTextField(name);
         nameTf.setPreferredSize(defD);
 
-        weight = 0.3;
+        weight = 30;
         weightLabel = new JLabel("Weight of this task in final grade (%): " );
         weightTf = new JTextField(Double.toString(weight));
         weightTf.setPreferredSize(defD);

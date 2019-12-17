@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.Dialog.ModalityType;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -93,6 +94,10 @@ public class TaskDialogController {
 					else {
 						t.setWeightInFinalGrade(Float.parseFloat(dialog.getWeightTf().getText()));
 					}
+					if (isAllowed)
+					{
+						LoggedData.getDbManager().UpdateTask(t);
+					}
 					break;
 				}
 			}
@@ -118,7 +123,7 @@ public class TaskDialogController {
 		}else
 		{
 			String message = "\" Error\"\n"
-					+ "The total weight is more than 100";
+				+ "The total weight is more than 100";
 
 			JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
 					JOptionPane.ERROR_MESSAGE);

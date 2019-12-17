@@ -17,7 +17,7 @@ public class DBManager {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/grading_system","root","12345678");
+                    "jdbc:mysql://localhost:3306/grading_system","root","silvertreet74");
 
             //Statement stmt=con.createStatement();
             //ResultSet rs=stmt.executeQuery("select * from person");
@@ -621,9 +621,22 @@ public class DBManager {
     /*
      * UPDATE
      * */
+
+    public static void UpdateSubTask(SubTask task)
+    {
+        int myInt = task.isGroupProject() ? 1 : 0;
+        String sql =   "UPDATE grading_system.SubTask SET weight = \'"+task.getWeightInParentTask()+"\'," +
+                " name = \'"+task.getName()+"\', " + "totalPointsAvailable = \'"+task.getTotalPointsAvailable()+"\', " +
+                "releasedDate = \'"+task.getReleaseDate()+"\', dueDate = \'"+task.getDateDue()+"\', " +
+                "groupProject = \'"+myInt+"\', comment = \'"+task.getOtherComments()+"\' " +
+                "WHERE (id = \'"+task.getId()+"\')";
+        System.out.println(sql);
+        sqlExecute(sql);
+    }
+
     public static void UpdateTask(Task task)
     {
-      String sql =   "UPDATE Task SET name = "+task.getName()+", weight = "+task.getWeightInFinalGrade()+" WHERE id = "+task.getId();
+      String sql =   "UPDATE Task SET name = \'"+task.getName()+"\', weight = \'"+task.getWeightInFinalGrade()+"\' WHERE id = "+task.getId();
       sqlExecute(sql);
     }
 

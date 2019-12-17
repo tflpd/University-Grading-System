@@ -103,7 +103,7 @@ public class Course {
     public Float getStudentsFinalGrade(Student student){
         Float finalGrade = 0f;
         for (Task task:tasks){
-            finalGrade += task.getStudentsGrade(student)*task.getWeightInFinalGrade();
+            finalGrade += task.getStudentsGrade(student)*task.getWeightInFinalGrade()/100;
         }
         return finalGrade;
     }

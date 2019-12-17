@@ -1,5 +1,7 @@
 package views;
 
+import models.LoggedData;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -43,7 +45,9 @@ public class SubTaskGrade extends JPanel{
         JLabel sectionLabel = new JLabel("Sections: ");
         sectionCombo = new JComboBox();
         sectionLabel.setLabelFor(sectionCombo);
-        JLabel statisticLabel = new JLabel("Statistic:   Mean: "+ mean + "   Median: " + median + "   " + "Standard Deviation: " + standardDeviation);
+        JLabel statisticLabel = new JLabel("Statistic:   Mean: "+ String.format("%.2f", mean) +
+                "   Median: " + String.format("%.2f", median)+ "   " + "Standard Deviation: "
+                + String.format("%.2f", standardDeviation));
         String col[] = {"Students", "Points deducted", "Points scored", "Student status", "Comments", "Group ID", "%Score", "Bonus Points"};
         
         

@@ -2,7 +2,11 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SubTaskDialog extends JDialog {
@@ -64,6 +68,7 @@ public class SubTaskDialog extends JDialog {
 
 		docLabel = new JLabel("Date of Creation: ");
 		docTf = new JTextField(doc);
+		docTf.setPreferredSize(defD);
 
 		JSpinner dueDateSpinner = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(dueDateSpinner, "MM/dd/yyyy HH:mm");
@@ -73,6 +78,7 @@ public class SubTaskDialog extends JDialog {
 
 		dataDueLabel = new JLabel("Date Due: ");
 		dateDueTf = new JTextField(dateDue);
+		dateDueTf.setPreferredSize(defD);
 
 		maxScoreLabel = new JLabel("Max Score: ");
 		maxScoreTf = new JTextField(Double.toString(maxScore));
@@ -124,7 +130,8 @@ public class SubTaskDialog extends JDialog {
 		gc.gridy = 2;
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
-		add(dueDateSpinner, gc);
+		add(dateDueTf, gc);
+		//add(dueDateSpinner, gc);
 
 		gc.gridy = 3;
 		gc.gridx = 0;
@@ -188,11 +195,15 @@ public class SubTaskDialog extends JDialog {
 	}
 
 	public void setAttributes() {
+
+		LocalDate date = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
 		name = "Home work";
-		doc = "05/11/2019";
-		dateDue = "10/11/2019";
+		doc = formatter.format(date);
+		LocalDate ex = date.plusDays(7);
+		dateDue = formatter.format(ex);
 		maxScore = 100;
-		weight = 0.3;
+		weight = 30;
 		bonusPoints = 10;
 	}
 
@@ -283,7 +294,8 @@ public class SubTaskDialog extends JDialog {
 
 	public void setDocTf(LocalDateTime l) {
 		if (l != null) {
-			docTf.setText(l.toString());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
+			docTf.setText(l.format(formatter));
 		}
 	}
 
