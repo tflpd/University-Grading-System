@@ -209,7 +209,9 @@ public class SubTaskGradeController {
 						} else {
 							objs[4] = "";
 						}
-						objs[5] = String.valueOf(LoggedData.getSelectedSubTask().getStudentsGrade(s) * 100);
+
+
+						objs[5] = String.format("%.2f", LoggedData.getSelectedSubTask().getStudentsGrade(s) * 100);
 						if (g != null) {
 							objs[6] = g.getBonusPoints();
 						} else {

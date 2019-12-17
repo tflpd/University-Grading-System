@@ -33,6 +33,7 @@ public class SubTask {
         if (students != null){
             for (Student student:students){
                 grades.add(new Grade(0, student, 0f, ""));
+                LoggedData.getDbManager().addGrade(0, this.getId(), student.getId());
             }
         }
         this.otherComments = otherComments;
@@ -112,6 +113,7 @@ public class SubTask {
     public Float getStudentsGrade(Student student){
         for (Grade grade:grades){
             if (grade.getStudent().getId() == student.getId()){
+
                 return grade.getAbsolutePointsScored()/totalPointsAvailable;
             }
         }
