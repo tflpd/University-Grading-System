@@ -273,6 +273,7 @@ public class ClassHomePage extends JPanel {
 
 	public void setSubTaskTable(TableModel dataModel) {
 
+
 		subtaskTable.setModel(dataModel);
 		if (subtaskTable.getColumn("Id") != null)
 		{
