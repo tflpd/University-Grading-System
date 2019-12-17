@@ -137,9 +137,9 @@ public class SubTaskDialogController {
 
 				int subTaskId = LoggedData.getDbManager().addSubtask(subTask, LoggedData.getSelectedTask().getId());
 				System.out.println("SubTask id" + subTaskId);
-				for (Student student : LoggedData.getSelectedCourse().getAllStudents()) {
-					subTask.addNewGrade(student);
-				}
+//				for (Student student : LoggedData.getSelectedCourse().getAllStudents()) {
+//					subTask.addNewGrade(student);
+//				}
 				LoggedData.getSelectedSubTask().setId(subTaskId);
 				isAllowed = true;
 			}
