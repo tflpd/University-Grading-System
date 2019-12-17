@@ -40,7 +40,7 @@ public class SubTaskGradeController {
 		//fillStudentData();
 		bindData();
 		bindTable();
-		initController();
+
 
 
 
@@ -65,16 +65,18 @@ public class SubTaskGradeController {
 					int column = e.getColumn();
 					int id = (int) subTaskGrade.getTable().getModel().getValueAt(row, 0);
 					Student student = null;
-					for (var cSc : LoggedData.getSelectedCourse().getCourseSections()) {
-						if (cSc.getSingleStudent(id) != null) {
-							student = cSc.getSingleStudent(id);
+					for (var cSc : LoggedData.getSelectedCourse().getAllStudents()) {
+						if (cSc.getId() == id) {
+							student = cSc;
+							break;
 						}
 					}
 
 					String update = (String)subTaskGrade.getTable().getModel().getValueAt(row, column);
 					Grade DBGrade = LoggedData.getDbManager().readGradeByStudentAndSubtaskId(student.getId(), LoggedData.getSelectedSubTask().getId());
 					if (DBGrade == null) {
-						LoggedData.getDbManager().addGrade(0, LoggedData.getSelectedCourse().getId(), student.getId());
+						LoggedData.getSelectedSubTask().addNewGrade(student);
+
 					}
 					switch (column) {
 						case 2:
@@ -157,9 +159,9 @@ public class SubTaskGradeController {
 	private void bindTable() {
 		for (CourseSection c : LoggedData.getSelectedCourse().getCourseSections()) {
 			var section = (CourseSection) subTaskGrade.getSectionCombo().getSelectedItem();
-			if(section == null){
-				section = LoggedData.getCourseSectionList().get(0);
-			}
+			//if(section == null){
+			//	section = LoggedData.getCourseSectionList().get(0);
+			//}
 			if (c.getId() == section.getId()){
 
 
@@ -228,6 +230,8 @@ public class SubTaskGradeController {
 				//subTaskGrade.setStatisticLabel("");
 			}
 		}
+
+		initController();
 	}
 
 	

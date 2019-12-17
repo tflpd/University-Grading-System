@@ -138,6 +138,7 @@ public class CourseStudentView extends JPanel{
 	public JButton getSaveButton() {
 		return saveButton;
 	}
+
 }
 
 

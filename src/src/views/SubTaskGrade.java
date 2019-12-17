@@ -55,7 +55,7 @@ public class SubTaskGrade extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(table);
 		Dimension d = table.getPreferredSize();
 		scrollPane.setPreferredSize(
-				new Dimension(800,100));
+				new Dimension(800,300));
 
         saveButton = new JButton("Save Changes");
 

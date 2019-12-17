@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JDialog;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -66,7 +66,7 @@ public class SubTaskDialogController {
 	private void BindData()
 	{
 
-		System.out.println("Bind Data" + LoggedData.getSelectedSubTask().getDateDue());
+		//System.out.println("Bind Data" + LoggedData.getSelectedSubTask().getDateDue());
 		if (subTaskID != 0)
 		{
 			dialog.setNameTf(LoggedData.getSelectedSubTask().getName());
@@ -83,6 +83,16 @@ public class SubTaskDialogController {
 
 	
 	private void SaveTask() {
+
+		var subTaskList = LoggedData.getSelectedTask().getSubTasks();
+		Float totalWeight = 0.f;
+		for (var t : subTaskList)
+		{
+			totalWeight = totalWeight+ t.getWeightInParentTask();
+		}
+		boolean isAllowed = true;
+		var addedWeight = Float.parseFloat(dialog.getWeightTf().getText());
+
 		if (subTaskID != 0)  // modify
 		{
 			var taskList = LoggedData.getSelectedTask().getSubTasks();
@@ -92,18 +102,24 @@ public class SubTaskDialogController {
 			{
 				if (t.getId() == subTaskID)
 				{
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
-					LocalDate ld = LocalDate.parse(dialog.getDocTf().getText(), formatter);
+					if (totalWeight + addedWeight - t.getWeightInParentTask() <= 100) {
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
+						LocalDate ld = LocalDate.parse(dialog.getDocTf().getText(), formatter);
 
-					System.out.println(dialog.getDocTf().getText());
-					t.setReleaseDate(ld.atTime(00,00));
-					t.setName(dialog.getNameTf().getText());
-					t.setDateDue(dialog.getDateDueTf().getText());
-					t.setTotalPointsAvailable(Float.parseFloat(dialog.getMaxScoreTf().getText()));
-					t.setWeightInParentTask(Float.parseFloat(dialog.getWeightTf().getText()));
-					t.setMaxAvailableBonusPoints(Float.parseFloat(dialog.getBonusTf().getText()));
-					t.setGroupProject(dialog.getGroupCheck().isSelected());
-					LoggedData.getDbManager().UpdateSubTask(t);
+						System.out.println(dialog.getDocTf().getText());
+						t.setReleaseDate(ld.atTime(00, 00));
+						t.setName(dialog.getNameTf().getText());
+						t.setDateDue(dialog.getDateDueTf().getText());
+						t.setTotalPointsAvailable(Float.parseFloat(dialog.getMaxScoreTf().getText()));
+						t.setWeightInParentTask(Float.parseFloat(dialog.getWeightTf().getText()));
+						t.setMaxAvailableBonusPoints(Float.parseFloat(dialog.getBonusTf().getText()));
+						t.setGroupProject(dialog.getGroupCheck().isSelected());
+						LoggedData.getDbManager().UpdateSubTask(t);
+						isAllowed = true;
+					}else
+					{
+						showError();
+					}
 					break;
 				}
 			}
@@ -111,25 +127,43 @@ public class SubTaskDialogController {
 		}
 		else
 		{
-			//public SubTask(int id, ArrayList<Student > students, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject)
-			SubTask subTask = new SubTask(LoggedData.subTaskID++, LoggedData.getSelectedCourse().getAllStudents(), dialog.getNameTf().getText(), LocalDateTime.now(), dialog.getDateDueTf().getText(), Float.parseFloat(dialog.getMaxScoreTf().getText()), Float.parseFloat(dialog.getWeightTf().getText()), Float.parseFloat(dialog.getBonusTf().getText()), null, dialog.getGroupCheck().isSelected() );
+			if (totalWeight + addedWeight <= 100) {
+				//public SubTask(int id, ArrayList<Student > students, String name, LocalDateTime creationDate, String dateDue, Float totalPointsAvailable, Float weightInParentTask, Float bonusPoints, String otherComments, boolean groupProject)
+				SubTask subTask = new SubTask(LoggedData.subTaskID++, LoggedData.getSelectedCourse().getAllStudents(), dialog.getNameTf().getText(), LocalDateTime.now(), dialog.getDateDueTf().getText(), Float.parseFloat(dialog.getMaxScoreTf().getText()), Float.parseFloat(dialog.getWeightTf().getText()), Float.parseFloat(dialog.getBonusTf().getText()), null, dialog.getGroupCheck().isSelected());
 
-			//LoggedData.getDbManager().addSubtask()
-			LoggedData.getSelectedTask().addNewSubTask(subTask);
-			LoggedData.setSelectedSubTask(subTask);
+				//LoggedData.getDbManager().addSubtask()
+				LoggedData.getSelectedTask().addNewSubTask(subTask);
+				LoggedData.setSelectedSubTask(subTask);
 
-			int subTaskId = LoggedData.getDbManager().addSubtask(subTask, LoggedData.getSelectedTask().getId());
-			System.out.println("SubTask id"+ subTaskId);
-			for(Student student : LoggedData.getSelectedCourse().getAllStudents()){
-				subTask.addNewGrade(student);
+				int subTaskId = LoggedData.getDbManager().addSubtask(subTask, LoggedData.getSelectedTask().getId());
+				System.out.println("SubTask id" + subTaskId);
+				for (Student student : LoggedData.getSelectedCourse().getAllStudents()) {
+					subTask.addNewGrade(student);
+				}
+				LoggedData.getSelectedSubTask().setId(subTaskId);
+				isAllowed = true;
 			}
-			LoggedData.getSelectedSubTask().setId(subTaskId);
+			else
+			{
+				showError();
+			}
 
 
 
 		}
-		UpdateTaskTable(LoggedData.getSelectedTask());
-		Close();
+		if (isAllowed) {
+			UpdateTaskTable(LoggedData.getSelectedTask());
+			Close();
+		}
+	}
+
+	private void showError()
+	{
+		String message = "\" Error\"\n"
+				+ "The total weight is more than 100";
+
+		JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+				JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private void Close()

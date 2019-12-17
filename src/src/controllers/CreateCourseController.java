@@ -114,7 +114,7 @@ public class CreateCourseController {
 			{
 				for (var s : importedStudents) {
 					int id = LoggedData.getDbManager().addEnrollment(s.getId(), false, 1, courseId);
-					s.setId(id);
+					//s.setId(id);
 				}
 			}
 

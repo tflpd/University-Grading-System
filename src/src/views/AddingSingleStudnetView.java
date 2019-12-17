@@ -14,10 +14,12 @@ public class AddingSingleStudnetView extends JPanel {
     private JTextField emailText;
     private JTextField BUIDText;
     private JComboBox sectionCombo;
+    private JButton importStudent;
 
     public AddingSingleStudnetView() {
         JLabel welcomeLabel = new JLabel("Add a Student", SwingConstants.CENTER);
         addButton = new JButton("Add Student");
+        importStudent = new JButton("Import Students from Excel");
         backButton = new JButton("Back");
         homeButton = new JButton("Home");
         nameText =new JTextField("Student Name");
@@ -39,7 +41,7 @@ public class AddingSingleStudnetView extends JPanel {
         buttonPanel.add(addButton);
         buttonPanel.add(backButton);
         buttonPanel.add(homeButton);
-
+        buttonPanel.add(importStudent);
 
 
         this.setLayout(new GridBagLayout());
@@ -79,5 +81,9 @@ public class AddingSingleStudnetView extends JPanel {
 
     public JComboBox getSectionCombo() {
         return sectionCombo;
+    }
+
+    public JButton getImportStudent() {
+        return importStudent;
     }
 }
