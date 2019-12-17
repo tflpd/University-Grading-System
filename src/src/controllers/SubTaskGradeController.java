@@ -30,7 +30,7 @@ public class SubTaskGradeController {
 	{
 
 		subTaskGrade = new SubTaskGrade(LoggedData.getSelectedSubTask().getName(),
-				LoggedData.getSelectedSubTask().getMeanGrade(),LoggedData.getSelectedSubTask().getMedianPercentage(),
+				LoggedData.getSelectedSubTask().getMeanGrade(),LoggedData.getSelectedSubTask().getMedianPercentage() * 100,
 				LoggedData.getSelectedSubTask().getStandardDeviation());
 		parentPanel = MainPanelView.getParentPanel();
 		parentPanel.removeAll();
