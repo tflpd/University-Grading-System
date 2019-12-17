@@ -122,7 +122,12 @@ public class ClassHomePageController {
 		var taskList = LoggedData.getSelectedCourse().getTasks();
 
 		String col[] = {"Id","Task Name", "Weight (%)"," ",};
-		tableModel = new DefaultTableModel(col, 0);
+		tableModel = new DefaultTableModel(col, 0){
+			@Override
+			public boolean isCellEditable(int row, int column){
+				return false;
+			}
+		};
 		if (taskList != null && taskList.size() > 0)
 		{
 			for (int i = 0; i < taskList.size(); i++)
@@ -177,7 +182,12 @@ public class ClassHomePageController {
 	public void UpdateSubTaskTable(Task task)
 	{
 		String col[] = {"Id", task.getName()+" sub task(s)","Weight (%)"," ",};
-		TableModel tableModel = new DefaultTableModel(col, 0);
+		TableModel tableModel = new DefaultTableModel(col, 0){
+			@Override
+			public boolean isCellEditable(int row, int column){
+				return false;
+			}
+		};
 		List<SubTask> subTask = task.getSubTasks();
 
 		if (subTask != null)
