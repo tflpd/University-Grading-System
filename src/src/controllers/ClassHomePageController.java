@@ -21,7 +21,12 @@ public class ClassHomePageController {
 	public ClassHomePageController(String courseName)
 	{
 		classHomePage = new ClassHomePage(courseName);
-		tableModel = new DefaultTableModel();
+		tableModel = new DefaultTableModel(){
+			@Override
+			public boolean isCellEditable(int row, int column){
+				return false;
+			}
+		};
 		parentPanel = MainPanelView.getParentPanel();
 		parentPanel.removeAll();
 		parentPanel.revalidate();
