@@ -2,10 +2,10 @@
 # University Grading System
 
 ## Team Members:
-Ruizhi Jiang
-Tiancheng Zhu
-Syahrial Dahler
-Athanasios Filippidis
+### Ruizhi Jiang
+### Tiancheng Zhu
+### Syahrial Dahler
+### Athanasios Filippidis
 
 
 
