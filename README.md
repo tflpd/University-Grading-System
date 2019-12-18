@@ -2,10 +2,10 @@
 ## University Grading System
 
 # Team Members:
-Ruizhi Jiang - U17637349
-Tiancheng Zhu - U24177199
-Athanasios Filippidis - U95061883
-
+Ruizhi Jiang
+Tiancheng Zhu
+Syahrial Dahler
+Athanasios Filippidis
 
 
 
@@ -37,3 +37,5 @@ SubTask: A subtask, as expected, is a sub category of the above class. So for ex
 Grade: A grade is a structure that connects every student to the specific score that they achieved in one subtask. This score is saved as an absolute points scored score, so for example in a subtask that has as a maximum available score of 130 a possible score of student is 126 and this is the value that will be saved. Then, whenever we need to show that grade, depending on the context, we translate that to either a percentage or a letter grade.
 
 There are a couple more classes that could be listed here and are used in our implementation but we believe that it is better for the reader to focus on the core functionality of our project and not get lost in the details. If however someone is interested in more details we made sure that the class and variable naming is very descriptive and we also have added comments in our code to ensure that it easy to understand for everyone.
+
+For more details please see the design document.
