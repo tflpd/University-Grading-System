@@ -1,7 +1,7 @@
-## Design Document
-## University Grading System
+# Design Document
+# University Grading System
 
-# Team Members:
+## Team Members:
 Ruizhi Jiang
 Tiancheng Zhu
 Syahrial Dahler
@@ -13,19 +13,19 @@ Athanasios Filippidis
 
 
 
-# Overview
+## Overview
 This is the design document of our implementation of a university grading system implemented using Java, Java Swing and SQL. Through this document, the reader will be able to learn more about the incentives that motivated us in the creation of this application, the main functionality decisions that we made and the software requirements of our virtual client, in which we had to adhere. The following sections are: Scope, where we describe the problem that this application is designed to solve, Functionality, where we describe the expected outcome of our application, Goals, where we discuss the goals that we set during the design phase of the application and on what level we achieved those, Object Diagram, where we present an abstract UML representation of our system and Object Justification, where list our core classes and we reason about them.
 
-# Scope
+## Scope
 Our virtual client is a university professor. Until now, this professor was using Microsoft Office Excel in order to keep track of the grades of the students that are enrolled in the courses she is teaching. However this is not a very efficient way and even though Excel provides a very flexible interface for that use it is not optimal. Our application aims to provide that optimal grading system our client is looking for. Of course, in order to keep the client satisfied, one of our core motives was to only add functionality and better organized structures while deducting as little as possible flexibility (which was the main feature that our client liked in the previous grading system).
 
-# Functionality
+## Functionality
 Our first priority is always to have a satisfied client. In order to achieve that in this case we had to make a list of the basic advantages of the currently used system and to ensure that we will be able to provide those in the new system as well. Moreover, we had to do the respective action for the disadvantages. The expected outcome of our work was a system that would combine those two lists of things that should and should not be included in the final product. After ensuring that those existed we brainstormed in order to add any more features that we all agreed that would be useful in such a product.
 
-# Goals
+## Goals
 Some of the main goals that were set during the analysis process and presented in our initial presentation are the following. Firstly, our client must be able to create a course structure consisting of tasks (homework, exams, assignments etc.) and those tasks will consist of subtasks (homework 1, homework 2, midterm, final etc.). We decided that the client must have absolute freedom in adding or removing as many as possible instances of those entities. Secondly, we decided that our client is highly possible to want to re-use those structures for courses that she will teach in the future and will be strongly based on previously taught courses. For that reason, we decided that there should exist some way of creating blueprints of courses that will be reusable and we prioritized that as well. One more main feature that we set as a prioritized goal was the grades. A professor has to be able to set the grades of a student in many different ways (by setting the points deducted, by setting the absolute score achieved, by setting the percentage score etc.) and has to be able to see the grade of a student in many different representations. Our whole design is structured around those main values which all live under the goal of providing maximum flexibility and usability.
 
-# Object Justification
+## Object Justification
 Our implementation is strictly following the MVC (Model-View-Controller) architecture. The views and the controllers have as a target to make the front-end functional. The core of our implementation is our back-end so this is where we will focus in this part. The main components/classes of our backend are the following:
 
 ProfessorsTool: While we know that at this point of time were assigned to create only one professor tool we believe that in the future this might change and we may need to add more tools like a messaging application between the students and the professor or a platform that the students will use to register for courses. Having this in mind, this class is an abstract class which will, in the future, encapsulate all the common properties those tools may share.
